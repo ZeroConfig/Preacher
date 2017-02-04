@@ -33,7 +33,6 @@ class GitMetaDataFactory implements MetaDataFactoryInterface
         list(
             $longRef,
             $shortRef,
-            $dateUpdated,
             $authorName,
             $authorEmail
         ) = explode(
@@ -41,7 +40,7 @@ class GitMetaDataFactory implements MetaDataFactoryInterface
             $repository->logFormatted(
                 implode(
                     '%n',
-                    ['%H','%h','%aD','%aN','%aE']
+                    ['%H', '%h', '%aN', '%aE']
                 ),
                 $file,
                 1
@@ -68,7 +67,9 @@ class GitMetaDataFactory implements MetaDataFactoryInterface
             new CommitReference($longRef, $shortRef),
             new Author($authorName, $authorEmail),
             new DateTimeImmutable($dateCreated),
-            new DateTimeImmutable($dateUpdated),
+            new DateTimeImmutable(
+                sprintf('@%d', filemtime($file))
+            ),
             $numRevisions
         );
     }

@@ -32,8 +32,7 @@ $outputFactory = new OutputFactory(
 );
 
 $templateFactory = new TemplateFactory(
-    new TemplateLocator('default.html.twig'),
-    $repository
+    new TemplateLocator('default.html.twig')
 );
 $sourceReader    = new MarkdownSourceReader(new Parsedown());
 $outputWriter    = new OutputWriter();

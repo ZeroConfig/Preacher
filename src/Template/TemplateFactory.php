@@ -10,21 +10,15 @@ class TemplateFactory implements TemplateFactoryInterface
     /** @var TemplateLocatorInterface */
     private $locator;
 
-    /** @var GitRepo */
-    private $repository;
-
     /**
      * Constructor.
      *
      * @param TemplateLocatorInterface $locator
-     * @param GitRepo                  $repository
      */
     public function __construct(
-        TemplateLocatorInterface $locator,
-        GitRepo $repository
+        TemplateLocatorInterface $locator
     ) {
-        $this->locator    = $locator;
-        $this->repository = $repository;
+        $this->locator = $locator;
     }
 
     /**
@@ -41,7 +35,7 @@ class TemplateFactory implements TemplateFactoryInterface
         return new Template(
             $file,
             new DateTimeImmutable(
-                $this->repository->logFormatted('%aD', $file, 1)
+                sprintf('@%d', filemtime($file))
             )
         );
     }

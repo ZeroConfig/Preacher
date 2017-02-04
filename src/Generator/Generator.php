@@ -69,7 +69,7 @@ class Generator implements GeneratorInterface
             return $output;
         }
 
-        $output   = new UpdatedOutput($output);
+        $output = new UpdatedOutput($output);
 
         $this->outputWriter->writeOutput(
             $output,

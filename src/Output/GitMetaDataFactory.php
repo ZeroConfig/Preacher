@@ -43,9 +43,7 @@ class GitMetaDataFactory implements MetaDataFactoryInterface
                 $repository->logFormatted('%aD', $path, 1)
             ),
             new DateTimeImmutable(
-                $repository->log(
-                    '-1 --pretty=format:%aD --diff-filter=A ' . $path
-                )
+                sprintf('@%d', filemtime($path))
             )
         );
     }
