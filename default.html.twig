@@ -25,16 +25,16 @@
         <td>{{ source.metaData.dateCreated|date("Y-m-d H:i") }}</td>
     </tr>
     <tr>
-        <td>Date updated</td>
-        <td>{{ source.metaData.dateUpdated|date("Y-m-d H:i") }}</td>
-    </tr>
-    <tr>
         <td>Date published</td>
         <td>{{ output.metaData.datePublished|date("Y-m-d H:i") }}</td>
     </tr>
     <tr>
+        <td>Date updated</td>
+        <td>{{ source.metaData.dateUpdated|date("Y-m-d H:i:s") }}</td>
+    </tr>
+    <tr>
         <td>Date generated</td>
-        <td>{{ output.metaData.dateGenerated|date("Y-m-d H:i") }}</td>
+        <td>{{ output.metaData.dateGenerated|date("Y-m-d H:i:s") }}</td>
     </tr>
     <tr>
         <td>Number of revisions</td>
