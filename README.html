@@ -1,0 +1,193 @@
+<h1>Introduction</h1>
+<p>Preacher is a personal static website generator, which allows you to setup and
+maintain a personal website with zero configuration.</p>
+<h1>Installation</h1>
+<pre><code class="language-shell">composer require --dev zero-config/preacher</code></pre>
+<h1>Usage</h1>
+<p>It uses a single command to either generate the current directory and all its
+children or one can (re)generate a single source file.</p>
+<pre><code class="language-shell">vendor/bin/preach [&lt;path/to/file.md&gt;]</code></pre>
+<p>If the path is a directory, its contents will be recursively generated, until
+the deepest leaf file has been reached.</p>
+<p>The contents of vendor directories are skipped by interpreting the
+<a href="https://getcomposer.org/doc/06-config.md#vendor-dir">vendor-dir composer config</a>.</p>
+<h1>Standards</h1>
+<p>Preacher uses existing software with well-defined standards to create the most
+stable and user friendly experience at the same time.</p>
+<p>Preacher is built with programmers in mind.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Package</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Content parser</td>
+<td style="text-align: left;"><a href="https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown">Github Flafored Markdown</a></td>
+<td style="text-align: left;"><a href="http://parsedown.org/">erusev/parsedown</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Template engine</td>
+<td style="text-align: left;"><a href="http://twig.sensiolabs.org/">Twig 2</a></td>
+<td style="text-align: left;"><a href="https://packagist.org/packages/twig/twig">twig/twig</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Version control</td>
+<td style="text-align: left;"><a href="https://git-scm.com/">git</a></td>
+<td style="text-align: left;"><a href="https://github.com/coyl/git">coyl/git</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Package manager</td>
+<td style="text-align: left;"><a href="https://getcomposer.org/">Composer</a></td>
+<td style="text-align: left;"><a href="https://github.com/composer/composer">composer/composer</a></td>
+</tr>
+</tbody>
+</table>
+<h1>Template data</h1>
+<p>Preacher uses version control and environment settings to provide the template
+engine with the following data:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Template call</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Author name</td>
+<td style="text-align: left;">{{ source.metaData.author.name }}</td>
+<td style="text-align: left;">Jan-Marten de Boer</td>
+</tr>
+<tr>
+<td style="text-align: left;">Author email</td>
+<td style="text-align: left;">{{ source.metaData.author.email }}</td>
+<td style="text-align: left;">preacher@johmanx.com</td>
+</tr>
+<tr>
+<td style="text-align: left;">Commit reference</td>
+<td style="text-align: left;">{{ source.metaData.version }}</td>
+<td style="text-align: left;">fce8b0a0b1fa5f986282b51eb4824b3983c1e6e8</td>
+</tr>
+<tr>
+<td style="text-align: left;">Short commit reference</td>
+<td style="text-align: left;">{{ source.metaData.version.short }}</td>
+<td style="text-align: left;">fce8b0a</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date created</td>
+<td style="text-align: left;">{{ source.metaData.dateCreated&#124;date(&quot;Y-m-d H:i&quot;) }}</td>
+<td style="text-align: left;">2017-02-04 13:37</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date updated</td>
+<td style="text-align: left;">{{ source.metaData.dateUpdated&#124;date(&quot;Y-m-d H:i&quot;) }}</td>
+<td style="text-align: left;">2017-02-05 00:42</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date published</td>
+<td style="text-align: left;">{{ output.metaData.datePublished&#124;date(&quot;Y-m-d H:i&quot;) }}</td>
+<td style="text-align: left;">2017-02-05 00:45</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date generated</td>
+<td style="text-align: left;">{{ output.metaData.dateGenerated&#124;date(&quot;Y-m-d H:i&quot;) }}</td>
+<td style="text-align: left;">2017-02-05 00:47</td>
+</tr>
+<tr>
+<td style="text-align: left;">Number of revisions</td>
+<td style="text-align: left;">{{ source.metaData.numRevisions }}</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Path to source</td>
+<td style="text-align: left;">{{ source.path }}</td>
+<td style="text-align: left;">index.md</td>
+</tr>
+<tr>
+<td style="text-align: left;">Path to output</td>
+<td style="text-align: left;">{{ output.path }}</td>
+<td style="text-align: left;">index.html</td>
+</tr>
+<tr>
+<td style="text-align: left;">Path to template</td>
+<td style="text-align: left;">{{ template.path }}</td>
+<td style="text-align: left;">default.html.twig</td>
+</tr>
+<tr>
+<td style="text-align: left;">Generated content</td>
+<td style="text-align: left;">{{ content }}</td>
+<td style="text-align: left;"><code>&lt;html&gt;&lt;head&gt;&lt;title&gt;...</code></td>
+</tr>
+</tbody>
+</table>
+<h1>Custom templates</h1>
+<p>By default, Preacher will look for the Twig template called <code>default.html.twig</code>.
+However, if a custom template is required, simply give it the same name as the
+source file.</p>
+<p>E.g.: <code>articles/something-fancy.md</code> =&gt; <code>articles/something-fancy.html.twig</code>.</p>
+<h1>Enabling Github Flavored Markdown</h1>
+<p>To use code syntax highlighting, the following needs to be added to your template.</p>
+<pre><code class="language-html">&lt;link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" /&gt;
+&lt;script src="http://parsedown.org/prism.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+<pre><code class="language-php">&lt;?php
+// Do not forget to open your PHP script with the open tag.
+$this-&gt;is('awesome');</code></pre>
+<link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" />
+<script src="http://parsedown.org/prism.js" type="text/javascript"></script>
+
+<h1>Meta data</h1>
+<table>
+    <tr>
+        <td>Author name</td>
+        <td>Jan-Marten de Boer</td>
+    </tr>
+    <tr>
+        <td>Author email</td>
+        <td>janmarten.deboer@mediact.nl</td>
+    </tr>
+    <tr>
+        <td>Commit reference</td>
+        <td>e62512a61fc4e34b1ea83dfc07dc549e5994c644</td>
+    </tr>
+    <tr>
+        <td>Short commit reference</td>
+        <td>e62512a</td>
+    </tr>
+    <tr>
+        <td>Date created</td>
+        <td>2017-02-04 12:59</td>
+    </tr>
+    <tr>
+        <td>Date updated</td>
+        <td>2017-02-04 21:06</td>
+    </tr>
+    <tr>
+        <td>Date published</td>
+        <td>2017-02-04 21:05</td>
+    </tr>
+    <tr>
+        <td>Date generated</td>
+        <td>2017-02-04 21:06</td>
+    </tr>
+    <tr>
+        <td>Number of revisions</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Path to source</td>
+        <td>README.md</td>
+    </tr>
+    <tr>
+        <td>Path to output</td>
+        <td>README.html</td>
+    </tr>
+    <tr>
+        <td>Path to template</td>
+        <td>default.html.twig</td>
+    </tr>
+</table>
