@@ -42,6 +42,6 @@ class UpdatedOutput implements OutputInterface
      */
     public function getMetaData(): MetaDataInterface
     {
-        $this->metaData;
+        return $this->metaData;
     }
 }

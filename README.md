@@ -58,3 +58,18 @@ engine with the following data:
 | Path to output          | {{ output.path }}                                          | index.html                               |
 | Path to template        | {{ template.path }}                                        | default.html.twig                        |
 | Generated content       | {{ content }}                                              | `<html><head><title>...`                 |
+
+# Enabling Github Flavored Markdown
+
+To use code syntax highlighting, the following needs to be added to your template.
+
+```html
+<link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" />
+<script src="http://parsedown.org/prism.js" type="text/javascript"></script>
+```
+
+```php
+<?php
+// Do not forget to open your PHP script with the open tag.
+$this->is('awesome');
+```
