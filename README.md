@@ -56,3 +56,5 @@ engine with the following data:
 | Number of revisions     | {{ source.metaData.numRevisions }}                         | 2                                        |
 | Path to source          | {{ source.path }}                                          | index.md                                 |
 | Path to output          | {{ output.path }}                                          | index.html                               |
+| Path to template        | {{ template.path }}                                        | default.html.twig                        |
+| Generated content       | {{ content }}                                              | `<html><head><title>...`                 |
