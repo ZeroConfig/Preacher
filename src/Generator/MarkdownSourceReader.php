@@ -29,7 +29,7 @@ class MarkdownSourceReader implements SourceReaderInterface
      */
     public function getContents(SourceInterface $source): string
     {
-        $file     = new SplFileObject($source->getPath(), 'w');
+        $file     = new SplFileObject($source->getPath(), 'r');
         $markdown = implode('', iterator_to_array($file));
 
         return $this->parser->text($markdown);

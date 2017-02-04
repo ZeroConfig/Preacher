@@ -1,0 +1,112 @@
+#!/usr/bin/env php
+<?php
+use Composer\Config;
+use Composer\Config\JsonConfigSource;
+use Composer\Json\JsonFile;
+use Coyl\Git\Git;
+use ZeroConfig\Preacher\Generator\Generator;
+use ZeroConfig\Preacher\Generator\MarkdownSourceReader;
+use ZeroConfig\Preacher\Generator\OutputWriter;
+use ZeroConfig\Preacher\Output\GitMetaDataFactory as OutputMetaDataFactory;
+use ZeroConfig\Preacher\Output\MarkdownSourceTranslator;
+use ZeroConfig\Preacher\Output\OutputFactory;
+use ZeroConfig\Preacher\Output\UpdatedOutput;
+use ZeroConfig\Preacher\Source\GitMetaDataFactory as SourceMetaDataFactory;
+use ZeroConfig\Preacher\Source\SourceFactory;
+use ZeroConfig\Preacher\Template\TemplateFactory;
+use ZeroConfig\Preacher\Template\TemplateLocator;
+
+require_once __DIR__ . '/autoload.php';
+
+$repository = Git::open(getcwd());
+$diff       = $repository->diffCached();
+
+if (!empty($diff)) {
+    die('Not all changes are committed!');
+}
+
+$sourceFactory = new SourceFactory(new SourceMetaDataFactory($repository));
+$outputFactory = new OutputFactory(
+    new MarkdownSourceTranslator(),
+    new OutputMetaDataFactory($repository)
+);
+
+$templateFactory = new TemplateFactory(
+    new TemplateLocator('default.html.twig'),
+    $repository
+);
+$sourceReader    = new MarkdownSourceReader(new Parsedown());
+$outputWriter    = new OutputWriter();
+
+$twig = new Twig_Environment(
+    new Twig_Loader_Filesystem([getcwd()])
+);
+
+$generator = new Generator(
+    $outputFactory,
+    $templateFactory,
+    $sourceReader,
+    $twig,
+    $outputWriter
+);
+
+/** @var SplFileInfo[] $files */
+$files = new AppendIterator();
+$paths = array_slice($argv, 1) ?: ['.'];
+
+foreach ($paths as $path) {
+    if (is_dir($path)) {
+        $files->append(
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($path)
+            )
+        );
+        continue;
+    }
+
+    $files->append(
+        new GlobIterator($path)
+    );
+}
+
+$composerPackage = new SplFileInfo('./composer.json');
+
+$config = new Config(true, dirname($composerPackage->getRealPath()));
+$config->setConfigSource(
+    new JsonConfigSource(
+        new JsonFile($composerPackage->getRealPath())
+    )
+);
+
+$vendorDirectory = $config->get('vendor-dir');
+
+foreach ($files as $file) {
+    if (!$file->isFile()) {
+        continue;
+    }
+
+    // File is part of a vendor package.
+    if (strpos($file->getRealPath(), $vendorDirectory) === 0) {
+        continue;
+    }
+
+    if ($file->getExtension() !== 'md') {
+        continue;
+    }
+
+    $source = $sourceFactory->createSource(
+        preg_replace(
+            sprintf('/^%s\//', preg_quote(getcwd(), '/')),
+            '',
+            $file->getRealPath()
+        )
+    );
+
+    $output = $generator->generate($source);
+
+    if (!$output instanceof UpdatedOutput) {
+        continue;
+    }
+
+    echo sprintf('Generated: %s', $output->getPath()) . PHP_EOL;
+}

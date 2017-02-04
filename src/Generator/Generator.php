@@ -1,6 +1,7 @@
 <?php
 namespace ZeroConfig\Preacher\Generator;
 
+use DateTimeImmutable;
 use Twig_Environment;
 use ZeroConfig\Preacher\Output\OutputFactoryInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
@@ -61,14 +62,14 @@ class Generator implements GeneratorInterface
         $output    = $this->outputFactory->createOutput($source);
         $generated = $output->getMetaData()->getDateGenerated();
         $updated   = $source->getMetaData()->getDateUpdated();
+        $template  = $this->templateFactory->createTemplate($output);
 
         // No changes since last generation.
-        if ($generated > $updated) {
+        if ($generated > $updated && $generated > $template->getDateUpdated()) {
             return $output;
         }
 
         $output   = new UpdatedOutput($output);
-        $template = $this->templateFactory->createTemplate($output);
 
         $this->outputWriter->writeOutput(
             $output,
