@@ -85,7 +85,7 @@ engine with the following data:</p>
 </tr>
 <tr>
 <td style="text-align: left;">Date updated</td>
-<td style="text-align: left;">{{ source.metaData.dateCreated&#124;date(&quot;Y-m-d H:i&quot;) }}</td>
+<td style="text-align: left;">{{ source.metaData.dateUpdated&#124;date(&quot;Y-m-d H:i&quot;) }}</td>
 <td style="text-align: left;">2017-02-05 00:42</td>
 </tr>
 <tr>
@@ -125,6 +125,11 @@ engine with the following data:</p>
 </tr>
 </tbody>
 </table>
+<h1>Custom templates</h1>
+<p>By default, Preacher will look for the Twig template called <code>default.html.twig</code>.
+However, if a custom template is required, simply give it the same name as the
+source file.</p>
+<p>E.g.: <code>articles/something-fancy.md</code> =&gt; <code>articles/something-fancy.html.twig</code>.</p>
 <h1>Enabling Github Flavored Markdown</h1>
 <p>To use code syntax highlighting, the following needs to be added to your template.</p>
 <pre><code class="language-html">&lt;link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" /&gt;
@@ -135,6 +140,7 @@ $this-&gt;is('awesome');</code></pre>
 <link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" />
 <script src="http://parsedown.org/prism.js" type="text/javascript"></script>
 
+<h1>Meta data</h1>
 <table>
     <tr>
         <td>Author name</td>
@@ -146,11 +152,11 @@ $this-&gt;is('awesome');</code></pre>
     </tr>
     <tr>
         <td>Commit reference</td>
-        <td>ab5acdc41c6b5a9cda4e7f1bc67fc4b87566a4de</td>
+        <td>32f0d531c3dbcf99692b3d77b9136f0552edaf2b</td>
     </tr>
     <tr>
         <td>Short commit reference</td>
-        <td>ab5acdc</td>
+        <td>32f0d53</td>
     </tr>
     <tr>
         <td>Date created</td>
@@ -158,19 +164,19 @@ $this-&gt;is('awesome');</code></pre>
     </tr>
     <tr>
         <td>Date updated</td>
-        <td>2017-02-04 12:59</td>
+        <td>2017-02-04 20:59</td>
     </tr>
     <tr>
         <td>Date published</td>
-        <td>2017-02-04 20:23</td>
-    </tr>
-    <tr>
-        <td>Date generated</td>
         <td>2017-02-04 20:53</td>
     </tr>
     <tr>
+        <td>Date generated</td>
+        <td>2017-02-04 20:59</td>
+    </tr>
+    <tr>
         <td>Number of revisions</td>
-        <td>5</td>
+        <td>6</td>
     </tr>
     <tr>
         <td>Path to source</td>

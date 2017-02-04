@@ -50,7 +50,7 @@ engine with the following data:
 | Commit reference        | {{ source.metaData.version }}                              | fce8b0a0b1fa5f986282b51eb4824b3983c1e6e8 |
 | Short commit reference  | {{ source.metaData.version.short }}                        | fce8b0a                                  |
 | Date created            | {{ source.metaData.dateCreated&#124;date("Y-m-d H:i") }}   | 2017-02-04 13:37                         |
-| Date updated            | {{ source.metaData.dateCreated&#124;date("Y-m-d H:i") }}   | 2017-02-05 00:42                         |
+| Date updated            | {{ source.metaData.dateUpdated&#124;date("Y-m-d H:i") }}   | 2017-02-05 00:42                         |
 | Date published          | {{ output.metaData.datePublished&#124;date("Y-m-d H:i") }} | 2017-02-05 00:45                         |
 | Date generated          | {{ output.metaData.dateGenerated&#124;date("Y-m-d H:i") }} | 2017-02-05 00:47                         |
 | Number of revisions     | {{ source.metaData.numRevisions }}                         | 2                                        |
@@ -58,6 +58,14 @@ engine with the following data:
 | Path to output          | {{ output.path }}                                          | index.html                               |
 | Path to template        | {{ template.path }}                                        | default.html.twig                        |
 | Generated content       | {{ content }}                                              | `<html><head><title>...`                 |
+
+# Custom templates
+
+By default, Preacher will look for the Twig template called `default.html.twig`.
+However, if a custom template is required, simply give it the same name as the
+source file.
+
+E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
 
 # Enabling Github Flavored Markdown
 
