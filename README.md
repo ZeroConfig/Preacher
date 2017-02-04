@@ -52,6 +52,7 @@ engine with the following data:
 | Date created            | {{ source.metaData.dateCreated&#124;date("Y-m-d H:i") }}   | 2017-02-04 13:37                         |
 | Date updated            | {{ source.metaData.dateCreated&#124;date("Y-m-d H:i") }}   | 2017-02-05 00:42                         |
 | Date published          | {{ output.metaData.datePublished&#124;date("Y-m-d H:i") }} | 2017-02-05 00:45                         |
+| Date generated          | {{ output.metaData.dateGenerated&#124;date("Y-m-d H:i") }} | 2017-02-05 00:47                         |
 | Number of revisions     | {{ source.metaData.numRevisions }}                         | 2                                        |
 | Path to source          | {{ source.path }}                                          | index.md                                 |
 | Path to output          | {{ output.path }}                                          | index.html                               |
