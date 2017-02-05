@@ -5,7 +5,7 @@ maintain a personal website with zero configuration.
 
 # Installation
 
-```shell
+```bash
 composer require --dev zero-config/preacher
 ```
 
@@ -14,7 +14,7 @@ composer require --dev zero-config/preacher
 It uses a single command to either generate the current directory and all its
 children or one can (re)generate a single source file.
 
-```shell
+```bash
 vendor/bin/preach [<path/to/file.md>]
 ```
 
@@ -31,12 +31,13 @@ stable and user friendly experience at the same time.
 
 Preacher is built with programmers in mind.
 
-| Component       | Type                                                                                                        | Package                                                   |
-|:----------------|:------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------|
-| Content parser  | [Github Flafored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown) | [erusev/parsedown](http://parsedown.org/)                 |
-| Template engine | [Twig 2](http://twig.sensiolabs.org/)                                                                       | [twig/twig](https://packagist.org/packages/twig/twig)     |
-| Version control | [git](https://git-scm.com/)                                                                                 | [coyl/git](https://github.com/coyl/git)                   |
-| Package manager | [Composer](https://getcomposer.org/)                                                                        | [composer/composer](https://github.com/composer/composer) |
+| Component          | Type                                                                                                        | Package                                                   |
+|:-------------------|:------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------|
+| Content parser     | [GitHub Flafored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown) | [erusev/parsedown](http://parsedown.org/)                 |
+| Template engine    | [Twig 2](http://twig.sensiolabs.org/)                                                                       | [twig/twig](https://packagist.org/packages/twig/twig)     |
+| Version control    | [git](https://git-scm.com/)                                                                                 | [coyl/git](https://github.com/coyl/git)                   |
+| Package manager    | [Composer](https://getcomposer.org/)                                                                        | [composer/composer](https://github.com/composer/composer) |
+| Syntax highlighter | [Prism](http://prismjs.com/)                                                                                | [prismjs](https://www.npmjs.com/package/prismjs)          |
 
 # Template data
 
@@ -69,15 +70,23 @@ E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
 
 # Enabling Github Flavored Markdown
 
-To use code syntax highlighting, the following needs to be added to your template.
+To use code syntax highlighting, one can choose a
+[Prism theme package](http://prismjs.com/download.html).
+
+Download a package and add it to your template:
 
 ```html
-<link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" />
-<script src="http://parsedown.org/prism.js" type="text/javascript"></script>
+<link href="prism.css" rel="stylesheet" type="text/css" />
+<script src="prism.js" type="text/javascript"></script>
 ```
+
+The result will be a highlighted syntax for your code blocks.
 
 ```php
 <?php
 // Do not forget to open your PHP script with the open tag.
 $this->is('awesome');
 ```
+
+For more information on writing code blocks, please read up on
+[GitHub Flafored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown).
