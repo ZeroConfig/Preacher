@@ -9,6 +9,16 @@ maintain a personal website with zero configuration.
 composer require --dev zero-config/preacher
 ```
 
+Optionally, if one wants to always generate output when a file is committed, try
+the following:
+
+```bash
+ln -s vendor/bin/preach .git/hooks/post-commit
+```
+
+This will install preacher as a post-commit hook and makes it run each time you
+commit one of your files.
+
 # Usage
 
 It uses a single command to either generate the current directory and all its
