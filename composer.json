@@ -1,10 +1,16 @@
 {
   "name": "zero-config/preacher",
-  "description": "Personal static website generator",
+  "description": "Personal static website generator using GitHub Flavored Markdown, Twig and Git.",
   "homepage": "http://janmarten.name",
   "type": "project",
-  "keywords": ["blog", "website", "php", "twig", "markdown", "git"],
+  "keywords": ["blog", "website", "static", "php", "twig", "markdown", "git", "prism"],
   "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Jan-Marten de Boer",
+      "email": "github@johmanx.com"
+    }
+  ],
   "minimum-stability": "stable",
   "prefer-stable": true,
   "bin": [
@@ -13,21 +19,14 @@
   "scripts": {
     "preach": "bin/preach"
   },
-  "archive": {
-    "exclude": [
-      "phpunit.xml",
-      "tests"
-    ]
-  },
-  "authors": [
-    {
-      "name": "Jan-Marten de Boer",
-      "email": "github@johmanx.com"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "ZeroConfig\\Preacher\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ZeroConfig\\Preacher\\Tests\\": "tests"
     }
   },
   "require": {
@@ -39,7 +38,18 @@
     "composer/composer": "^1.3.2"
   },
   "require-dev": {
-    "raveren/kint": "^1.0.6",
-    "phpunit/phpunit": "^6.0.3"
+    "raveren/kint": "^1.0.10",
+    "phpunit/phpunit": "^5.7.9",
+    "mikey179/vfsstream": "^1.6.4"
+  },
+  "archive": {
+    "exclude": [
+      "phpunit.xml",
+      "tests",
+      "README.html",
+      "prism.css",
+      "prism.js",
+      "default.html.twig"
+    ]
   }
 }

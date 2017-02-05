@@ -3,6 +3,8 @@
 Preacher is a personal static website generator, which allows you to setup and
 maintain a personal website with zero configuration.
 
+![I always figured the word 'blog' would sound *less* silly as the years went by.](https://imgs.xkcd.com/comics/starwatching.png)
+
 # Installation
 
 ```bash
@@ -43,7 +45,7 @@ Preacher is built with programmers in mind.
 
 | Component          | Type                                                                                                        | Package                                                   |
 |:-------------------|:------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------|
-| Content parser     | [GitHub Flafored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown) | [erusev/parsedown](http://parsedown.org/)                 |
+| Content parser     | [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown) | [erusev/parsedown](http://parsedown.org/)                 |
 | Template engine    | [Twig 2](http://twig.sensiolabs.org/)                                                                       | [twig/twig](https://packagist.org/packages/twig/twig)     |
 | Version control    | [git](https://git-scm.com/)                                                                                 | [coyl/git](https://github.com/coyl/git)                   |
 | Package manager    | [Composer](https://getcomposer.org/)                                                                        | [composer/composer](https://github.com/composer/composer) |
@@ -68,7 +70,7 @@ engine with the following data:
 | Path to source          | {{ source.path }}                                          | index.md                                 |
 | Path to output          | {{ output.path }}                                          | index.html                               |
 | Path to template        | {{ template.path }}                                        | default.html.twig                        |
-| Generated content       | {{ content }}                                              | `<html><head><title>...`                 |
+| Generated content       | {{ content&#124;raw }}                                     | `<h1>My great adventure</h1><p>Lorum...` |
 
 # Custom templates
 
@@ -99,4 +101,4 @@ $this->is('awesome');
 ```
 
 For more information on writing code blocks, please read up on
-[GitHub Flafored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown).
+[GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown).

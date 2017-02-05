@@ -1,12 +1,18 @@
 <h1>Introduction</h1>
 <p>Preacher is a personal static website generator, which allows you to setup and
 maintain a personal website with zero configuration.</p>
+<p><img src="https://imgs.xkcd.com/comics/starwatching.png" alt="I always figured the word 'blog' would sound *less* silly as the years went by." /></p>
 <h1>Installation</h1>
-<pre><code class="language-shell">composer require --dev zero-config/preacher</code></pre>
+<pre><code class="language-bash">composer require --dev zero-config/preacher</code></pre>
+<p>Optionally, if one wants to always generate output when a file is committed, try
+the following:</p>
+<pre><code class="language-bash">ln -s vendor/bin/preach .git/hooks/post-commit</code></pre>
+<p>This will install preacher as a post-commit hook and makes it run each time you
+commit one of your files.</p>
 <h1>Usage</h1>
 <p>It uses a single command to either generate the current directory and all its
 children or one can (re)generate a single source file.</p>
-<pre><code class="language-shell">vendor/bin/preach [&lt;path/to/file.md&gt;]</code></pre>
+<pre><code class="language-bash">vendor/bin/preach [&lt;path/to/file.md&gt;]</code></pre>
 <p>If the path is a directory, its contents will be recursively generated, until
 the deepest leaf file has been reached.</p>
 <p>The contents of vendor directories are skipped by interpreting the
@@ -26,7 +32,7 @@ stable and user friendly experience at the same time.</p>
 <tbody>
 <tr>
 <td style="text-align: left;">Content parser</td>
-<td style="text-align: left;"><a href="https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown">Github Flafored Markdown</a></td>
+<td style="text-align: left;"><a href="https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown">GitHub Flavored Markdown</a></td>
 <td style="text-align: left;"><a href="http://parsedown.org/">erusev/parsedown</a></td>
 </tr>
 <tr>
@@ -43,6 +49,11 @@ stable and user friendly experience at the same time.</p>
 <td style="text-align: left;">Package manager</td>
 <td style="text-align: left;"><a href="https://getcomposer.org/">Composer</a></td>
 <td style="text-align: left;"><a href="https://github.com/composer/composer">composer/composer</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Syntax highlighter</td>
+<td style="text-align: left;"><a href="http://prismjs.com/">Prism</a></td>
+<td style="text-align: left;"><a href="https://www.npmjs.com/package/prismjs">prismjs</a></td>
 </tr>
 </tbody>
 </table>
@@ -120,8 +131,8 @@ engine with the following data:</p>
 </tr>
 <tr>
 <td style="text-align: left;">Generated content</td>
-<td style="text-align: left;">{{ content }}</td>
-<td style="text-align: left;"><code>&lt;html&gt;&lt;head&gt;&lt;title&gt;...</code></td>
+<td style="text-align: left;">{{ content&#124;raw }}</td>
+<td style="text-align: left;"><code>&lt;h1&gt;My great adventure&lt;/h1&gt;&lt;p&gt;Lorum...</code></td>
 </tr>
 </tbody>
 </table>
@@ -131,14 +142,24 @@ However, if a custom template is required, simply give it the same name as the
 source file.</p>
 <p>E.g.: <code>articles/something-fancy.md</code> =&gt; <code>articles/something-fancy.html.twig</code>.</p>
 <h1>Enabling Github Flavored Markdown</h1>
-<p>To use code syntax highlighting, the following needs to be added to your template.</p>
-<pre><code class="language-html">&lt;link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" /&gt;
-&lt;script src="http://parsedown.org/prism.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+<p>To use code syntax highlighting, one can choose a
+<a href="http://prismjs.com/download.html">Prism theme package</a>.</p>
+<p>Download a package and add it to your template:</p>
+<pre><code class="language-html">&lt;link href="prism.css" rel="stylesheet" type="text/css" /&gt;
+&lt;script src="prism.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+<p>The result will be a highlighted syntax for your code blocks.</p>
 <pre><code class="language-php">&lt;?php
 // Do not forget to open your PHP script with the open tag.
 $this-&gt;is('awesome');</code></pre>
-<link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" />
-<script src="http://parsedown.org/prism.js" type="text/javascript"></script>
+<p>For more information on writing code blocks, please read up on
+<a href="https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown">GitHub Flavored Markdown</a>.</p>
+<link href="prism.css" rel="stylesheet" type="text/css" />
+<script src="prism.js" type="text/javascript"></script>
+<style>
+    body {
+        font-family: monospace;
+    }
+</style>
 
 <h1>Meta data</h1>
 <table>
@@ -148,15 +169,27 @@ $this-&gt;is('awesome');</code></pre>
     </tr>
     <tr>
         <td>Author email</td>
-        <td>janmarten.deboer@mediact.nl</td>
+        <td>preacher@johmanx.com</td>
     </tr>
     <tr>
         <td>Commit reference</td>
-        <td>e62512a61fc4e34b1ea83dfc07dc549e5994c644</td>
+        <td>
+            <a
+                href="https://github.com/ZeroConfig/Preacher/commit/d569c6110974f33c58a10c8bd90757996478df51"
+                target="_blank">
+                d569c6110974f33c58a10c8bd90757996478df51
+            </a>
+        </td>
     </tr>
     <tr>
         <td>Short commit reference</td>
-        <td>e62512a</td>
+        <td>
+            <a
+                href="https://github.com/ZeroConfig/Preacher/commit/d569c61"
+                target="_blank">
+                d569c61
+            </a>
+        </td>
     </tr>
     <tr>
         <td>Date created</td>
@@ -168,26 +201,38 @@ $this-&gt;is('awesome');</code></pre>
     </tr>
     <tr>
         <td>Date updated</td>
-        <td>2017-02-04 21:06:40</td>
+        <td>2017-02-05 17:46:45</td>
     </tr>
     <tr>
         <td>Date generated</td>
-        <td>2017-02-04 21:08:47</td>
+        <td>2017-02-05 17:46:49</td>
     </tr>
     <tr>
         <td>Number of revisions</td>
-        <td>7</td>
+        <td>
+            <a
+                href="https://github.com/ZeroConfig/Preacher/commits/master/README.md"
+                target="_blank">
+                9
+            </a>
+        </td>
     </tr>
     <tr>
         <td>Path to source</td>
-        <td>README.md</td>
+        <td>
+            <a href="README.md" target="_blank">README.md</a>
+        </td>
     </tr>
     <tr>
         <td>Path to output</td>
-        <td>README.html</td>
+        <td>
+            <a href="README.html" target="_blank">README.html</a>
+        </td>
     </tr>
     <tr>
         <td>Path to template</td>
-        <td>default.html.twig</td>
+        <td>
+            <a href="default.html.twig" target="_blank">default.html.twig</a>
+        </td>
     </tr>
 </table>

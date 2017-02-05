@@ -65,7 +65,9 @@ class Generator implements GeneratorInterface
         $template  = $this->templateFactory->createTemplate($output);
 
         // No changes since last generation.
-        if ($generated > $updated && $generated > $template->getDateUpdated()) {
+        if ($generated > $updated
+            && $generated > $template->getDateUpdated()
+        ) {
             return $output;
         }
 

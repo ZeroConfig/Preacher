@@ -1,0 +1,20 @@
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.7/phpunit.xsd"
+        stopOnError="true"
+        stopOnFailure="false"
+        stopOnIncomplete="true"
+        stopOnSkipped="true"
+        stopOnRisky="true"
+        bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="preacher">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,6 +1,11 @@
 {{ content|raw }}
-<link href="http://parsedown.org/prism.css" rel="stylesheet" type="text/css" />
-<script src="http://parsedown.org/prism.js" type="text/javascript"></script>
+<link href="prism.css" rel="stylesheet" type="text/css" />
+<script src="prism.js" type="text/javascript"></script>
+<style>
+    body {
+        font-family: monospace;
+    }
+</style>
 
 <h1>Meta data</h1>
 <table>
@@ -10,15 +15,27 @@
     </tr>
     <tr>
         <td>Author email</td>
-        <td>{{ source.metaData.author.email }}</td>
+        <td>{# source.metaData.author.email #}preacher@johmanx.com</td>
     </tr>
     <tr>
         <td>Commit reference</td>
-        <td>{{ source.metaData.version }}</td>
+        <td>
+            <a
+                href="https://github.com/ZeroConfig/Preacher/commit/{{ source.metaData.version }}"
+                target="_blank">
+                {{ source.metaData.version }}
+            </a>
+        </td>
     </tr>
     <tr>
         <td>Short commit reference</td>
-        <td>{{ source.metaData.version.short }}</td>
+        <td>
+            <a
+                href="https://github.com/ZeroConfig/Preacher/commit/{{ source.metaData.version.short }}"
+                target="_blank">
+                {{ source.metaData.version.short }}
+            </a>
+        </td>
     </tr>
     <tr>
         <td>Date created</td>
@@ -38,18 +55,30 @@
     </tr>
     <tr>
         <td>Number of revisions</td>
-        <td>{{ source.metaData.numRevisions }}</td>
+        <td>
+            <a
+                href="https://github.com/ZeroConfig/Preacher/commits/master/{{ source.path }}"
+                target="_blank">
+                {{ source.metaData.numRevisions }}
+            </a>
+        </td>
     </tr>
     <tr>
         <td>Path to source</td>
-        <td>{{ source.path }}</td>
+        <td>
+            <a href="{{ source.path }}" target="_blank">{{ source.path }}</a>
+        </td>
     </tr>
     <tr>
         <td>Path to output</td>
-        <td>{{ output.path }}</td>
+        <td>
+            <a href="{{ output.path }}" target="_blank">{{ output.path }}</a>
+        </td>
     </tr>
     <tr>
         <td>Path to template</td>
-        <td>{{ template.path }}</td>
+        <td>
+            <a href="{{ template.path }}" target="_blank">{{ template.path }}</a>
+        </td>
     </tr>
 </table>
