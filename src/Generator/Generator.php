@@ -60,12 +60,15 @@ class Generator implements GeneratorInterface
     public function generate(SourceInterface $source): OutputInterface
     {
         $output    = $this->outputFactory->createOutput($source);
+        $published = $output->getMetaData()->getDatePublished();
         $generated = $output->getMetaData()->getDateGenerated();
         $updated   = $source->getMetaData()->getDateUpdated();
         $template  = $this->templateFactory->createTemplate($output);
 
         // No changes since last generation.
-        if ($generated > $updated
+        // Check that it at least has an initial generation, previous to this.
+        if ($generated > $published
+            && $generated > $updated
             && $generated > $template->getDateUpdated()
         ) {
             return $output;
