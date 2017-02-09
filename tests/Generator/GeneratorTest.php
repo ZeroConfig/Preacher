@@ -64,11 +64,13 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param DateTimeInterface $datePublished
      * @param DateTimeInterface $dateGenerated
      *
      * @return PHPUnit_Framework_MockObject_MockObject|OutputInterface
      */
     private function createOutput(
+        DateTimeInterface $datePublished,
         DateTimeInterface $dateGenerated
     ) {
         $output   = $this->createMock(OutputInterface::class);
@@ -85,9 +87,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->willReturn($dateGenerated);
 
         $metaData
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('getDatePublished')
-            ->willReturn(new DateTimeImmutable());
+            ->willReturn($datePublished);
 
         return $output;
     }
@@ -177,7 +179,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
         $source   = $this->createSource(new DateTimeImmutable('yesterday'));
         $template = $this->createTemplate(new DateTimeImmutable('yesterday'));
-        $output   = $this->createOutput(new DateTimeImmutable('today'));
+        $output   = $this->createOutput(
+            new DateTimeImmutable('yesterday'),
+            new DateTimeImmutable('today')
+        );
 
         $outputFactory   = $this->createOutputFactory($source, $output);
         $templateFactory = $this->createTemplateFactory($output, $template);
@@ -217,7 +222,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->willReturn('FooBarBaz');
 
         $source   = $this->createSource(new DateTimeImmutable('now'));
-        $output   = $this->createOutput(new DateTimeImmutable('today'));
+        $output   = $this->createOutput(
+            new DateTimeImmutable('today'),
+            new DateTimeImmutable('today')
+        );
         $template = $this->createTemplate(
             new DateTimeImmutable('yesterday'),
             'default.html.twig'
