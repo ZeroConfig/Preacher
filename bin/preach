@@ -93,13 +93,22 @@ foreach ($files as $file) {
         continue;
     }
 
-    $source = $sourceFactory->createSource(
-        preg_replace(
-            sprintf('/^%s\//', preg_quote(getcwd(), '/')),
-            '',
-            $file->getRealPath()
-        )
+    $fileName = preg_replace(
+        sprintf('/^%s\//', preg_quote(getcwd(), '/')),
+        '',
+        $file->getRealPath()
     );
+
+    // File is not yet part of the GIT history.
+    if (strlen($repository->logFormatted('1', $fileName, 1)) === 0) {
+        echo sprintf(
+            'Skipped "%s" because it has no GIT history.',
+            $fileName
+        ) . PHP_EOL;
+        continue;
+    }
+
+    $source = $sourceFactory->createSource($fileName);
 
     $output = $generator->generate($source);
 
