@@ -25,7 +25,7 @@ class SourceFactory implements SourceFactoryInterface
      */
     public function createSource(string $path): SourceInterface
     {
-        return new AbstractSource(
+        return new MarkdownSource(
             $path,
             $this->metaDataFactory->createMetaData($path)
         );
