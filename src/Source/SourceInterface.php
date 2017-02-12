@@ -11,6 +11,13 @@ interface SourceInterface
     public function getPath(): string;
 
     /**
+     * Get the basename of the file, without extension.
+     *
+     * @return string
+     */
+    public function getBaseName(): string;
+
+    /**
      * Get the meta data for the source.
      *
      * @return MetaDataInterface

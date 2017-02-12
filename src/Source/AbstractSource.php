@@ -1,10 +1,13 @@
 <?php
 namespace ZeroConfig\Preacher\Source;
 
-class Source implements SourceInterface
+abstract class AbstractSource implements SourceInterface
 {
     /** @var string */
     private $path;
+
+    /** @var string */
+    private $baseName;
 
     /** @var MetaDataInterface */
     private $metaData;
@@ -18,8 +21,18 @@ class Source implements SourceInterface
     public function __construct($path, MetaDataInterface $metaData)
     {
         $this->path     = $path;
+        $this->baseName = $this->extractBaseName($path);
         $this->metaData = $metaData;
     }
+
+    /**
+     * Extract the basename from the given path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    abstract protected function extractBaseName(string $path): string;
 
     /**
      * Get the path to the source file.
@@ -29,6 +42,16 @@ class Source implements SourceInterface
     public function getPath(): string
     {
         return $this->path;
+    }
+
+    /**
+     * Get the basename of the file, without extension.
+     *
+     * @return string
+     */
+    public function getBaseName(): string
+    {
+        return $this->baseName;
     }
 
     /**

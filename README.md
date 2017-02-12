@@ -67,6 +67,7 @@ engine with the following data:
 | Date published          | {{ output.metaData.datePublished&#124;date("Y-m-d H:i") }} | 2017-02-05 00:45                         |
 | Date generated          | {{ output.metaData.dateGenerated&#124;date("Y-m-d H:i") }} | 2017-02-05 00:47                         |
 | Number of revisions     | {{ source.metaData.numRevisions }}                         | 2                                        |
+| Basename of source      | {{ source.baseName }}                                      | index                                    |
 | Path to source          | {{ source.path }}                                          | index.md                                 |
 | Path to output          | {{ output.path }}                                          | index.html                               |
 | Path to template        | {{ template.path }}                                        | default.html.twig                        |
