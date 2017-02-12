@@ -6,6 +6,7 @@ use DateTimeInterface;
 use PHPUnit_Framework_MockObject_MockObject;
 use Twig_Environment;
 use ZeroConfig\Preacher\Generator\Generator;
+use ZeroConfig\Preacher\Generator\HeadlineExtractorInterface;
 use ZeroConfig\Preacher\Generator\OutputWriterInterface;
 use ZeroConfig\Preacher\Generator\SourceReaderInterface;
 use ZeroConfig\Preacher\Output\MetaDataInterface as OutputMetaData;
@@ -35,7 +36,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->createMock(TemplateFactoryInterface::class),
             $this->createMock(SourceReaderInterface::class),
             $this->createMock(Twig_Environment::class),
-            $this->createMock(OutputWriterInterface::class)
+            $this->createMock(OutputWriterInterface::class),
+            $this->createMock(HeadlineExtractorInterface::class)
         );
     }
 
@@ -193,7 +195,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $templateFactory,
             $reader,
             $twig,
-            $writer
+            $writer,
+            $this->createMock(HeadlineExtractorInterface::class)
         );
 
         return $generator->generate($source);
@@ -240,7 +243,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $templateFactory,
             $reader,
             $twig,
-            $writer
+            $writer,
+            $this->createMock(HeadlineExtractorInterface::class)
         );
 
         return $generator->generate($source);

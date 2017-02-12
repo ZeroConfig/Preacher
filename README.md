@@ -72,6 +72,7 @@ engine with the following data:
 | Path to output          | {{ output.path }}                                          | index.html                               |
 | Path to template        | {{ template.path }}                                        | default.html.twig                        |
 | Generated content       | {{ content&#124;raw }}                                     | `<h1>My great adventure</h1><p>Lorum...` |
+| Headline                | {{ headline }}                                             | My great adventure                       |
 
 # Custom templates
 

@@ -5,6 +5,7 @@ use Composer\Config\JsonConfigSource;
 use Composer\Json\JsonFile;
 use Coyl\Git\Git;
 use ZeroConfig\Preacher\Generator\Generator;
+use ZeroConfig\Preacher\Generator\HtmlHeadlineExtractor;
 use ZeroConfig\Preacher\Generator\MarkdownSourceReader;
 use ZeroConfig\Preacher\Generator\OutputWriter;
 use ZeroConfig\Preacher\Output\GitMetaDataFactory as OutputMetaDataFactory;
@@ -31,11 +32,12 @@ $outputFactory = new OutputFactory(
     new OutputMetaDataFactory($repository)
 );
 
-$templateFactory = new TemplateFactory(
+$templateFactory   = new TemplateFactory(
     new TemplateLocator('default.html.twig')
 );
-$sourceReader    = new MarkdownSourceReader(new Parsedown());
-$outputWriter    = new OutputWriter();
+$sourceReader      = new MarkdownSourceReader(new Parsedown());
+$outputWriter      = new OutputWriter();
+$headlineExtractor = new HtmlHeadlineExtractor();
 
 $twig = new Twig_Environment(
     new Twig_Loader_Filesystem([getcwd()])
@@ -46,7 +48,8 @@ $generator = new Generator(
     $templateFactory,
     $sourceReader,
     $twig,
-    $outputWriter
+    $outputWriter,
+    $headlineExtractor
 );
 
 /** @var SplFileInfo[] $files */

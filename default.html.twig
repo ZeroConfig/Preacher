@@ -1,2 +1,3 @@
-<title>{{ source.baseName }}</title>
+<title>{{ headline|default(source.baseName) }}</title>
+
 {{ content|raw }}

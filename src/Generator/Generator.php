@@ -26,27 +26,33 @@ class Generator implements GeneratorInterface
     /** @var OutputWriterInterface */
     private $outputWriter;
 
+    /** @var HeadlineExtractorInterface */
+    private $headlineExtractor;
+
     /**
      * Constructor.
      *
-     * @param OutputFactoryInterface   $outputFactory
-     * @param TemplateFactoryInterface $templateFactory
-     * @param SourceReaderInterface    $sourceReader
-     * @param Twig_Environment         $templateEngine
-     * @param OutputWriterInterface    $outputWriter
+     * @param OutputFactoryInterface     $outputFactory
+     * @param TemplateFactoryInterface   $templateFactory
+     * @param SourceReaderInterface      $sourceReader
+     * @param Twig_Environment           $templateEngine
+     * @param OutputWriterInterface      $outputWriter
+     * @param HeadlineExtractorInterface $headlineExtractor
      */
     public function __construct(
         OutputFactoryInterface $outputFactory,
         TemplateFactoryInterface $templateFactory,
         SourceReaderInterface $sourceReader,
         Twig_Environment $templateEngine,
-        OutputWriterInterface $outputWriter
+        OutputWriterInterface $outputWriter,
+        HeadlineExtractorInterface $headlineExtractor
     ) {
-        $this->outputFactory   = $outputFactory;
-        $this->templateFactory = $templateFactory;
-        $this->sourceReader    = $sourceReader;
-        $this->templateEngine  = $templateEngine;
-        $this->outputWriter    = $outputWriter;
+        $this->outputFactory     = $outputFactory;
+        $this->templateFactory   = $templateFactory;
+        $this->sourceReader      = $sourceReader;
+        $this->templateEngine    = $templateEngine;
+        $this->outputWriter      = $outputWriter;
+        $this->headlineExtractor = $headlineExtractor;
     }
 
     /**
@@ -74,7 +80,9 @@ class Generator implements GeneratorInterface
             return $output;
         }
 
-        $output = new UpdatedOutput($output);
+        $output   = new UpdatedOutput($output);
+        $content  = $this->sourceReader->getContents($source);
+        $headline = $this->headlineExtractor->extractHeadline($content);
 
         $this->outputWriter->writeOutput(
             $output,
@@ -86,7 +94,8 @@ class Generator implements GeneratorInterface
                         'template' => $template,
                         'source' => $source,
                         'output' => $output,
-                        'content' => $this->sourceReader->getContents($source)
+                        'content' => $content,
+                        'headline' => $headline
                     ]
                 )
         );
