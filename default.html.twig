@@ -1,3 +1,7 @@
+{% block title %}
 <title>{{ headline|default(source.baseName) }}</title>
+{% endblock %}
 
+{% block content %}
 {{ content|raw }}
+{% endblock %}
