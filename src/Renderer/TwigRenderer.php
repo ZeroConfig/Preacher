@@ -2,7 +2,7 @@
 namespace ZeroConfig\Preacher\Renderer;
 
 use Twig_Environment;
-use ZeroConfig\Preacher\Generator\SourceReaderInterface;
+use ZeroConfig\Preacher\Renderer\SourceReaderInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;

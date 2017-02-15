@@ -3,7 +3,7 @@ namespace ZeroConfig\Preacher\Tests\Renderer;
 
 use PHPUnit_Framework_TestCase;
 use Twig_Environment;
-use ZeroConfig\Preacher\Generator\SourceReaderInterface;
+use ZeroConfig\Preacher\Renderer\SourceReaderInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Renderer\HeadlineExtractorInterface;
 use ZeroConfig\Preacher\Renderer\TwigRenderer;

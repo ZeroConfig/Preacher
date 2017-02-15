@@ -6,7 +6,7 @@ use Composer\Json\JsonFile;
 use Coyl\Git\Git;
 use ZeroConfig\Preacher\Generator\Generator;
 use ZeroConfig\Preacher\Renderer\HtmlHeadlineExtractor;
-use ZeroConfig\Preacher\Generator\MarkdownSourceReader;
+use ZeroConfig\Preacher\Renderer\MarkdownSourceReader;
 use ZeroConfig\Preacher\Generator\OutputWriter;
 use ZeroConfig\Preacher\Output\GitMetaDataFactory as OutputMetaDataFactory;
 use ZeroConfig\Preacher\Output\MarkdownSourceTranslator;
