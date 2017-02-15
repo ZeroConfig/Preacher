@@ -1,12 +1,9 @@
 <?php
 namespace ZeroConfig\Preacher\Generator;
 
-use DateTimeImmutable;
-use Twig_Environment;
 use ZeroConfig\Preacher\Output\OutputFactoryInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Output\UpdatedOutput;
-use ZeroConfig\Preacher\Renderer\HeadlineExtractorInterface;
 use ZeroConfig\Preacher\Renderer\RendererInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateFactoryInterface;
