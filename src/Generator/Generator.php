@@ -6,6 +6,8 @@ use Twig_Environment;
 use ZeroConfig\Preacher\Output\OutputFactoryInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Output\UpdatedOutput;
+use ZeroConfig\Preacher\Renderer\HeadlineExtractorInterface;
+use ZeroConfig\Preacher\Renderer\RendererInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateFactoryInterface;
 
@@ -17,42 +19,30 @@ class Generator implements GeneratorInterface
     /** @var TemplateFactoryInterface */
     private $templateFactory;
 
-    /** @var SourceReaderInterface */
-    private $sourceReader;
-
-    /** @var Twig_Environment */
-    private $templateEngine;
-
     /** @var OutputWriterInterface */
     private $outputWriter;
 
-    /** @var HeadlineExtractorInterface */
-    private $headlineExtractor;
+    /** @var RendererInterface */
+    private $renderer;
 
     /**
      * Constructor.
      *
-     * @param OutputFactoryInterface     $outputFactory
-     * @param TemplateFactoryInterface   $templateFactory
-     * @param SourceReaderInterface      $sourceReader
-     * @param Twig_Environment           $templateEngine
-     * @param OutputWriterInterface      $outputWriter
-     * @param HeadlineExtractorInterface $headlineExtractor
+     * @param OutputFactoryInterface   $outputFactory
+     * @param TemplateFactoryInterface $templateFactory
+     * @param OutputWriterInterface    $outputWriter
+     * @param RendererInterface        $renderer
      */
     public function __construct(
         OutputFactoryInterface $outputFactory,
         TemplateFactoryInterface $templateFactory,
-        SourceReaderInterface $sourceReader,
-        Twig_Environment $templateEngine,
         OutputWriterInterface $outputWriter,
-        HeadlineExtractorInterface $headlineExtractor
+        RendererInterface $renderer
     ) {
-        $this->outputFactory     = $outputFactory;
-        $this->templateFactory   = $templateFactory;
-        $this->sourceReader      = $sourceReader;
-        $this->templateEngine    = $templateEngine;
-        $this->outputWriter      = $outputWriter;
-        $this->headlineExtractor = $headlineExtractor;
+        $this->outputFactory   = $outputFactory;
+        $this->templateFactory = $templateFactory;
+        $this->outputWriter    = $outputWriter;
+        $this->renderer        = $renderer;
     }
 
     /**
@@ -81,23 +71,10 @@ class Generator implements GeneratorInterface
         }
 
         $output   = new UpdatedOutput($output);
-        $content  = $this->sourceReader->getContents($source);
-        $headline = $this->headlineExtractor->extractHeadline($content);
 
         $this->outputWriter->writeOutput(
             $output,
-            $this
-                ->templateEngine
-                ->render(
-                    $template->getPath(),
-                    [
-                        'template' => $template,
-                        'source' => $source,
-                        'output' => $output,
-                        'content' => $content,
-                        'headline' => $headline
-                    ]
-                )
+            $this->renderer->render($template, $source, $output)
         );
 
         return $output;
