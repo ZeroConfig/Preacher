@@ -1,11 +1,11 @@
 <?php
-namespace ZeroConfig\Preacher\Tests\Generator;
+namespace ZeroConfig\Preacher\Tests\Renderer;
 
 use PHPUnit_Framework_TestCase;
-use ZeroConfig\Preacher\Generator\HtmlHeadlineExtractor;
+use ZeroConfig\Preacher\Renderer\HtmlHeadlineExtractor;
 
 /**
- * @coversDefaultClass \ZeroConfig\Preacher\Generator\HtmlHeadlineExtractor
+ * @coversDefaultClass \ZeroConfig\Preacher\Renderer\HtmlHeadlineExtractor
  */
 class HtmlHeadlineExtractorTest extends PHPUnit_Framework_TestCase
 {
