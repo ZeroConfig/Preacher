@@ -5,15 +5,21 @@ class SourceFactory implements SourceFactoryInterface
 {
     /** @var MetaDataFactoryInterface */
     private $metaDataFactory;
+    /** @var string */
+    private $workingDirectory;
 
     /**
      * Constructor.
      *
      * @param MetaDataFactoryInterface $metaDataFactory
+     * @param string                   $workingDirectory
      */
-    public function __construct(MetaDataFactoryInterface $metaDataFactory)
-    {
-        $this->metaDataFactory = $metaDataFactory;
+    public function __construct(
+        MetaDataFactoryInterface $metaDataFactory,
+        string $workingDirectory
+    ) {
+        $this->metaDataFactory  = $metaDataFactory;
+        $this->workingDirectory = $workingDirectory;
     }
 
     /**
@@ -25,9 +31,18 @@ class SourceFactory implements SourceFactoryInterface
      */
     public function createSource(string $path): SourceInterface
     {
+        $relativePath = ltrim(
+            preg_replace(
+                sprintf('/^%s/', preg_quote($this->workingDirectory, '/')),
+                '',
+                $path
+            ),
+            DIRECTORY_SEPARATOR
+        );
+
         return new MarkdownSource(
-            $path,
-            $this->metaDataFactory->createMetaData($path)
+            $relativePath,
+            $this->metaDataFactory->createMetaData($relativePath)
         );
     }
 }

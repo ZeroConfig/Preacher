@@ -1,120 +1,13 @@
 #!/usr/bin/env php
 <?php
-use Composer\Config;
-use Composer\Config\JsonConfigSource;
-use Composer\Json\JsonFile;
-use Coyl\Git\Git;
-use ZeroConfig\Preacher\Generator\Generator;
-use ZeroConfig\Preacher\Renderer\HtmlHeadlineExtractor;
-use ZeroConfig\Preacher\Renderer\MarkdownSourceReader;
-use ZeroConfig\Preacher\Generator\OutputWriter;
-use ZeroConfig\Preacher\Output\GitMetaDataFactory as OutputMetaDataFactory;
-use ZeroConfig\Preacher\Output\MarkdownSourceTranslator;
-use ZeroConfig\Preacher\Output\OutputFactory;
-use ZeroConfig\Preacher\Output\UpdatedOutput;
-use ZeroConfig\Preacher\Renderer\TwigRenderer;
-use ZeroConfig\Preacher\Source\GitMetaDataFactory as SourceMetaDataFactory;
-use ZeroConfig\Preacher\Source\SourceFactory;
-use ZeroConfig\Preacher\Template\TemplateFactory;
-use ZeroConfig\Preacher\Template\TemplateLocator;
+use Symfony\Component\Console\Input\ArgvInput;
 
-require_once __DIR__ . '/autoload.php';
-
-$repository = Git::open(getcwd());
-$diff       = $repository->diffCached();
-
-if (!empty($diff)) {
-    die('Not all changes are committed!');
-}
-
-$sourceFactory = new SourceFactory(new SourceMetaDataFactory($repository));
-$outputFactory = new OutputFactory(
-    new MarkdownSourceTranslator(),
-    new OutputMetaDataFactory($repository)
-);
-
-$templateFactory   = new TemplateFactory(
-    new TemplateLocator('default.html.twig')
-);
-$sourceReader      = new MarkdownSourceReader(new Parsedown());
-$outputWriter      = new OutputWriter();
-$headlineExtractor = new HtmlHeadlineExtractor();
-$twig              = new Twig_Environment(new Twig_Loader_Filesystem([getcwd()]));
-$renderer          = new TwigRenderer($twig, $headlineExtractor, $sourceReader);
-
-$generator = new Generator(
-    $outputFactory,
-    $templateFactory,
-    $outputWriter,
-    $renderer
-);
-
-/** @var SplFileInfo[] $files */
-$files = new AppendIterator();
-$paths = array_slice($argv, 1) ?: ['.'];
-
-foreach ($paths as $path) {
-    if (is_dir($path)) {
-        $files->append(
-            new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($path)
-            )
-        );
-        continue;
-    }
-
-    $files->append(
-        new GlobIterator($path)
-    );
-}
-
-$composerPackage = new SplFileInfo('./composer.json');
-
-$config = new Config(true, dirname($composerPackage->getRealPath()));
-$config->setConfigSource(
-    new JsonConfigSource(
-        new JsonFile($composerPackage->getRealPath())
+$application = require __DIR__ . '/application.php';
+$application->run(
+    new ArgvInput(
+        array_merge(
+            $argv,
+            [1 => 'preacher:generate']
+        )
     )
 );
-
-$vendorDirectory = $config->get('vendor-dir');
-
-foreach ($files as $file) {
-    if (!$file->isFile()) {
-        continue;
-    }
-
-    // File is part of a vendor package.
-    if (strpos($file->getRealPath(), $vendorDirectory) === 0) {
-        continue;
-    }
-
-    if ($file->getExtension() !== 'md') {
-        continue;
-    }
-
-    $fileName = preg_replace(
-        sprintf('/^%s\//', preg_quote(getcwd(), '/')),
-        '',
-        $file->getRealPath()
-    );
-
-    // File is not yet part of the GIT history.
-    if (strlen($repository->logFormatted('1', $fileName, 1)) === 0) {
-        echo sprintf(
-            'Skipped "%s" because it has no GIT history.',
-            $fileName
-        ) . PHP_EOL;
-        continue;
-    }
-
-    $source = $sourceFactory->createSource($fileName);
-
-    $output = $generator->generate($source);
-
-    if (!$output instanceof UpdatedOutput) {
-        continue;
-    }
-
-    echo sprintf('Generated: %s', $output->getPath()) . PHP_EOL;
-}
