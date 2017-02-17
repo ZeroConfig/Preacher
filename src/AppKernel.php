@@ -6,6 +6,9 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AppKernel extends Kernel
 {
     /** @var string */

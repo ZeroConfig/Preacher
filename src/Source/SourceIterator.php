@@ -51,22 +51,15 @@ class SourceIterator implements SourceIteratorInterface
      * Filter the given file.
      *
      * @param SplFileInfo $file
-     * @param string      $relativePath
      *
      * @return bool
      */
-    public function __invoke(SplFileInfo $file, string $relativePath): bool
+    public function __invoke(SplFileInfo $file): bool
     {
         return array_reduce(
             $this->filters,
-            function (
-                bool $memo,
-                FilterInterface $filter
-            ) use (
-                $file,
-                $relativePath
-            ) : bool {
-                return $memo && $filter->isFileAllowed($file, $relativePath);
+            function (bool $memo, FilterInterface $filter) use ($file) : bool {
+                return $memo && $filter->isFileAllowed($file);
             },
             true
         );

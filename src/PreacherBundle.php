@@ -5,6 +5,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use ZeroConfig\Preacher\DependencyInjection\Compiler\SourceFilterPass;
 
+/**
+ * @codeCoverageIgnore
+ */
 class PreacherBundle extends Bundle
 {
     /**
