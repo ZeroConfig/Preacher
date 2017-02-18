@@ -18,7 +18,8 @@ class SourceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         /** @noinspection PhpParamsInspection */
         return new SourceFactory(
-            $this->createMock(MetaDataFactoryInterface::class)
+            $this->createMock(MetaDataFactoryInterface::class),
+            getcwd()
         );
     }
 

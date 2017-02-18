@@ -1,0 +1,5 @@
+imports:
+  - { resource: services.yml }
+
+parameters:
+  kernel.secret: preacher
