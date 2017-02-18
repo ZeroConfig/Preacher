@@ -1,8 +1,46 @@
-<title>Static website generator - Preacher</title>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Static website generator - Preacher</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+        <style>
+            main {
+                margin-top: 60px;
+            }
+            #edit {
+                margin-top: 8px;
+            }
+        </style>
+    </head>
 
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="https://zeroconfig.github.io/Preacher/">Preacher</a>
+                </div>
+                <a
+                    id="edit"
+                    class="btn btn-primary pull-right"
+                    href="https://github.com/ZeroConfig/Preacher/edit/master/index.md"
+                    target="_blank">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Edit this page
+                </a>
+            </div>
+        </nav>
 
-<main>
-<h1>Static website generator</h1>
+        <div class="container">
+            <main><h1>Static website generator</h1>
 <p>Preacher is a static website generator, written in PHP.
 It requires no configuration of the software itself. Simply write Markdown,
 a Twig template or two and enjoy your personal site.</p>
@@ -13,10 +51,6 @@ a Twig template or two and enjoy your personal site.</p>
 <li><a href="recipes/custom-plugins.html">Creating a Preacher plugin</a></li>
 <li><a href="recipes/microdata.html">Adding Microdata to your site</a></li>
 </ul></main>
-
-<style>
-    body {
-        font-family: monospace;
-    }
-</style>
-
+        </div>
+    </body>
+</html>
