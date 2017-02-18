@@ -16,11 +16,16 @@
 <pre><code class="language-twig">&lt;main itemscope itemtype="https://schema.org/CreativeWork"&gt;
     &lt;aside&gt;
         &lt;span itemprop="datePublished"&gt;{{ output.metaData.datePublished|date("Y-m-d H:i") }}&lt;/span&gt;
-        &lt;a href="/" id="author" itemprop="author" itemscope itemtype="http://schema.org/Person"&gt;&lt;span itemprop="name"&gt;{{ source.metaData.author.name }}&lt;/span&gt;&lt;/a&gt;
+        &lt;a
+            href="/"
+            itemprop="author"
+            itemscope
+            itemtype="http://schema.org/Person"
+            &gt;&lt;span itemprop="name"&gt;{{ source.metaData.author.name }}&lt;/span&gt;&lt;/a&gt;
         &lt;span itemprop="name"&gt;{{ headline|default(source.baseName) }}&lt;/span&gt;
         &lt;span itemprop="version"&gt;Version {{ source.metaData.numRevisions }}&lt;/span&gt;
     &lt;/aside&gt;
-    &lt;article id="content" itemprop="text"&gt;
+    &lt;article itemprop="text"&gt;
         {{ content }}
     &lt;/article&gt;
 &lt;/main&gt;</code></pre>
