@@ -4,16 +4,14 @@ namespace ZeroConfig\Preacher\Tests\Generator;
 use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit_Framework_MockObject_MockObject;
-use Twig_Environment;
 use ZeroConfig\Preacher\Generator\Generator;
-use ZeroConfig\Preacher\Generator\HeadlineExtractorInterface;
 use ZeroConfig\Preacher\Generator\OutputWriterInterface;
-use ZeroConfig\Preacher\Generator\SourceReaderInterface;
 use ZeroConfig\Preacher\Output\MetaDataInterface as OutputMetaData;
 use ZeroConfig\Preacher\Output\Output;
 use ZeroConfig\Preacher\Output\OutputFactoryInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Output\UpdatedOutput;
+use ZeroConfig\Preacher\Renderer\RendererInterface;
 use ZeroConfig\Preacher\Source\MetaDataInterface as SourceMetaData;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateFactoryInterface;
@@ -34,10 +32,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         return new Generator(
             $this->createMock(OutputFactoryInterface::class),
             $this->createMock(TemplateFactoryInterface::class),
-            $this->createMock(SourceReaderInterface::class),
-            $this->createMock(Twig_Environment::class),
             $this->createMock(OutputWriterInterface::class),
-            $this->createMock(HeadlineExtractorInterface::class)
+            $this->createMock(RendererInterface::class)
         );
     }
 
@@ -98,13 +94,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param DateTimeInterface $dateUpdated
-     * @param string|null       $path
      *
      * @return PHPUnit_Framework_MockObject_MockObject|TemplateInterface
      */
     private function createTemplate(
-        DateTimeInterface $dateUpdated,
-        string $path = null
+        DateTimeInterface $dateUpdated
     ) {
         $template = $this->createMock(TemplateInterface::class);
 
@@ -112,13 +106,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getDateUpdated')
             ->willReturn($dateUpdated);
-
-        if ($path !== null) {
-            $template
-                ->expects($this->once())
-                ->method('getPath')
-                ->willReturn($path);
-        }
 
         return $template;
     }
@@ -171,13 +158,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateUpToDateOutput()
     {
-        $writer = $this->createMock(OutputWriterInterface::class);
-        $reader = $this->createMock(SourceReaderInterface::class);
-        $twig   = $this->createMock(Twig_Environment::class);
+        $writer   = $this->createMock(OutputWriterInterface::class);
+        $renderer = $this->createMock(RendererInterface::class);
 
         $writer->expects($this->never())->method('writeOutput');
-        $reader->expects($this->never())->method('getContents');
-        $twig->expects($this->never())->method('render');
+        $renderer->expects($this->never())->method('render');
 
         $source   = $this->createSource(new DateTimeImmutable('yesterday'));
         $template = $this->createTemplate(new DateTimeImmutable('yesterday'));
@@ -193,10 +178,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $generator = new Generator(
             $outputFactory,
             $templateFactory,
-            $reader,
-            $twig,
             $writer,
-            $this->createMock(HeadlineExtractorInterface::class)
+            $renderer
         );
 
         return $generator->generate($source);
@@ -208,19 +191,18 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateOutdatedOutput(): UpdatedOutput
     {
-        $writer = $this->createMock(OutputWriterInterface::class);
-        $reader = $this->createMock(SourceReaderInterface::class);
-        $twig   = $this->createMock(Twig_Environment::class);
+        $writer   = $this->createMock(OutputWriterInterface::class);
+        $renderer = $this->createMock(RendererInterface::class);
 
-        $reader->expects($this->once())->method('getContents');
         $writer->expects($this->once())->method('writeOutput');
 
-        $twig
+        $renderer
             ->expects($this->once())
             ->method('render')
             ->with(
-                $this->isType('string'),
-                $this->isType('array')
+                $this->isInstanceOf(TemplateInterface::class),
+                $this->isInstanceOf(SourceInterface::class),
+                $this->isInstanceOf(OutputInterface::class)
             )
             ->willReturn('FooBarBaz');
 
@@ -229,10 +211,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('today'),
             new DateTimeImmutable('today')
         );
-        $template = $this->createTemplate(
-            new DateTimeImmutable('yesterday'),
-            'default.html.twig'
-        );
+        $template = $this->createTemplate(new DateTimeImmutable('yesterday'));
 
         $outputFactory   = $this->createOutputFactory($source, $output);
         $templateFactory = $this->createTemplateFactory($output, $template);
@@ -241,10 +220,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $generator = new Generator(
             $outputFactory,
             $templateFactory,
-            $reader,
-            $twig,
             $writer,
-            $this->createMock(HeadlineExtractorInterface::class)
+            $renderer
         );
 
         return $generator->generate($source);
