@@ -1,0 +1,145 @@
+services:
+
+  preacher.environment:
+    public: false
+    class: ZeroConfig\Preacher\Environment
+
+  preacher.runtime_factory:
+    public: false
+    class: ZeroConfig\Preacher\RuntimeFactory
+    arguments:
+      - '@preacher.environment'
+
+  preacher.template_locator:
+    class: ZeroConfig\Preacher\Template\TemplateLocator
+    factory: 'preacher.runtime_factory:createTemplateLocator'
+    arguments:
+      - 'default.html.twig'
+      - 'twig'
+
+  preacher.template_factory:
+    class: ZeroConfig\Preacher\Template\TemplateFactory
+    arguments:
+      - '@preacher.template_locator'
+
+  preacher.git_repository:
+    class: Coyl\Git\GitRepo
+    factory: 'preacher.runtime_factory:createRepository'
+
+  preacher.source_meta_data_factory:
+    class: ZeroConfig\Preacher\Source\GitMetaDataFactory
+    arguments:
+      - '@preacher.git_repository'
+
+  preacher.source_factory:
+    class: ZeroConfig\Preacher\Source\SourceFactory
+    factory: 'preacher.runtime_factory:createSourceFactory'
+    arguments:
+      - '@preacher.source_meta_data_factory'
+
+  preacher.parsedown:
+    class: Parsedown
+
+  preacher.source_reader:
+    class: ZeroConfig\Preacher\Renderer\MarkdownSourceReader
+    arguments:
+      - '@preacher.parsedown'
+
+  preacher.headline_extractor:
+    class: ZeroConfig\Preacher\Renderer\HtmlHeadlineExtractor
+
+  preacher.twig_loader:
+    class: Twig_Loader_Filesystem
+    factory: 'preacher.runtime_factory:createTwigLoader'
+
+  preacher.twig:
+    class: Twig_Environment
+    arguments:
+      - '@preacher.twig_loader'
+      - { autoescape: false }
+
+  preacher.renderer:
+    class: ZeroConfig\Preacher\Renderer\TwigRenderer
+    arguments:
+      - '@preacher.twig'
+      - '@preacher.headline_extractor'
+      - '@preacher.source_reader'
+
+  preacher.output_meta_data_factory:
+    class: ZeroConfig\Preacher\Output\GitMetaDataFactory
+    arguments:
+      - '@preacher.git_repository'
+
+  preacher.source_translator:
+    class: ZeroConfig\Preacher\Output\MarkdownSourceTranslator
+
+  preacher.output_factory:
+    class: ZeroConfig\Preacher\Output\OutputFactory
+    arguments:
+      - '@preacher.source_translator'
+      - '@preacher.output_meta_data_factory'
+
+  preacher.output_writer:
+    class: ZeroConfig\Preacher\Generator\OutputWriter
+
+  preacher.generator:
+    class: ZeroConfig\Preacher\Generator\Generator
+    arguments:
+      - '@preacher.output_factory'
+      - '@preacher.template_factory'
+      - '@preacher.output_writer'
+      - '@preacher.renderer'
+
+  preacher.composer_config:
+    public: false
+    class: Composer\Config
+    factory: 'preacher.runtime_factory:createComposerConfig'
+    arguments:
+      - 'composer.json'
+
+  preacher.source_files:
+    public: false
+    class: RecursiveIteratorIterator
+    factory: 'preacher.runtime_factory:createFileIterator'
+
+  preacher.source_iterator:
+    public: false
+    class: ZeroConfig\Preacher\Source\SourceIterator
+    arguments:
+      - '@preacher.source_files'
+      - '@preacher.source_factory'
+
+  preacher.command.generate:
+    class: ZeroConfig\Preacher\Command\GenerateCommand
+    arguments:
+      - '@preacher.source_iterator'
+      - '@preacher.generator'
+    tags:
+      - { name: 'console.command' }
+
+  preacher.source_filter.file:
+    public: false
+    class: ZeroConfig\Preacher\Source\Filter\FileFilter
+    tags:
+      - { name: 'preacher.source_filter' }
+
+  preacher.source_filter.markdown:
+    class: ZeroConfig\Preacher\Source\Filter\MarkdownFilter
+    tags:
+      - { name: 'preacher.source_filter' }
+
+  preacher.source_filter.composer:
+    public: false
+    class: ZeroConfig\Preacher\Source\Filter\ComposerFilter
+    arguments:
+      - '@preacher.composer_config'
+    tags:
+      - { name: 'preacher.source_filter' }
+
+  preacher.source_filter.git:
+    public: false
+    class: ZeroConfig\Preacher\Source\Filter\GitFilter
+    arguments:
+      - '@preacher.git_repository'
+    tags:
+      - { name: 'preacher.source_filter' }

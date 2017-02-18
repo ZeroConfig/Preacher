@@ -1,5 +1,5 @@
 <?php
-namespace ZeroConfig\Preacher\Generator;
+namespace ZeroConfig\Preacher\Renderer;
 
 use Parsedown;
 use SplFileObject;

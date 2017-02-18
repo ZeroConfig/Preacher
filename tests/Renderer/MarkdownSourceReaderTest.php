@@ -1,14 +1,14 @@
 <?php
-namespace ZeroConfig\Preacher\Tests\Generator;
+namespace ZeroConfig\Preacher\Tests\Renderer;
 
 use org\bovigo\vfs\vfsStream;
 use Parsedown;
 use PHPUnit_Framework_MockObject_MockObject;
-use ZeroConfig\Preacher\Generator\MarkdownSourceReader;
+use ZeroConfig\Preacher\Renderer\MarkdownSourceReader;
 use ZeroConfig\Preacher\Source\SourceInterface;
 
 /**
- * @coversDefaultClass \ZeroConfig\Preacher\Generator\MarkdownSourceReader
+ * @coversDefaultClass \ZeroConfig\Preacher\Renderer\MarkdownSourceReader
  */
 class MarkdownSourceReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class MarkdownSourceReaderTest extends \PHPUnit_Framework_TestCase
      * @return MarkdownSourceReader
      * @covers ::__construct
      */
-    public function testConstructor(): MarkdownSourceReader
+    public function testConstructor(): \ZeroConfig\Preacher\Renderer\MarkdownSourceReader
     {
         return new MarkdownSourceReader(
             $this->createParserPassThrough()
@@ -59,7 +59,7 @@ class MarkdownSourceReaderTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testConstructor
      *
-     * @param MarkdownSourceReader $reader
+     * @param \ZeroConfig\Preacher\Renderer\MarkdownSourceReader $reader
      *
      * @return void
      * @covers ::getContents
