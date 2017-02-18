@@ -28,6 +28,8 @@ installed using the Preacher installer.
 In the `extra.class` section, the class name of your
 [Symfony bundle](http://symfony.com/doc/current/bundles.html) must be configured.
  
+## Override existing behavior
+ 
 If existing behavior needs to be overridden, please add the following to your
 bundle:
 
