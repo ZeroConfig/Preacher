@@ -1,0 +1,40 @@
+<title>Creating a Preacher plugin</title>
+
+<h1>Creating a Preacher plugin</h1>
+<p>Preacher supports the use of custom plugins. One might want to swap out a
+component for Preacher, or add new behavior.</p>
+<p>By adding the following to your plugin package, the package is recognized as a
+Preacher plugin:</p>
+<pre><code class="language-json">{
+  "type": "preacher-plugin",
+  "require": {
+    "zero-config/preacher-installer": "^1.0"
+  },
+  "extra": {
+    "class": "\\My\\Preacher\\Plugin\\AwesomeBundle"
+  }
+}</code></pre>
+<p>The package <code>"zero-config/preacher-installer"</code> allows for the installation of
+plugins.</p>
+<p>Composer uses the type <code>preacher-plugin</code> to recognize packages that need to be
+installed using the Preacher installer.</p>
+<p>In the <code>extra.class</code> section, the class name of your
+<a href="http://symfony.com/doc/current/bundles.html">Symfony bundle</a> must be configured.</p>
+<p>If existing behavior needs to be overridden, please add the following to your
+bundle:</p>
+<pre><code class="language-php">&lt;?php
+namespace My\Preacher\Plugin;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class AwesomeBundle extends Bundle
+{
+    /**
+     * @return string
+     */
+    public function getParent(): string
+    {
+        return 'PreacherBundle';
+    }    
+}</code></pre>
+

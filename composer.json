@@ -1,7 +1,7 @@
 {
   "name": "zero-config/preacher",
   "description": "Personal static website generator using GitHub Flavored Markdown, Twig and Git.",
-  "homepage": "http://janmarten.name",
+  "homepage": "https://zeroconfig.github.io/Preacher/",
   "type": "project",
   "keywords": ["blog", "website", "static", "php", "twig", "markdown", "git", "prism"],
   "license": "Apache-2.0",
