@@ -8,15 +8,8 @@
 {% if content matches '/<pre><code/' %}
         <link href="https://zeroconfig.github.io/Preacher/css/prism.css" rel="stylesheet" type="text/css" />
 {% endif %}
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
-        <style>
-            main {
-                margin-top: 60px;
-            }
-            #edit {
-                margin-top: 8px;
-            }
-        </style>
     </head>
 
     <body>
@@ -39,6 +32,14 @@
         <div class="container">
             <main>{% block content %}{{ content }}{% endblock %}</main>
         </div>
+
+        <footer class="container text-muted">
+            <p>
+                Last updated:
+                {{ source.metaData.dateUpdated|date('M d Y H:i') }}
+                - {{ source.metaData.author.name }}
+            </p>
+        </footer>
 {% if content matches '/<pre><code/' %}
 
         <script src="https://zeroconfig.github.io/Preacher/js/prism.js" type="text/javascript"></script>
