@@ -20,11 +20,10 @@ commit one of your files.</p>
 <h1>Usage</h1>
 <p>It uses a single command to either generate the current directory and all its
 children or one can (re)generate a single source file.</p>
-<pre><code class="language-bash">vendor/bin/preach [&lt;path/to/file.md&gt;]</code></pre>
-<p>If the path is a directory, its contents will be recursively generated, until
-the deepest leaf file has been reached.</p>
+<pre><code class="language-bash">vendor/bin/preach [&lt;source&gt;]...</code></pre>
 <p>The contents of vendor directories are skipped by interpreting the
 <a href="https://getcomposer.org/doc/06-config.md#vendor-dir">vendor-dir composer config</a>.</p>
+<p>If one wants to force the generation of files, add the <code>--force</code> flag.</p>
 <h1>Standards</h1>
 <p>Preacher uses existing software with well-defined standards to create the most
 stable and user friendly experience at the same time.</p>
