@@ -3,7 +3,7 @@
 {% if source.baseName != 'index' %}
 <nav id="breadcrumbs">
     <a href="/">Preacher</a>
-    &middot; {{ output.path|replace({'.html': ''}) }}
+    &raquo; {{ source.basename|lower }}
 </nav>
 {% endif %}
 
