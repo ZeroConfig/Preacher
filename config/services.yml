@@ -12,7 +12,6 @@ services:
 
   preacher.template_locator:
     class: ZeroConfig\Preacher\Template\TemplateLocator
-    factory: 'preacher.runtime_factory:createTemplateLocator'
     arguments:
       - 'default.html.twig'
       - 'twig'

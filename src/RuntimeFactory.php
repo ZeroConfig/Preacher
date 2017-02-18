@@ -31,24 +31,6 @@ final class RuntimeFactory
     }
 
     /**
-     * Create a template locator.
-     *
-     * @param string $default
-     * @param string $extension
-     *
-     * @return TemplateLocator
-     */
-    public function createTemplateLocator(
-        string $default,
-        string $extension
-    ): TemplateLocator {
-        return new TemplateLocator(
-            $this->environment->getFile($default),
-            $extension
-        );
-    }
-
-    /**
      * Create a Twig loader for the current working directory.
      *
      * @return Twig_Loader_Filesystem
