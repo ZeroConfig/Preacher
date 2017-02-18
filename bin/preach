@@ -1,13 +1,8 @@
 #!/usr/bin/env php
 <?php
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 
+/** @var Application $application */
 $application = require __DIR__ . '/application.php';
-$application->run(
-    new ArgvInput(
-        array_merge(
-            $argv,
-            [1 => 'preacher:generate']
-        )
-    )
-);
+$application->setDefaultCommand('preacher:generate', true);
+$application->run();
