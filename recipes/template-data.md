@@ -21,4 +21,3 @@ engine with the following data:
 | Generated content       | `{{ content }}`                                              | `<h1>My great adventure</h1><p>Lorum...` |
 | Headline                | `{{ headline }}`                                             | My great adventure                       |
 
-![Content](https://imgs.xkcd.com/comics/blogging.png)
