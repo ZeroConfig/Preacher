@@ -1,6 +1,7 @@
 <?php
 namespace ZeroConfig\Preacher\Output;
 
+use Coyl\Git\ConsoleException;
 use Coyl\Git\GitRepo;
 use DateTimeImmutable;
 
@@ -34,8 +35,13 @@ class GitMetaDataFactory implements MetaDataFactoryInterface
             touch($path);
             chmod($path, 0644);
 
-            $repository->add($path);
-            $repository->commit('Created file');
+            try {
+                $repository->add($path);
+                $repository->commit('Created file');
+            } catch (ConsoleException $e) {
+                // This happens when a file could not be added.
+                // For instance, when it is disallowed by GIT ignore.
+            }
         }
 
         return new MetaData(
