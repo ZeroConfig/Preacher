@@ -19,7 +19,15 @@ final class Environment
     {
         $this->currentWorkingDirectory = getcwd();
         $this->homeDir                 = trim(`echo ~`);
-        $this->projectHash             = sha1($this->currentWorkingDirectory);
+        $this->projectHash             = sprintf(
+            '%s-%s',
+            sha1($this->currentWorkingDirectory),
+            // Let changes to the service configuration invalidate cache.
+            date(
+                'Ymd-His',
+                filemtime(__DIR__ . '/../config/services.yml')
+            )
+        );
     }
 
     /**
