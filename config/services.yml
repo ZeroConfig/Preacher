@@ -4,9 +4,15 @@ services:
     public: false
     class: ZeroConfig\Preacher\Environment
 
+  preacher.runtime_factory:
+    public: false
+    class: ZeroConfig\Preacher\RuntimeFactory
+    arguments:
+      - '@preacher.environment'
+
   preacher.template_locator:
     class: ZeroConfig\Preacher\Template\TemplateLocator
-    factory: 'preacher.environment:createTemplateLocator'
+    factory: 'preacher.runtime_factory:createTemplateLocator'
     arguments:
       - 'default.html.twig'
       - 'twig'
@@ -18,7 +24,7 @@ services:
 
   preacher.git_repository:
     class: Coyl\Git\GitRepo
-    factory: 'preacher.environment:createRepository'
+    factory: 'preacher.runtime_factory:createRepository'
 
   preacher.source_meta_data_factory:
     class: ZeroConfig\Preacher\Source\GitMetaDataFactory
@@ -27,7 +33,7 @@ services:
 
   preacher.source_factory:
     class: ZeroConfig\Preacher\Source\SourceFactory
-    factory: 'preacher.environment:createSourceFactory'
+    factory: 'preacher.runtime_factory:createSourceFactory'
     arguments:
       - '@preacher.source_meta_data_factory'
 
@@ -44,7 +50,7 @@ services:
 
   preacher.twig_loader:
     class: Twig_Loader_Filesystem
-    factory: 'preacher.environment:createTwigLoader'
+    factory: 'preacher.runtime_factory:createTwigLoader'
 
   preacher.twig:
     class: Twig_Environment
@@ -87,14 +93,14 @@ services:
   preacher.composer_config:
     public: false
     class: Composer\Config
-    factory: 'preacher.environment:createComposerConfig'
+    factory: 'preacher.runtime_factory:createComposerConfig'
     arguments:
       - 'composer.json'
 
   preacher.source_files:
     public: false
     class: RecursiveIteratorIterator
-    factory: 'preacher.environment:createFileIterator'
+    factory: 'preacher.runtime_factory:createFileIterator'
 
   preacher.source_iterator:
     public: false

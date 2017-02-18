@@ -1,18 +1,35 @@
 <?php
 namespace ZeroConfig\Preacher;
 
+use ReflectionClass;
+use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Throwable;
 
 /**
  * @codeCoverageIgnore
  */
 class AppKernel extends Kernel
 {
-    /** @var string */
-    private $homeDir;
+    /** @var Environment */
+    private $preacherEnvironment;
+
+    /**
+     * Get the preacher environment.
+     *
+     * @return Environment
+     */
+    private function getPreacherEnvironment(): Environment
+    {
+        if ($this->preacherEnvironment === null) {
+            $this->preacherEnvironment = new Environment();
+        }
+
+        return $this->preacherEnvironment;
+    }
 
     /**
      * Returns a list of bundles to register.
@@ -21,10 +38,70 @@ class AppKernel extends Kernel
      */
     public function registerBundles(): array
     {
-        return [
-            new FrameworkBundle(),
-            new PreacherBundle()
-        ];
+        return array_merge(
+            [
+                new FrameworkBundle(),
+                new PreacherBundle()
+            ],
+            $this->getPluginBundles()
+        );
+    }
+
+    /**
+     * Return a list of Preacher plugin bundles.
+     *
+     * @return BundleInterface[]
+     */
+    private function getPluginBundles(): array
+    {
+        $bundles = [];
+
+        foreach ($this->getPluginClasses() as $pluginClass) {
+            try {
+                $reflection = new ReflectionClass($pluginClass);
+            } catch (ReflectionException $e) {
+                continue;
+            }
+
+            if ($reflection->getConstructor()
+                && $reflection->getConstructor()->getNumberOfRequiredParameters()
+            ) {
+                continue;
+            }
+
+            if (!$reflection->implementsInterface(BundleInterface::class)) {
+                continue;
+            }
+
+            if ($reflection->isAbstract()) {
+                continue;
+            }
+
+            try {
+                $bundles[] = $reflection->newInstance();
+            } catch (Throwable $e) {
+                continue;
+            }
+        }
+
+        return $bundles;
+    }
+
+    /**
+     * Get the plugin classes for the current working directory.
+     *
+     * @return string[]
+     */
+    private function getPluginClasses(): array
+    {
+        $configurationFile = $this
+            ->getPreacherEnvironment()
+            ->getPluginConfigurationFile();
+
+        /** @noinspection PhpIncludeInspection */
+        return file_exists($configurationFile)
+            ? include $configurationFile
+            : [];
     }
 
     /**
@@ -54,27 +131,13 @@ class AppKernel extends Kernel
     }
 
     /**
-     * Get the home directory.
-     *
-     * @return string
-     */
-    private function getHomeDir(): string
-    {
-        if ($this->homeDir === null) {
-            $this->homeDir = trim(`echo ~`);
-        }
-
-        return $this->homeDir;
-    }
-
-    /**
      * Get the cache directory.
      *
      * @return string
      */
     public function getCacheDir(): string
     {
-        return $this->getHomeDir() . '/.preacher/var/cache';
+        return $this->getPreacherEnvironment()->getCacheDir();
     }
 
     /**
@@ -84,6 +147,6 @@ class AppKernel extends Kernel
      */
     public function getLogDir(): string
     {
-        return $this->getHomeDir() . '/.preacher/var/logs';
+        return $this->getPreacherEnvironment()->getLogDir();
     }
 }
