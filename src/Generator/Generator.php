@@ -60,7 +60,7 @@ class Generator implements GeneratorInterface
 
         // No changes since last generation.
         // Check that it at least has an initial generation, previous to this.
-        if ($generated > $published
+        if ($generated->getTimestamp() - 10 > $published->getTimestamp()
             && $generated > $updated
             && $generated > $template->getDateUpdated()
         ) {
