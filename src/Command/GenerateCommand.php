@@ -32,6 +32,16 @@ class GenerateCommand extends Command
     }
 
     /**
+     * Configure the command.
+     *
+     * @return void
+     */
+    protected function configure()
+    {
+        $this->setDescription('Generate output files.');
+    }
+
+    /**
      * Execute the generator for matching sources.
      *
      * @param InputInterface  $input

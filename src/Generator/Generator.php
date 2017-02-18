@@ -58,6 +58,8 @@ class Generator implements GeneratorInterface
         $updated   = $source->getMetaData()->getDateUpdated();
         $template  = $this->templateFactory->createTemplate($output);
 
+        ddd($output->getMetaData());
+
         // No changes since last generation.
         // Check that it at least has an initial generation, previous to this.
         if ($generated > $published
