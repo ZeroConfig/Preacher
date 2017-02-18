@@ -8,8 +8,9 @@ a Twig template or two and enjoy your personal site.
 
 > I find that when someone's taking time to do something right in the present, they're a perfectionist with no ability to prioritize, whereas when someone took time to do something right in the past, they're a master artisan of great foresight.
 
-# Cookbooks
+# Cookbook
 
 * [Getting started](README.html)
-* [Creating a Preacher plugin](recipes/custom-plugins.html)
+* [Creating drafts](recipes/draft.html)
 * [Adding Microdata to your site](recipes/microdata.html)
+* [Creating a Preacher plugin](recipes/custom-plugins.html)
