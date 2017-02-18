@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Template data - Preacher</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/template-data.html" />
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a
+                    id="edit"
+                    class="btn btn-primary pull-right"
+                    href="https://github.com/ZeroConfig/Preacher/edit/master/recipes/template-data.md"
+                    target="_blank">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Edit this page
+                </a>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="https://zeroconfig.github.io/Preacher/">Preacher</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <main><h1>Template data</h1>
+<p>Preacher uses version control and environment settings to provide the template
+engine with the following data:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Template call</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Author name</td>
+<td style="text-align: left;"><code>{{ source.metaData.author.name }}</code></td>
+<td style="text-align: left;">Jan-Marten de Boer</td>
+</tr>
+<tr>
+<td style="text-align: left;">Author email</td>
+<td style="text-align: left;"><code>{{ source.metaData.author.email }}</code></td>
+<td style="text-align: left;">preacher@johmanx.com</td>
+</tr>
+<tr>
+<td style="text-align: left;">Commit reference</td>
+<td style="text-align: left;"><code>{{ source.metaData.version }}</code></td>
+<td style="text-align: left;">fce8b0a0b1fa5f986282b51eb4824b3983c1e6e8</td>
+</tr>
+<tr>
+<td style="text-align: left;">Short commit reference</td>
+<td style="text-align: left;"><code>{{ source.metaData.version.short }}</code></td>
+<td style="text-align: left;">fce8b0a</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date created</td>
+<td style="text-align: left;"><code>{{ source.metaData.dateCreated&amp;#124;date("Y-m-d H:i") }}</code></td>
+<td style="text-align: left;">2017-02-04 13:37</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date updated</td>
+<td style="text-align: left;"><code>{{ source.metaData.dateUpdated&amp;#124;date("Y-m-d H:i") }}</code></td>
+<td style="text-align: left;">2017-02-05 00:42</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date published</td>
+<td style="text-align: left;"><code>{{ output.metaData.datePublished&amp;#124;date("Y-m-d H:i") }}</code></td>
+<td style="text-align: left;">2017-02-05 00:45</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date generated</td>
+<td style="text-align: left;"><code>{{ output.metaData.dateGenerated&amp;#124;date("Y-m-d H:i") }}</code></td>
+<td style="text-align: left;">2017-02-05 00:47</td>
+</tr>
+<tr>
+<td style="text-align: left;">Number of revisions</td>
+<td style="text-align: left;"><code>{{ source.metaData.numRevisions }}</code></td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Basename of source</td>
+<td style="text-align: left;"><code>{{ source.baseName }}</code></td>
+<td style="text-align: left;">index</td>
+</tr>
+<tr>
+<td style="text-align: left;">Path to source</td>
+<td style="text-align: left;"><code>{{ source.path }}</code></td>
+<td style="text-align: left;">index.md</td>
+</tr>
+<tr>
+<td style="text-align: left;">Path to output</td>
+<td style="text-align: left;"><code>{{ output.path }}</code></td>
+<td style="text-align: left;">index.html</td>
+</tr>
+<tr>
+<td style="text-align: left;">Path to template</td>
+<td style="text-align: left;"><code>{{ template.path }}</code></td>
+<td style="text-align: left;">default.html.twig</td>
+</tr>
+<tr>
+<td style="text-align: left;">Generated content</td>
+<td style="text-align: left;"><code>{{ content }}</code></td>
+<td style="text-align: left;"><code>&lt;h1&gt;My great adventure&lt;/h1&gt;&lt;p&gt;Lorum...</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Headline</td>
+<td style="text-align: left;"><code>{{ headline }}</code></td>
+<td style="text-align: left;">My great adventure</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://imgs.xkcd.com/comics/blogging.png" alt="Content" /></p></main>
+        </div>
+
+        <footer class="container text-muted">
+            <p>
+                Last updated:
+                <a
+                    href="https://github.com/ZeroConfig/Preacher/commit/24bcfa6"
+                    target="_blank">Feb 18 2017 22:15</a>
+                - Jan-Marten de Boer
+            </p>
+        </footer>
+    </body>
+</html>
