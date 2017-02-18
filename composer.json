@@ -16,9 +16,6 @@
   "bin": [
     "bin/preach"
   ],
-  "scripts": {
-    "preach": "bin/preach"
-  },
   "autoload": {
     "psr-4": {
       "ZeroConfig\\Preacher\\": "src"
@@ -47,10 +44,12 @@
     "exclude": [
       "phpunit.xml",
       "tests",
-      "README.html",
-      "prism.css",
-      "prism.js",
-      "default.html.twig"
+      "*.html",
+      "**/*.html",
+      "css",
+      "js",
+      "*.twig",
+      "**/*.twig"
     ]
   },
   "suggest": {

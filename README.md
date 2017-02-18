@@ -104,3 +104,7 @@ $this->is('awesome');
 
 For more information on writing code blocks, please read up on
 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown).
+
+# Recipes
+
+* [Creating a Preacher plugin](recipes/custom-plugins.html)
