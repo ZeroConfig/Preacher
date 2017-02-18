@@ -27,14 +27,13 @@ It uses a single command to either generate the current directory and all its
 children or one can (re)generate a single source file.
 
 ```bash
-vendor/bin/preach [<path/to/file.md>]
+vendor/bin/preach [<source>]...
 ```
-
-If the path is a directory, its contents will be recursively generated, until
-the deepest leaf file has been reached.
 
 The contents of vendor directories are skipped by interpreting the
 [vendor-dir composer config](https://getcomposer.org/doc/06-config.md#vendor-dir).
+
+If one wants to force the generation of files, add the `--force` flag.
 
 # Standards
 
