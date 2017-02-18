@@ -52,5 +52,8 @@
       "prism.js",
       "default.html.twig"
     ]
+  },
+  "suggest": {
+    "zero-config/preacher-plugin-commonmark": "Use CommonMark as source reader."
   }
 }
