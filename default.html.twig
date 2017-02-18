@@ -37,7 +37,9 @@
         <footer class="container text-muted">
             <p>
                 Last updated:
-                {{ source.metaData.dateUpdated|date('M d Y H:i') }}
+                <a
+                    href="https://github.com/ZeroConfig/Preacher/commit/{{ source.metaData.version.short }}"
+                    target="_blank">{{ source.metaData.dateUpdated|date('M d Y H:i') }}</a>
                 - {{ source.metaData.author.name }}
             </p>
         </footer>
