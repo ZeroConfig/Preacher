@@ -6,6 +6,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+/**
+ * @codeCoverageIgnore
+ */
 class PreacherExtension extends Extension
 {
     /**
@@ -15,6 +18,8 @@ class PreacherExtension extends Extension
      * @param ContainerBuilder $container
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function load(array $configs, ContainerBuilder $container)
     {

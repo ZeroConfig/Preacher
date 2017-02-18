@@ -40,6 +40,8 @@ class GenerateCommand extends Command
      *
      * @return void
      */
+    // @codeCoverageIgnoreStart
+    // This would be testing Symfony.
     protected function configure()
     {
         $this->setDescription('Generate output files.');
@@ -55,6 +57,7 @@ class GenerateCommand extends Command
             'Source files to generate.'
         );
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Execute the generator for matching sources.
