@@ -12,11 +12,16 @@ This is an example of what could be done to implement Schema.org for a basic pag
 <main itemscope itemtype="https://schema.org/CreativeWork">
     <aside>
         <span itemprop="datePublished">{{ output.metaData.datePublished|date("Y-m-d H:i") }}</span>
-        <a href="/" id="author" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ source.metaData.author.name }}</span></a>
+        <a
+            href="/"
+            itemprop="author"
+            itemscope
+            itemtype="http://schema.org/Person"
+            ><span itemprop="name">{{ source.metaData.author.name }}</span></a>
         <span itemprop="name">{{ headline|default(source.baseName) }}</span>
         <span itemprop="version">Version {{ source.metaData.numRevisions }}</span>
     </aside>
-    <article id="content" itemprop="text">
+    <article itemprop="text">
         {{ content }}
     </article>
 </main>
