@@ -50,29 +50,6 @@ Preacher is built with programmers in mind.
 | Package manager    | [Composer](https://getcomposer.org/)                                                                        | [composer/composer](https://github.com/composer/composer) |
 | Syntax highlighter | [Prism](http://prismjs.com/)                                                                                | [prismjs](https://www.npmjs.com/package/prismjs)          |
 
-# Template data
-
-Preacher uses version control and environment settings to provide the template
-engine with the following data:
-
-| Attribute               | Template call                                                | Example                                  |
-|:------------------------|:-------------------------------------------------------------|:-----------------------------------------|
-| Author name             | `{{ source.metaData.author.name }}`                          | Jan-Marten de Boer                       |
-| Author email            | `{{ source.metaData.author.email }}`                         | preacher@johmanx.com                     |
-| Commit reference        | `{{ source.metaData.version }}`                              | fce8b0a0b1fa5f986282b51eb4824b3983c1e6e8 |
-| Short commit reference  | `{{ source.metaData.version.short }}`                        | fce8b0a                                  |
-| Date created            | `{{ source.metaData.dateCreated&#124;date("Y-m-d H:i") }}`   | 2017-02-04 13:37                         |
-| Date updated            | `{{ source.metaData.dateUpdated&#124;date("Y-m-d H:i") }}`   | 2017-02-05 00:42                         |
-| Date published          | `{{ output.metaData.datePublished&#124;date("Y-m-d H:i") }}` | 2017-02-05 00:45                         |
-| Date generated          | `{{ output.metaData.dateGenerated&#124;date("Y-m-d H:i") }}` | 2017-02-05 00:47                         |
-| Number of revisions     | `{{ source.metaData.numRevisions }}`                         | 2                                        |
-| Basename of source      | `{{ source.baseName }}`                                      | index                                    |
-| Path to source          | `{{ source.path }}`                                          | index.md                                 |
-| Path to output          | `{{ output.path }}`                                          | index.html                               |
-| Path to template        | `{{ template.path }}`                                        | default.html.twig                        |
-| Generated content       | `{{ content }}`                                              | `<h1>My great adventure</h1><p>Lorum...` |
-| Headline                | `{{ headline }}`                                             | My great adventure                       |
-
 # Custom templates
 
 By default, Preacher will look for the Twig template called `default.html.twig`.
@@ -81,26 +58,8 @@ source file.
 
 E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
 
-# Enabling Github Flavored Markdown
 
-To use code syntax highlighting, one can choose a
-[Prism theme package](http://prismjs.com/download.html).
+# Documentation
 
-Download a package and add it to your template:
-
-```html
-<link href="prism.css" rel="stylesheet" type="text/css" />
-<script src="prism.js" type="text/javascript"></script>
-```
-
-The result will be a highlighted syntax for your code blocks.
-
-```php
-<?php
-// Do not forget to open your PHP script with the open tag.
-$this->is('awesome');
-```
-
-For more information on writing code blocks, please read up on
-[GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown).
-
+For full documentation and a cookbook for Preacher, go to
+[the Preacher homepage](https://zeroconfig.github.io/Preacher/).

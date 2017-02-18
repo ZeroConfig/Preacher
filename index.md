@@ -11,6 +11,8 @@ a Twig template or two and enjoy your personal site.
 # Cookbook
 
 * [Getting started](README.html)
+* [Template data reference](recipes/template-data.html)
+* [GitHub Flavored Markdown](recipes/github-flavored-markdown.html)
 * [Creating drafts](recipes/draft.html)
 * [Adding Microdata to your site](recipes/microdata.html)
 * [Creating a Preacher plugin](recipes/custom-plugins.html)
