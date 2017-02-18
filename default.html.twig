@@ -1,10 +1,23 @@
-{% block title %}
-<title>{{ headline|default(source.baseName) }}</title>
-{% endblock %}
+<title>{{ headline|default(source.baseName) }} - Preacher</title>
 
-{% block content %}
-{{ content }}
-{% endblock %}
+{% if source.baseName != 'index' %}
+<nav id="breadcrumbs">
+    <a href="/">Preacher</a>
+    &middot; {{ output.path|replace({'.html': ''}) }}
+</nav>
+{% endif %}
 
-{% block afterContent %}
-{% endblock %}
+<main>
+{% block content %}{{ content }}{% endblock %}
+</main>
+
+<style>
+    body {
+        font-family: monospace;
+    }
+</style>
+
+{% if content matches '/<pre><code/' %}
+<link href="/css/prism.css" rel="stylesheet" type="text/css" />
+<script src="/js/prism.js" type="text/javascript"></script>
+{% endif %}

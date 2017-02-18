@@ -1,4 +1,4 @@
-# Preacher
+# Static website generator
 
 Preacher is a static website generator, written in PHP.
 It requires no configuration of the software itself. Simply write Markdown,
@@ -10,3 +10,4 @@ a Twig template or two and enjoy your personal site.
 
 * [Getting started](README.html)
 * [Creating a Preacher plugin](recipes/custom-plugins.html)
+* [Adding Microdata to your site](recipes/microdata.html)

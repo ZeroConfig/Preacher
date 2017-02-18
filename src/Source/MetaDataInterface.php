@@ -27,6 +27,15 @@ interface MetaDataInterface
     public function getDateUpdated(): DateTimeInterface;
 
     /**
+     * Set the date at which the source was last updated.
+     *
+     * @param DateTimeInterface $dateUpdated
+     *
+     * @return void
+     */
+    public function setDateUpdated(DateTimeInterface $dateUpdated);
+
+    /**
      * Get the commit reference for the most recent version.
      *
      * @return CommitReferenceInterface

@@ -92,4 +92,16 @@ class MetaData implements MetaDataInterface
     {
         return $this->numRevisions;
     }
+
+    /**
+     * Set the date at which the source was last updated.
+     *
+     * @param DateTimeInterface $dateUpdated
+     *
+     * @return void
+     */
+    public function setDateUpdated(DateTimeInterface $dateUpdated)
+    {
+        $this->dateUpdated = $dateUpdated;
+    }
 }
