@@ -134,6 +134,9 @@ than `0`, it will run before the pass in Preacher.
 
 ## Creating a source reader
 
+Now it is time to write a custom source reader. One needs to implement the
+`SourceReaderInterface` and process the incoming source object into a string.
+
 ```php
 <?php
 use ZeroConfig\Preacher\Renderer\SourceReaderInterface;
@@ -159,6 +162,8 @@ class MySourceReader implements SourceReaderInterface
     }
 }
 ```
+
+This will be passed down to the renderer.
 
 ## Replacing the source reader
 
