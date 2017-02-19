@@ -42,8 +42,7 @@ there is a really great blog article from Facebook, on how they
 <h2>Using a cache buster</h2>
 <p>One can simply create a cache buster. This will make the URL unique for every
 commit.</p>
-<pre><code class="language-twig">{% set cacheBuster = '?' ~ source.metaData.version.short %}
-&lt;link href="https://zeroconfig.github.io/Preacher/css/style.css{{ cacheBuster }}" rel="stylesheet" type="text/css" /&gt;</code></pre>
+<pre><code class="language-twig">&lt;link href="https://zeroconfig.github.io/Preacher/css/style.css?{{ source.metaData.version.short }}" rel="stylesheet" type="text/css" /&gt;</code></pre>
 <p>However, this makes every asset flush when a page has been updated, rather than
 the contents of the asset.</p>
 <h2>Versioned assets</h2>
@@ -73,8 +72,8 @@ that separately, push it and then rebuild your HTML files.</p>
             <p>
                 Last updated:
                 <a
-                    href="https://github.com/ZeroConfig/Preacher/commit/0421274"
-                    target="_blank">Feb 19 2017 16:06</a>
+                    href="https://github.com/ZeroConfig/Preacher/commit/602fd97"
+                    target="_blank">Feb 19 2017 16:10</a>
                 - Jan-Marten de Boer
             </p>
         </footer>
