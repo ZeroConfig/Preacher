@@ -19,3 +19,4 @@ a Twig template or two and enjoy your personal site.
 # Preacher for developers
 
 * [Creating a Preacher plugin](recipes/custom-plugins.html)
+* [Swapping out Markdown](recipes/custom-source-reader.html)
