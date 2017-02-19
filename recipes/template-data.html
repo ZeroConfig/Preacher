@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Template data - Preacher</title>
+        <link href="https://zeroconfig.github.io/Preacher/css/prism.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
         <link href="https://zeroconfig.github.io/Preacher/css/style.css" rel="stylesheet" type="text/css" />
         <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/template-data.html" />
@@ -119,17 +120,52 @@ engine with the following data:</p>
 <td style="text-align: left;">My great adventure</td>
 </tr>
 </tbody>
-</table></main>
+</table>
+<h2>Defining a title</h2>
+<p>To create a title for your page, it is practical to reuse the headline of your
+page. However, not all pages require a headline.</p>
+<p>Therefore, the following recipe may come in handy:</p>
+<pre><code class="language-twig">&lt;title&gt;{{ headline|default(source.baseName) }} - My awesome website&lt;/title&gt;</code></pre>
+<p>This way, when there is a headline, that will be used. Otherwise it will revert
+to the basename of your source file.</p>
+<p>I.e.: <code>random/Funnies.md</code> =&gt; <code>Funnies</code>.</p>
+<p>See the <a href="http://twig.sensiolabs.org/doc/2.x/filters/default.html">default filter</a>
+documentation for more information.</p>
+<h2>Canonical links</h2>
+<p>For search engine optimization, websites commonly set a
+<a href="https://support.google.com/webmasters/answer/139066?hl=en">canonical URL</a> for
+their pages.</p>
+<p>The one for this page is as follows:</p>
+<pre><code class="language-twig">&lt;link rel="canonical" href="https://zeroconfig.github.io/Preacher/{{ output.path }}" /&gt;</code></pre>
+<h2>Edit this page on GitHub</h2>
+<p>To create a link that allows you to edit the current page on GitHub, try the
+following recipe:</p>
+<pre><code class="language-twig">&lt;a href="https://github.com/ZeroConfig/Preacher/edit/master/{{ source.path }}"&gt;
+    Edit this page
+&lt;/a&gt;</code></pre>
+<h2>Current revision</h2>
+<p>To create a link that allows you to see the last change on the current page, try
+the following recipe:</p>
+<pre><code class="language-twig">&lt;a href="https://github.com/ZeroConfig/Preacher/blob/{{ source.metaData.version.short }}/{{ source.path }}"&gt;
+    Show latest revision
+&lt;/a&gt;</code></pre>
+<h2>Revision history</h2>
+<p>To see a list of all revisions, one can use the following:</p>
+<pre><code class="language-twig">&lt;a href="https://github.com/ZeroConfig/Preacher/commits/{{ source.metaData.version.short }}/{{ source.path }}"&gt;
+    Show revision history
+&lt;/a&gt;</code></pre></main>
         </div>
 
         <footer class="container text-muted">
             <p>
                 Last updated:
                 <a
-                    href="https://github.com/ZeroConfig/Preacher/commit/62f8ceb"
-                    target="_blank">Feb 18 2017 22:29</a>
+                    href="https://github.com/ZeroConfig/Preacher/commit/509d533"
+                    target="_blank">Feb 19 2017 12:09</a>
                 - Jan-Marten de Boer
             </p>
         </footer>
+
+        <script src="https://zeroconfig.github.io/Preacher/js/prism.js" type="text/javascript"></script>
     </body>
 </html>
