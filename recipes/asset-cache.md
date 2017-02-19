@@ -13,8 +13,7 @@ One can simply create a cache buster. This will make the URL unique for every
 commit.
 
 ```twig
-{% set cacheBuster = '?' ~ source.metaData.version.short %}
-<link href="https://zeroconfig.github.io/Preacher/css/style.css{{ cacheBuster }}" rel="stylesheet" type="text/css" />
+<link href="https://zeroconfig.github.io/Preacher/css/style.css?{{ source.metaData.version.short }}" rel="stylesheet" type="text/css" />
 ```
 
 However, this makes every asset flush when a page has been updated, rather than
