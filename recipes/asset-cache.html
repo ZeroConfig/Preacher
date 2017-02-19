@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="generator" content="Preacher 2">
         <title>Managing cache for assets - Preacher</title>
-        <link href="https://raw.githubusercontent.com/ZeroConfig/Preacher/e4e87ce/css/prism.css" rel="stylesheet" type="text/css" crossorigin="anonymous" />
+        <link href="https://zeroconfig.github.io/Preacher/css/prism.css?e4e87ce" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
-        <link href="https://raw.githubusercontent.com/ZeroConfig/Preacher/3eaf1a0/css/style.css" rel="stylesheet" type="text/css" crossorigin="anonymous" />
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css?3eaf1a0" rel="stylesheet" type="text/css" />
         <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/asset-cache.html" />
     </head>
 
@@ -58,14 +58,6 @@ last commit reference of an asset as version tag for the asset.</p>
 <pre><code class="language-twig">&lt;link href="https://zeroconfig.github.io/Preacher/{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" /&gt;</code></pre>
 <p>And outputs:</p>
 <pre><code class="language-html">&lt;link href="https://zeroconfig.github.io/Preacher/css/style.css?3eaf1a0" rel="stylesheet" type="text/css" /&gt;</code></pre>
-<h2>GitHub hosted versioned assets</h2>
-<p>Since GitHub can offer the raw version of any of its repository files for any
-given commit, a unique URL per asset, which actually always matches its contents,
-can be used.</p>
-<p>For this, a custom URL scheme has been implemented in the <code>asset</code> function.</p>
-<pre><code class="language-twig">&lt;link href="{{ asset('github://ZeroConfig/Preacher/css/style.css') }}" rel="stylesheet" type="text/css" /&gt;</code></pre>
-<p>Which outputs:</p>
-<pre><code class="language-html">&lt;link href="https://raw.githubusercontent.com/ZeroConfig/Preacher/3eaf1a0/css/style.css" rel="stylesheet" type="text/css" /&gt;</code></pre>
 <h2>Keep your cache in check</h2>
 <p>Be sure that you actually serve content. If you update your stylesheet, commit
 that separately, push it and then rebuild your HTML files.</p>
@@ -81,12 +73,12 @@ that separately, push it and then rebuild your HTML files.</p>
             <p>
                 Last updated:
                 <a
-                    href="https://github.com/ZeroConfig/Preacher/commit/0cad2d1"
-                    target="_blank">Feb 19 2017 15:56</a>
+                    href="https://github.com/ZeroConfig/Preacher/commit/0421274"
+                    target="_blank">Feb 19 2017 16:06</a>
                 - Jan-Marten de Boer
             </p>
         </footer>
 
-        <script src="https://raw.githubusercontent.com/ZeroConfig/Preacher/e4e87ce/js/prism.js" crossorigin="anonymous" type="text/javascript"></script>
+        <script src="https://zeroconfig.github.io/Preacher/js/prism.js?e4e87ce" type="text/javascript"></script>
     </body>
 </html>
