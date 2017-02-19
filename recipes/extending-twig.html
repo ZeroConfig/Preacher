@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Preacher 2">
+        <title>Extending Twig - Preacher</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css?3eaf1a0" rel="stylesheet" type="text/css" />
+        <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/extending-twig.html" />
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a
+                    id="edit"
+                    class="btn btn-primary pull-right"
+                    href="https://github.com/ZeroConfig/Preacher/edit/master/recipes/extending-twig.md"
+                    target="_blank">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Edit this page
+                </a>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="https://zeroconfig.github.io/Preacher/">
+                        <span class="glyphicon glyphicon-console"></span>
+                        &nbsp;Preacher
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <main><h1>Extending Twig</h1>
+<blockquote>
+<p>The main motivation for writing an extension is to move often used code into a reusable class like adding support for internationalization. An extension can define tags, filters, tests, operators, global variables, functions, and node visitors.</p>
+</blockquote>
+<p>Writing a Twig extension for Preacher is the same as you are used to for Symfony.
+Have a look at
+<a href="http://symfony.com/doc/current/templating/twig_extension.html">How to Write a custom Twig Extension</a>
+if you are unfamiliar with writing your own extension.</p>
+<p>Whenever the Symfony documentation references to the tag <code>twig.extension</code>,
+Preacher expects the tag <code>preacher.twig_extension</code> to keep it decoupled from
+the Symfony Framework.</p>
+<p>The extension should be written inside a <a href="custom-plugins.html">Preacher plugin</a>.</p>
+<p><img src="https://imgs.xkcd.com/comics/genetic_analysis.png" alt="Genetic Analysis" /></p>
+<blockquote>
+<p>There's still a chance you were conceived via IVF. But we've checked your mom's college yearbook photos, and whether or not she and your father had sex, it's clear that ... listen, I know this is hard for you.</p>
+</blockquote></main>
+        </div>
+
+        <footer class="container text-muted">
+            <p>
+                Last updated:
+                <a
+                    href="https://github.com/ZeroConfig/Preacher/commit/2b74d30"
+                    target="_blank">Feb 19 2017 17:42</a>
+                - Jan-Marten de Boer
+            </p>
+        </footer>
+    </body>
+</html>
