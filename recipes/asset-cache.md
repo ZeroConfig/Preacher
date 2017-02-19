@@ -47,24 +47,6 @@ And outputs:
 <link href="https://zeroconfig.github.io/Preacher/css/style.css?3eaf1a0" rel="stylesheet" type="text/css" />
 ```
 
-## GitHub hosted versioned assets
-
-Since GitHub can offer the raw version of any of its repository files for any
-given commit, a unique URL per asset, which actually always matches its contents,
-can be used.
-
-For this, a custom URL scheme has been implemented in the `asset` function.
-
-```twig
-<link href="{{ asset('github://ZeroConfig/Preacher/css/style.css') }}" rel="stylesheet" type="text/css" />
-```
-
-Which outputs:
-
-```html
-<link href="https://raw.githubusercontent.com/ZeroConfig/Preacher/3eaf1a0/css/style.css" rel="stylesheet" type="text/css" />
-```
-
 ## Keep your cache in check
 
 Be sure that you actually serve content. If you update your stylesheet, commit

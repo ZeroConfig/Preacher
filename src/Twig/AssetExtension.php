@@ -36,30 +36,11 @@ class AssetExtension extends Twig_Extension
             new Twig_SimpleFunction(
                 'asset',
                 function (string $asset) : string {
-                    $baseUrl = '/';
-
-                    if (preg_match(
-                        '|^github:/(/[^/]+/[^/]+/)(.+)$|',
+                    return sprintf(
+                        '%s?%s',
                         $asset,
-                        $matches
-                    )) {
-                        $baseUrl  = sprintf(
-                            'https://raw.githubusercontent.com%s',
-                            next($matches)
-                        );
-                        $asset    = next($matches);
-                        $baseUrl .= sprintf(
-                            '%s/',
-                            $this->getAssetVersion($asset)
-                        );
-                    } else {
-                        $asset .= sprintf(
-                            '?%s',
-                            $this->getAssetVersion($asset)
-                        );
-                    }
-
-                    return $baseUrl . $asset;
+                        $this->getAssetVersion($asset)
+                    );
                 }
             )
         ];
