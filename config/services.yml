@@ -57,6 +57,13 @@ services:
       - '@preacher.twig_loader'
       - { autoescape: false }
 
+  preacher.twig_extension.assets:
+    class: ZeroConfig\Preacher\Twig\AssetExtension
+    arguments:
+      - '@preacher.git_repository'
+    tags:
+      - { name: 'preacher.twig_extension' }
+
   preacher.renderer:
     class: ZeroConfig\Preacher\Renderer\TwigRenderer
     arguments:

@@ -15,6 +15,7 @@ a Twig template or two and enjoy your personal site.
 * [GitHub Flavored Markdown](recipes/github-flavored-markdown.html)
 * [Creating drafts](recipes/draft.html)
 * [Adding Microdata to your site](recipes/microdata.html)
+* [Managing asset cache](recipes/asset-cache.html)
 
 # Preacher for developers
 
