@@ -21,3 +21,65 @@ engine with the following data:
 | Generated content       | `{{ content }}`                                         | `<h1>My great adventure</h1><p>Lorum...` |
 | Headline                | `{{ headline }}`                                        | My great adventure                       |
 
+## Defining a title
+
+To create a title for your page, it is practical to reuse the headline of your
+page. However, not all pages require a headline.
+
+Therefore, the following recipe may come in handy:
+
+```twig
+<title>{{ headline|default(source.baseName) }} - My awesome website</title>
+```
+
+This way, when there is a headline, that will be used. Otherwise it will revert
+to the basename of your source file.
+
+I.e.: `random/Funnies.md` => `Funnies`.
+
+See the [default filter](http://twig.sensiolabs.org/doc/2.x/filters/default.html)
+documentation for more information.
+
+## Canonical links
+
+For search engine optimization, websites commonly set a
+[canonical URL](https://support.google.com/webmasters/answer/139066?hl=en) for
+their pages.
+
+The one for this page is as follows:
+
+```twig
+<link rel="canonical" href="https://zeroconfig.github.io/Preacher/{{ output.path }}" />
+```
+
+## Edit this page on GitHub
+
+To create a link that allows you to edit the current page on GitHub, try the
+following recipe:
+
+```twig
+<a href="https://github.com/ZeroConfig/Preacher/edit/master/{{ source.path }}">
+    Edit this page
+</a>
+```
+
+## Current revision
+
+To create a link that allows you to see the last change on the current page, try
+the following recipe:
+
+```twig
+<a href="https://github.com/ZeroConfig/Preacher/blob/{{ source.metaData.version.short }}/{{ source.path }}">
+    Show latest revision
+</a>
+```
+
+## Revision history
+
+To see a list of all revisions, one can use the following:
+
+```twig
+<a href="https://github.com/ZeroConfig/Preacher/commits/{{ source.metaData.version.short }}/{{ source.path }}">
+    Show revision history
+</a>
+```
