@@ -8,6 +8,15 @@ a Twig template or two and enjoy your personal site.
 
 > I find that when someone's taking time to do something right in the present, they're a perfectionist with no ability to prioritize, whereas when someone took time to do something right in the past, they're a master artisan of great foresight.
 
+# How to preach
+
+After [installing Preacher](README.html), one only needs to commit their source
+files to activate Preacher.
+
+![Post commit hook](https://zeroconfig.github.io/Preacher/img/post-commit.png)
+
+Try `vendor/bin/preach --help` to see how to run Preacher manually.
+
 # Preacher for writers
 
 * [Getting started](README.html)
