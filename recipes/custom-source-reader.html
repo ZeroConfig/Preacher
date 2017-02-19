@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Creating a custom source reader - Preacher</title>
+        <link href="https://zeroconfig.github.io/Preacher/css/prism.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/custom-source-reader.html" />
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a
+                    id="edit"
+                    class="btn btn-primary pull-right"
+                    href="https://github.com/ZeroConfig/Preacher/edit/master/recipes/custom-source-reader.md"
+                    target="_blank">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Edit this page
+                </a>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="https://zeroconfig.github.io/Preacher/">
+                        <span class="glyphicon glyphicon-console"></span>
+                        &nbsp;Preacher
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <main><h1>Creating a custom source reader</h1>
+<p>One might want to use a different source for data, instead of Markdown.
+Perhaps your favorite is <a href="http://docutils.sourceforge.net/rst.html">RST</a> or you
+want to apply the use of <a href="http://www.crockford.com/javascript/encyclopedia/">Cyc</a>
+for PHP, rather than JavaScript.</p>
+<p>When looking at the granularity of Preacher, this is no problem at all, but a
+couple of gotcha's might be overlooked.</p>
+<p><img src="https://imgs.xkcd.com/comics/regular_expressions.png" alt="Regular Expressions" /></p>
+<h2>Creating a custom plugin</h2>
+<p>To achieve this, one needs to create a
+<a href="custom-plugins.html">custom Preacher plugin</a> first.</p>
+<h2>Creating a source filter</h2>
+<p>To create a custom source filter, one simply needs to implement the <code>FilterInterface</code>.</p>
+<pre><code class="language-php">&lt;?php
+use SplFileInfo;
+use ZeroConfig\Preacher\Source\Filter\FilterInterface;
+
+class ReStructuredTextFilter implements FilterInterface
+{
+    /**
+     * Check whether the given file is allowed according to the current filter.
+     *
+     * @param SplFileInfo $file
+     *
+     * @return bool
+     */
+    public function isFileAllowed(SplFileInfo $file): bool
+    {
+        return $file-&gt;getExtension() === 'rst';
+    }
+}</code></pre>
+<h2>Replacing the Markdown source filter</h2>
+<p>To detect which files should be used to generate new output, Preacher uses source
+filters, so only files matching all the filters will be allowed.</p>
+<p>A number of filters are mandatory and as such are private services inside Preacher.
+For instance, the GIT and Composer vendor filters. Or that the source is required
+to be a file, instead of a directory.</p>
+<p>But the Markdown source filter is a public service and can therefore be disabled.</p>
+<p>Source filters are added through the <code>preacher.source_filter</code> tag.</p>
+<p>In your plugin, add a compiler pass to remove the Markdown source filter and add
+your own:</p>
+<pre><code class="language-php">&lt;?php
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+
+class SourceFilterPass implements CompilerPassInterface
+{
+    /**
+     * You can modify the container here before it is dumped to PHP code.
+     *
+     * @param ContainerBuilder $container
+     *
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container-&gt;hasDefinition('preacher.source_iterator')) {
+            return;
+        }
+
+        $iterator = $container-&gt;getDefinition('preacher.source_iterator');
+
+        // Disable the Markdown filter.
+        if ($container-&gt;hasDefinition('preacher.source_filter.markdown')) {
+            $container
+                -&gt;getDefinition('preacher.source_filter.markdown')
+                -&gt;clearTag('preacher.source_filter');
+        }
+
+        // Add your own filter.
+        // Add it directly instead of giving it a service tag, to ensure it will
+        // be added first, to reduce calls on more complex filters.
+        $iterator-&gt;addMethodCall('addFilter', [new Reference('my_filter')]);
+    }
+}</code></pre>
+<p>If you have trouble with the order in which the compiler pass is being executed,
+try looking into
+<a href="http://symfony.com/doc/current/components/dependency_injection/compilation.html#controlling-the-pass-ordering">controlling the pass ordering</a>.</p>
+<p>You can ensure this is the case by increasing its priority like so:</p>
+<pre><code class="language-php">&lt;?php
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use My\AwesomeBundle\SourceFilterPass;
+
+/**
+ * @codeCoverageIgnore
+ */
+class AwesomeBundle extends Bundle
+{
+    /**
+     * Add compiler passes.
+     *
+     * @param ContainerBuilder $container
+     *
+     * @return void
+     */
+    public function build(ContainerBuilder $container)
+    {
+        $container-&gt;addCompilerPass(
+            new SourceFilterPass(),
+            PassConfig::TYPE_BEFORE_OPTIMIZATION,
+            10
+        );
+    }
+}</code></pre>
+<p>The priority of the pass in Preacher is <code>0</code>, so by setting it to a value higher
+than <code>0</code>, it will run before the pass in Preacher.</p>
+<h2>Creating a source reader</h2>
+<pre><code class="language-php">&lt;?php
+use ZeroConfig\Preacher\Renderer\SourceReaderInterface;
+use ZeroConfig\Preacher\Source\SourceInterface;
+
+class MySourceReader implements SourceReaderInterface
+{
+    /**
+     * Get the contents of the given source.
+     *
+     * @param SourceInterface $source
+     *
+     * @return string
+     */
+    public function getContents(SourceInterface $source): string
+    {
+        // The source path will be relative to the current working directory.
+        $contents = file_get_contents($source-&gt;getPath());
+
+        // ... Process the contents to your liking ...
+
+        return $contents;
+    }
+}</code></pre>
+<h2>Replacing the source reader</h2>
+<p>The source reader is a public service, bound to <code>preacher.source_reader</code>.</p>
+<p>To replace the source reader, one simply needs to define a new service for that
+identifier.</p>
+<p>Below you see the implementation of the
+<a href="https://github.com/ZeroConfig/Preacher-Plugin-CommonMark">CommonMark plugin</a>:</p>
+<pre><code class="language-yaml">services:
+
+  preacher.common_mark.converter:
+    class: League\CommonMark\CommonMarkConverter
+
+  preacher.source_reader:
+    class: ZeroConfig\Preacher\Plugin\CommonMark\Renderer\MarkdownSourceReader
+    arguments:
+      - '@preacher.common_mark.converter'</code></pre></main>
+        </div>
+
+        <footer class="container text-muted">
+            <p>
+                Last updated:
+                <a
+                    href="https://github.com/ZeroConfig/Preacher/commit/e4e87ce"
+                    target="_blank">Feb 19 2017 13:24</a>
+                - Jan-Marten de Boer
+            </p>
+        </footer>
+
+        <script src="https://zeroconfig.github.io/Preacher/js/prism.js" type="text/javascript"></script>
+    </body>
+</html>

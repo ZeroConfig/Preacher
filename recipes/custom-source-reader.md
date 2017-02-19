@@ -10,6 +10,8 @@ couple of gotcha's might be overlooked.
 
 ![Regular Expressions](https://imgs.xkcd.com/comics/regular_expressions.png)
 
+> Wait, forgot to escape a space.  Wheeeeee[taptaptap]eeeeee.
+
 ## Creating a custom plugin
 
 To achieve this, one needs to create a
