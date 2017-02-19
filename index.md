@@ -35,4 +35,5 @@ Try `vendor/bin/preach --help` to see how to run Preacher manually.
 # Preacher for developers
 
 * [Creating a Preacher plugin](recipes/custom-plugins.html)
+* [Extending Twig](recipes/extending-twig.html)
 * [Swapping out Markdown](recipes/custom-source-reader.html)
