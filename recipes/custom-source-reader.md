@@ -109,9 +109,6 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use My\AwesomeBundle\SourceFilterPass;
 
-/**
- * @codeCoverageIgnore
- */
 class AwesomeBundle extends Bundle
 {
     /**
