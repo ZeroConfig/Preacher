@@ -70,19 +70,14 @@ class GenerateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $sourcePatterns = $input->getArgument('source') ?: ['*'];
+        $force          = $input->getOption('force');
 
         foreach ($this->sources as $source) {
             if (!$this->isMatchingSource($source, ...$sourcePatterns)) {
                 continue;
             }
 
-            if ($input->getOption('force') !== false) {
-                $source->getMetaData()->setDateUpdated(
-                    new DateTimeImmutable('now')
-                );
-            }
-
-            $generated = $this->generator->generate($source);
+            $generated = $this->generator->generate($source, $force);
 
             if (!$generated instanceof UpdatedOutput) {
                 continue;

@@ -47,11 +47,14 @@ class Generator implements GeneratorInterface
      * output.
      *
      * @param SourceInterface $source
+     * @param bool            $force
      *
      * @return OutputInterface
      */
-    public function generate(SourceInterface $source): OutputInterface
-    {
+    public function generate(
+        SourceInterface $source,
+        bool $force = false
+    ): OutputInterface {
         $output    = $this->outputFactory->createOutput($source);
         $published = $output->getMetaData()->getDatePublished();
         $generated = $output->getMetaData()->getDateGenerated();
@@ -60,7 +63,8 @@ class Generator implements GeneratorInterface
 
         // No changes since last generation.
         // Check that it at least has an initial generation, previous to this.
-        if ($generated->getTimestamp() - 10 > $published->getTimestamp()
+        if ($force === false
+            && $generated->getTimestamp() - 10 > $published->getTimestamp()
             && $generated > $updated
             && $generated > $template->getDateUpdated()
         ) {

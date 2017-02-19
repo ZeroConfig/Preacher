@@ -11,8 +11,12 @@ interface GeneratorInterface
      * output.
      *
      * @param SourceInterface $source
+     * @param bool            $force
      *
      * @return OutputInterface
      */
-    public function generate(SourceInterface $source): OutputInterface;
+    public function generate(
+        SourceInterface $source,
+        bool $force = false
+    ): OutputInterface;
 }
