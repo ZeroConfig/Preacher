@@ -15,6 +15,12 @@ files to activate Preacher.
 
 ![Post commit hook](https://zeroconfig.github.io/Preacher/img/post-commit.png)
 
+The following steps are executed:
+
+1. Update source file
+2. Commit source file > Output generates
+3. Commit output file
+
 Try `vendor/bin/preach --help` to see how to run Preacher manually.
 
 # Preacher for writers
