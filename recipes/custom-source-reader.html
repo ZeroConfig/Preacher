@@ -142,6 +142,8 @@ class AwesomeBundle extends Bundle
 <p>The priority of the pass in Preacher is <code>0</code>, so by setting it to a value higher
 than <code>0</code>, it will run before the pass in Preacher.</p>
 <h2>Creating a source reader</h2>
+<p>Now it is time to write a custom source reader. One needs to implement the
+<code>SourceReaderInterface</code> and process the incoming source object into a string.</p>
 <pre><code class="language-php">&lt;?php
 use ZeroConfig\Preacher\Renderer\SourceReaderInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
@@ -165,6 +167,7 @@ class MySourceReader implements SourceReaderInterface
         return $contents;
     }
 }</code></pre>
+<p>This will be passed down to the renderer.</p>
 <h2>Replacing the source reader</h2>
 <p>The source reader is a public service, bound to <code>preacher.source_reader</code>.</p>
 <p>To replace the source reader, one simply needs to define a new service for that
@@ -186,8 +189,8 @@ identifier.</p>
             <p>
                 Last updated:
                 <a
-                    href="https://github.com/ZeroConfig/Preacher/commit/079067c"
-                    target="_blank">Feb 19 2017 13:40</a>
+                    href="https://github.com/ZeroConfig/Preacher/commit/7e169b0"
+                    target="_blank">Feb 19 2017 13:42</a>
                 - Jan-Marten de Boer
             </p>
         </footer>
