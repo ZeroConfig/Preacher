@@ -31,6 +31,14 @@ ln -s ../../vendor/bin/preach .git/hooks/post-commit
 This will install preacher as a post-commit hook and makes it run each time you
 commit one of your files.
 
+# Custom templates
+
+By default, Preacher will look for the Twig template called `default.html.twig`.
+However, if a custom template is required, simply give it the same name as the
+source file.
+
+E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
+
 # Usage
 
 It uses a single command to either generate the current directory and all its
@@ -59,15 +67,6 @@ Preacher is built with programmers in mind.
 | Version control    | [git](https://git-scm.com/)                                                                                 | [coyl/git](https://github.com/coyl/git)                   |
 | Package manager    | [Composer](https://getcomposer.org/)                                                                        | [composer/composer](https://github.com/composer/composer) |
 | Syntax highlighter | [Prism](http://prismjs.com/)                                                                                | [prismjs](https://www.npmjs.com/package/prismjs)          |
-
-# Custom templates
-
-By default, Preacher will look for the Twig template called `default.html.twig`.
-However, if a custom template is required, simply give it the same name as the
-source file.
-
-E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
-
 
 # Documentation
 
