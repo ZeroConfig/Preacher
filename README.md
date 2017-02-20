@@ -5,7 +5,17 @@ maintain a personal website with zero configuration.
 
 ![I always figured the word 'blog' would sound *less* silly as the years went by.](https://imgs.xkcd.com/comics/starwatching.png)
 
-# Installation
+# Fresh installation
+
+To create a fresh website using Preacher, one can install it as follows:
+
+```bash
+composer create-project zero-config/static-website
+```
+
+When asked to remove the existing VCS, answer `Y`.
+
+# Installation on top of existing website
 
 ```bash
 composer require --dev zero-config/preacher
@@ -15,7 +25,7 @@ Optionally, if one wants to always generate output when a file is committed, try
 the following:
 
 ```bash
-ln -s vendor/bin/preach .git/hooks/post-commit
+ln -s ../../vendor/bin/preach .git/hooks/post-commit
 ```
 
 This will install preacher as a post-commit hook and makes it run each time you
