@@ -44,7 +44,7 @@ the following:
 ln -s vendor/bin/preach .git/hooks/post-commit
 ```
 
-This will install preacher as a post-commit hook and makes it run each time you
+This will install Preacher as a post-commit hook and makes it run each time you
 commit one of your files.
 
 
