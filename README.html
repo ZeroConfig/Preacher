@@ -37,7 +37,11 @@
 <p>Preacher is a personal static website generator, which allows you to setup and
 maintain a personal website with zero configuration.</p>
 <p><img src="https://imgs.xkcd.com/comics/starwatching.png" alt="I always figured the word 'blog' would sound *less* silly as the years went by." /></p>
-<h1>Installation</h1>
+<h1>Fresh installation</h1>
+<p>To create a fresh website using Preacher, one can install it as follows:</p>
+<pre><code class="language-bash">composer create-project zero-config/static-website</code></pre>
+<p>When asked to remove the existing VCS, answer <code>Y</code>.</p>
+<h1>Installation on top of existing website</h1>
 <pre><code class="language-bash">composer require --dev zero-config/preacher</code></pre>
 <p>This installs the necessary files and packages. The next step is initiating a
 git repository, so Preacher can keep track of what needs to be published:</p>
@@ -53,14 +57,23 @@ template.</p>
 single command to either generate the current directory and all its children,
 or one can (re)generate a single source file.</p>
 <pre><code class="language-bash">vendor/bin/preach [&lt;source&gt;]...</code></pre>
-<p>Optionally, if one wants to always generate output when a file is committed, try
-the following:</p>
-<pre><code class="language-bash">ln -s vendor/bin/preach .git/hooks/post-commit</code></pre>
-<p>This will install Preacher as a post-commit hook and makes it run each time you
-commit one of your files.</p>
+
 <p>The contents of vendor directories are skipped by interpreting the
 <a href="https://getcomposer.org/doc/06-config.md#vendor-dir">vendor-dir composer config</a>.</p>
 <p>If one wants to force the generation of files, add the <code>--force</code> flag.</p>
+              
+<p>Optionally, if one wants to always generate output when a file is committed, try
+the following:</p>
+<pre><code class="language-bash">ln -s ../../vendor/bin/preach .git/hooks/post-commit</code></pre>
+<p>This will install preacher as a post-commit hook and makes it run each time you
+  commit one of your files.</p>
+              
+<h1>Custom templates</h1>
+<p>By default, Preacher will look for the Twig template called <code>default.html.twig</code>.
+However, if a custom template is required, simply give it the same name as the
+source file.</p>
+<p>E.g.: <code>articles/something-fancy.md</code> =&gt; <code>articles/something-fancy.html.twig</code>.</p>
+
 <h1>Standards</h1>
 <p>Preacher uses existing software with well-defined standards to create the most
 stable and user friendly experience at the same time.</p>
@@ -101,11 +114,6 @@ stable and user friendly experience at the same time.</p>
 </tr>
 </tbody>
 </table>
-<h1>Custom templates</h1>
-<p>By default, Preacher will look for the Twig template called <code>default.html.twig</code>.
-However, if a custom template is required, simply give it the same name as the
-source file.</p>
-<p>E.g.: <code>articles/something-fancy.md</code> =&gt; <code>articles/something-fancy.html.twig</code>.</p>
 <h1>Documentation</h1>
 <p>For full documentation and a cookbook for Preacher, go to
 <a href="https://zeroconfig.github.io/Preacher/">the Preacher homepage</a>.</p></main>

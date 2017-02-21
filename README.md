@@ -5,7 +5,17 @@ maintain a personal website with zero configuration.
 
 ![I always figured the word 'blog' would sound *less* silly as the years went by.](https://imgs.xkcd.com/comics/starwatching.png)
 
-# Installation
+# Fresh installation
+
+To create a fresh website using Preacher, one can install it as follows:
+
+```bash
+composer create-project zero-config/static-website
+```
+
+When asked to remove the existing VCS, answer `Y`.
+
+# Installation on top of existing website
 
 ```bash
 composer require --dev zero-config/preacher
@@ -27,6 +37,7 @@ To see what a basic .md page file and template can contain, have a look at Preac
 own [index.md](https://raw.githubusercontent.com/ZeroConfig/Preacher/master/index.md) page
 and [default.html.twig](https://github.com/ZeroConfig/Preacher/blob/master/default.html.twig)
 template.
+
 
 # Generating pages
 Preacher creates pages from the committed .md page files and .twig templates. It uses a 
@@ -53,6 +64,14 @@ The contents of vendor directories are skipped by interpreting the
 
 If one wants to force the generation of files, add the `--force` flag.
 
+# Custom templates
+
+By default, Preacher will look for the Twig template called `default.html.twig`.
+However, if a custom template is required, simply give it the same name as the
+source file.
+
+E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
+
 # Standards
 
 Preacher uses existing software with well-defined standards to create the most
@@ -67,15 +86,6 @@ Preacher is built with programmers in mind.
 | Version control    | [git](https://git-scm.com/)                                                                                 | [coyl/git](https://github.com/coyl/git)                   |
 | Package manager    | [Composer](https://getcomposer.org/)                                                                        | [composer/composer](https://github.com/composer/composer) |
 | Syntax highlighter | [Prism](http://prismjs.com/)                                                                                | [prismjs](https://www.npmjs.com/package/prismjs)          |
-
-# Custom templates
-
-By default, Preacher will look for the Twig template called `default.html.twig`.
-However, if a custom template is required, simply give it the same name as the
-source file.
-
-E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
-
 
 # Documentation
 
