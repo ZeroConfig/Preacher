@@ -1,6 +1,9 @@
 <?php
 namespace ZeroConfig\Preacher\DependencyInjection\Compiler;
 
+/**
+ * @codeCoverageIgnore
+ */
 class EnricherPass extends AbstractContainerPass
 {
     /**

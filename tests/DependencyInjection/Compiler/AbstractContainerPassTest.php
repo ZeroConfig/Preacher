@@ -5,6 +5,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use ZeroConfig\Preacher\DependencyInjection\Compiler\AbstractContainerPass;
 
 /**
@@ -93,22 +94,17 @@ class AbstractContainerPassTest extends PHPUnit_Framework_TestCase
         /** @var ContainerBuilder|PHPUnit_Framework_MockObject_MockObject $container */
         $container = $this->createMock(ContainerBuilder::class);
 
-        /** @var Definition|PHPUnit_Framework_MockObject_MockObject $definition */
-        $definition = $this->createMock(Definition::class);
-
         $container
             ->expects($this->once())
             ->method('getDefinition')
             ->with('container')
-            ->willReturn($definition);
+            ->willThrowException(
+                new ServiceNotFoundException('Missing service')
+            );
 
         $container
             ->expects($this->never())
             ->method('findTaggedServiceIds');
-
-        $definition
-            ->expects($this->never())
-            ->method('addMethodCall');
 
         $pass->process($container);
     }
