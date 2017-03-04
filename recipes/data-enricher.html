@@ -8,7 +8,7 @@
         <title>Enriching template data - Preacher</title>
         <link href="https://zeroconfig.github.io/Preacher/css/prism.css?e4e87ce" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
-        <link href="https://zeroconfig.github.io/Preacher/css/style.css?3eaf1a0" rel="stylesheet" type="text/css" />
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css?03b4eca" rel="stylesheet" type="text/css" />
         <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/data-enricher.html" />
     </head>
 
@@ -33,7 +33,7 @@
         </nav>
 
         <div class="container">
-            <main><h1>Enriching template data</h1>
+            <main class="col-xs-12"><h1>Enriching template data</h1>
 <p>Preacher builds the data that is being sent to the template engine, by using
 data enrichers. These enrichers can set additional data for the template, override
 existing data or even unset data.</p>
@@ -88,13 +88,20 @@ class FooBarEnricher implements DataEnricherInterface
         </div>
 
         <footer class="container text-muted">
-            <p>
-                Last updated:
-                <a
-                    href="https://github.com/ZeroConfig/Preacher/commit/40c923c"
-                    target="_blank">Mar 04 2017 18:14</a>
-                - Jan-Marten de Boer
-            </p>
+            <div class="col-md-6">
+                <p>
+                    Last updated:
+                    <a
+                            href="https://github.com/ZeroConfig/Preacher/commit/40c923c"
+                            target="_blank">Mar 04 2017 18:14</a>
+                    - Jan-Marten de Boer
+                </p>
+            </div>
+            <div class="col-md-6 text-right">
+                <img src="https://travis-ci.org/ZeroConfig/Preacher.svg?branch=master" alt="Build Status">
+                <img src="https://poser.pugx.org/zero-config/preacher/version" alt="Latest Stable Version">
+                <img src="https://poser.pugx.org/zero-config/preacher/downloads" alt="Total Downloads">
+            </div>
         </footer>
 
         <script src="https://zeroconfig.github.io/Preacher/js/prism.js?e4e87ce" type="text/javascript"></script>

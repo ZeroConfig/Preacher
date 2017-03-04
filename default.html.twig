@@ -35,17 +35,24 @@
         </nav>
 
         <div class="container">
-            <main>{% block content %}{{ content }}{% endblock %}</main>
+            <main class="col-xs-12">{% block content %}{{ content }}{% endblock %}</main>
         </div>
 
         <footer class="container text-muted">
-            <p>
-                Last updated:
-                <a
-                    href="https://github.com/ZeroConfig/Preacher/commit/{{ source.metaData.version.short }}"
-                    target="_blank">{{ source.metaData.dateUpdated|date('M d Y H:i') }}</a>
-                - {{ source.metaData.author.name }}
-            </p>
+            <div class="col-md-6">
+                <p>
+                    Last updated:
+                    <a
+                            href="https://github.com/ZeroConfig/Preacher/commit/{{ source.metaData.version.short }}"
+                            target="_blank">{{ source.metaData.dateUpdated|date('M d Y H:i') }}</a>
+                    - {{ source.metaData.author.name }}
+                </p>
+            </div>
+            <div class="col-md-6 text-right">
+                <img src="https://travis-ci.org/ZeroConfig/Preacher.svg?branch=master" alt="Build Status">
+                <img src="https://poser.pugx.org/zero-config/preacher/version" alt="Latest Stable Version">
+                <img src="https://poser.pugx.org/zero-config/preacher/downloads" alt="Total Downloads">
+            </div>
         </footer>
 {% if content matches '/<pre><code/' %}
 
