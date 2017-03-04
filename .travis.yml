@@ -32,8 +32,5 @@ script:
   - vendor/bin/phpstan analyse src tests --level 4 --no-progress
 
   # Functional test.
-  - bin/preach *
+  - bin/preach
   - git status
-
-after_success:
-  - travis_retry vendor/bin/coveralls

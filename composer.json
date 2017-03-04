@@ -41,8 +41,7 @@
     "mikey179/vfsstream": "^1.6.4",
     "phpmd/phpmd": "^2.6.0",
     "squizlabs/php_codesniffer": "^2.8.1",
-    "phpstan/phpstan": "^0.6.4",
-    "satooshi/php-coveralls": "^1.0.1"
+    "phpstan/phpstan": "^0.6.4"
   },
   "archive": {
     "exclude": [
