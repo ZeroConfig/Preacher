@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Preacher 2">
+        <title>Enriching template data - Preacher</title>
+        <link href="https://zeroconfig.github.io/Preacher/css/prism.css?e4e87ce" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css?3eaf1a0" rel="stylesheet" type="text/css" />
+        <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/data-enricher.html" />
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a
+                    id="edit"
+                    class="btn btn-primary pull-right"
+                    href="https://github.com/ZeroConfig/Preacher/edit/master/recipes/data-enricher.md"
+                    target="_blank">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Edit this page
+                </a>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="https://zeroconfig.github.io/Preacher/">
+                        <span class="glyphicon glyphicon-console"></span>
+                        &nbsp;Preacher
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <main><h1>Enriching template data</h1>
+<p>Preacher builds the data that is being sent to the template engine, by using
+data enrichers. These enrichers can set additional data for the template, override
+existing data or even unset data.</p>
+<p>Removing data can hardly be called enrichment, however, the developer must judge
+if this is really necessary. Just keep the following in mind:</p>
+<p><img src="https://imgs.xkcd.com/comics/workflow.png" alt="Workflow" /></p>
+<blockquote>
+<p>There are probably children out there holding down spacebar to stay warm in the winter! YOUR UPDATE MURDERS CHILDREN.</p>
+</blockquote>
+<h1>Adding an enricher</h1>
+<p>One can write an enricher by implementing the <code>DataEnricherInterface</code>:</p>
+<pre><code class="language-php">&lt;?php
+use ArrayAccess;
+use ZeroConfig\Preacher\Output\OutputInterface;
+use ZeroConfig\Preacher\Source\SourceInterface;
+use ZeroConfig\Preacher\Data\DataEnricherInterface;
+
+class FooBarEnricher implements DataEnricherInterface
+{
+    /**
+     * Enrich the template data using the given source and output.
+     *
+     * @param ArrayAccess     $templateData
+     * @param SourceInterface $source
+     * @param OutputInterface $output
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function enrich(
+        ArrayAccess $templateData,
+        SourceInterface $source,
+        OutputInterface $output
+    ) {
+        $templateData-&gt;offsetSet('foo', 'bar');
+    }
+}</code></pre>
+<p>Then you can add the service and tag it with <code>preacher.enricher</code>.</p>
+<pre><code class="language-yaml">services:
+
+  my_byndle.preacher.enricher.foobar:
+    class: FooBarEnricher
+    tags:
+      - { name: 'preacher.enricher' }</code></pre>
+<p>Now, in the template, the following variable has become available:</p>
+<pre><code class="language-twig">&lt;p&gt;{{ foo }}&lt;/p&gt;</code></pre>
+<p>And this will output:</p>
+<pre><code class="language-html">&lt;p&gt;bar&lt;/p&gt;</code></pre>
+<p>To put this all in a reusable extension, read
+<a href="custom-plugins.html">Creating a Preacher plugin</a>.</p></main>
+        </div>
+
+        <footer class="container text-muted">
+            <p>
+                Last updated:
+                <a
+                    href="https://github.com/ZeroConfig/Preacher/commit/40c923c"
+                    target="_blank">Mar 04 2017 18:14</a>
+                - Jan-Marten de Boer
+            </p>
+        </footer>
+
+        <script src="https://zeroconfig.github.io/Preacher/js/prism.js?e4e87ce" type="text/javascript"></script>
+    </body>
+</html>
