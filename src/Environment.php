@@ -12,6 +12,9 @@ final class Environment
     /** @var string */
     private $homeDir;
 
+    /** @var string */
+    private $projectHash;
+
     /**
      * Constructor.
      */

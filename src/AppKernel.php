@@ -78,7 +78,7 @@ class AppKernel extends Kernel
             }
 
             try {
-                $bundles[] = $reflection->newInstance();
+                $bundles[] = $reflection->newInstance(null);
             } catch (Throwable $e) {
                 continue;
             }
