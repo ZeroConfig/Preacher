@@ -31,8 +31,28 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Create a source for the given path.
+     *
+     * @param string $path
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject|SourceInterface
+     */
+    private function createSource(string $path)
+    {
+        $source = $this->createMock(SourceInterface::class);
+
+        $source
+            ->expects($this->once())
+            ->method('getPath')
+            ->willReturn($path);
+
+        return $source;
+    }
+
+    /**
      * @return void
      * @covers ::execute
+     * @covers ::isMatchingSource
      */
     public function testExecute()
     {
@@ -58,21 +78,33 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
             );
 
         $sources
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('current')
-            ->willReturn(
-                $this->createMock(SourceInterface::class)
+            ->willReturnOnConsecutiveCalls(
+                $this->createSource('bar.md'),
+                $this->createSource('foo.md'),
+                $this->createSource('foo.md')
             );
 
         $sources
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('valid')
-            ->willReturnOnConsecutiveCalls(true, true, false);
+            ->willReturnOnConsecutiveCalls(true, true, true, false);
+
+        $input = $this->createMock(InputInterface::class);
+        $input
+            ->expects($this->once())
+            ->method('getOption')
+            ->with('force')
+            ->willReturn(false);
+
+        $input
+            ->expects($this->once())
+            ->method('getArgument')
+            ->with('source')
+            ->willReturn(['foo.md']);
 
         /** @noinspection PhpParamsInspection */
-        $command->run(
-            $this->createMock(InputInterface::class),
-            $output
-        );
+        $command->run($input, $output);
     }
 }

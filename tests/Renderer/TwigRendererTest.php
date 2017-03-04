@@ -3,9 +3,8 @@ namespace ZeroConfig\Preacher\Tests\Renderer;
 
 use PHPUnit_Framework_TestCase;
 use Twig_Environment;
-use ZeroConfig\Preacher\Renderer\SourceReaderInterface;
+use ZeroConfig\Preacher\Data\DataEnricherInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Renderer\HeadlineExtractorInterface;
 use ZeroConfig\Preacher\Renderer\TwigRenderer;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
@@ -36,8 +35,7 @@ class TwigRendererTest extends PHPUnit_Framework_TestCase
         /** @noinspection PhpParamsInspection */
         return new TwigRenderer(
             $twig,
-            $this->createMock(HeadlineExtractorInterface::class),
-            $this->createMock(SourceReaderInterface::class)
+            $this->createMock(DataEnricherInterface::class)
         );
     }
 
