@@ -1,35 +1,35 @@
 <?php
 namespace ZeroConfig\Preacher\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-
-class TwigExtensionPass implements CompilerPassInterface
+class TwigExtensionPass extends AbstractContainerPass
 {
     /**
-     * You can modify the container here before it is dumped to PHP code.
+     * Get the service identifier for the container service.
      *
-     * @param ContainerBuilder $container
-     *
-     * @return void
+     * @return string
      */
-    public function process(ContainerBuilder $container)
+    public function getContainerIdentifier(): string
     {
-        if (!$container->hasDefinition('preacher.twig')) {
-            return;
-        }
+        return 'preacher.twig';
+    }
 
-        $twig       = $container->getDefinition('preacher.twig');
-        $extensions = array_keys(
-            $container->findTaggedServiceIds('preacher.twig_extension')
-        );
+    /**
+     * Get the tag name that identifies child services.
+     *
+     * @return string
+     */
+    public function getTagName(): string
+    {
+        return 'preacher.twig_extension';
+    }
 
-        foreach ($extensions as $extension) {
-            $twig->addMethodCall(
-                'addExtension',
-                [new Reference($extension)]
-            );
-        }
+    /**
+     * Get the method name which applies the service to the container.
+     *
+     * @return string
+     */
+    public function getMethodName(): string
+    {
+        return 'addExtension';
     }
 }

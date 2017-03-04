@@ -64,12 +64,38 @@ services:
     tags:
       - { name: 'preacher.twig_extension' }
 
+  preacher.enricher:
+    class: ZeroConfig\Preacher\Data\AggregateEnricher
+
+  preacher.enricher.source:
+    class: ZeroConfig\Preacher\Data\SourceEnricher
+    tags:
+      - { name: 'preacher.enricher' }
+
+  preacher.enricher.output:
+    class: ZeroConfig\Preacher\Data\OutputEnricher
+    tags:
+      - { name: 'preacher.enricher' }
+
+  preacher.enricher.content:
+    class: ZeroConfig\Preacher\Data\ContentEnricher
+    arguments:
+      - '@preacher.source_reader'
+    tags:
+      - { name: 'preacher.enricher' }
+
+  preacher.enricher.headline:
+    class: ZeroConfig\Preacher\Data\HeadlineEnricher
+    arguments:
+      - '@preacher.headline_extractor'
+    tags:
+      - { name: 'preacher.enricher' }
+
   preacher.renderer:
     class: ZeroConfig\Preacher\Renderer\TwigRenderer
     arguments:
       - '@preacher.twig'
-      - '@preacher.headline_extractor'
-      - '@preacher.source_reader'
+      - '@preacher.enricher'
 
   preacher.output_meta_data_factory:
     class: ZeroConfig\Preacher\Output\GitMetaDataFactory

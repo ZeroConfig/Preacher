@@ -1,11 +1,7 @@
 <?php
 namespace ZeroConfig\Preacher\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-
-class SourceFilterPass extends AbstractContainerPass
+class EnricherPass extends AbstractContainerPass
 {
     /**
      * Get the service identifier for the container service.
@@ -14,7 +10,7 @@ class SourceFilterPass extends AbstractContainerPass
      */
     public function getContainerIdentifier(): string
     {
-        return 'preacher.source_iterator';
+        return 'preacher.enricher';
     }
 
     /**
@@ -24,7 +20,7 @@ class SourceFilterPass extends AbstractContainerPass
      */
     public function getTagName(): string
     {
-        return 'preacher.source_filter';
+        return 'preacher.enricher';
     }
 
     /**
@@ -34,6 +30,6 @@ class SourceFilterPass extends AbstractContainerPass
      */
     public function getMethodName(): string
     {
-        return 'addFilter';
+        return 'addEnricher';
     }
 }
