@@ -32,7 +32,7 @@ script:
   - vendor/bin/phpstan analyse src tests --level 4 --no-progress
 
   # Functional test.
-  - bin/preach --force *
+  - bin/preach *
   - git status
 
 after_success:
