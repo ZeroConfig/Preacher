@@ -17,7 +17,13 @@ before_script:
   - test -f README.md
   - test -x bin/preach
 script:
+  # Unit tests.
   - vendor/bin/phpunit --fail-on-warning --disallow-test-output --report-useless-tests
+
+  # Static analysis.
   - vendor/bin/phpcs src tests
   - vendor/bin/phpmd src text phpmd.xml
   - vendor/bin/phpstan analyse src tests --level 4 --no-progress
+
+  # Functional test.
+  - bin/preach --force *

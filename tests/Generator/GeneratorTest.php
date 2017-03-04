@@ -224,6 +224,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $renderer
         );
 
-        return $generator->generate($source);
+        /** @var UpdatedOutput $output */
+        $output = $generator->generate($source);
+
+        return $output;
     }
 }

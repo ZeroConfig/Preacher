@@ -18,7 +18,7 @@ abstract class AbstractSource implements SourceInterface
      * @param string            $path
      * @param MetaDataInterface $metaData
      */
-    public function __construct($path, MetaDataInterface $metaData)
+    public function __construct(string $path, MetaDataInterface $metaData)
     {
         $this->path     = $path;
         $this->baseName = $this->extractBaseName($path);

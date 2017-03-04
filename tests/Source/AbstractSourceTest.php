@@ -10,28 +10,28 @@ use ZeroConfig\Preacher\Source\AbstractSource;
 class AbstractSourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @return AbstractSource
+     * @return \PHPUnit_Framework_MockObject_MockObject|AbstractSource
      * @covers ::__construct
      */
-    public function testConstructor(): AbstractSource
+    public function testConstructor()
     {
-        $fileName = 'foo.md';
-        $metaData = $this->createMock(MetaDataInterface::class);
+        $source = $this->getMockForAbstractClass(
+            AbstractSource::class,
+            [
+                'foo.md',
+                $this->createMock(MetaDataInterface::class)
+            ]
+        );
 
-        $source = new class($fileName, $metaData) extends AbstractSource
-        {
-            /**
-             * Extract the basename from the given path.
-             *
-             * @param string $path
-             *
-             * @return string
-             */
-            protected function extractBaseName(string $path): string
-            {
-                return basename($path, '.md');
-            }
-        };
+        $source
+            ->expects($this->any())
+            ->method('extractBaseName')
+            ->with($this->isType('string'))
+            ->willReturnCallback(
+                function (string $path) : string {
+                    return basename($path, '.md');
+                }
+            );
 
         return $source;
     }
