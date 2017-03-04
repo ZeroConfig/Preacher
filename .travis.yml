@@ -16,7 +16,6 @@ before_script:
   - test -x vendor/bin/phpmd
   - test -x vendor/bin/phpcs
   - test -x vendor/bin/phpstan
-  - test -x vendor/bin/coveralls
   - test -d src
   - test -d tests
   - test -f README.md
