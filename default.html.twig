@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://zeroconfig.github.io/Preacher/{{ output.path }}" />
     </head>
 
-    <body>
+    <body class="page-{{ source.path|replace({'.md': '', '/': '-'}) }}">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <a

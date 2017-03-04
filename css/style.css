@@ -11,3 +11,6 @@ td {
     padding-right: 2em;
     line-height: 2.4em;
 }
+body.page-readme p:first-child {
+    display: none;
+}
