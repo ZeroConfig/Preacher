@@ -1,6 +1,7 @@
 ![Build Status](https://travis-ci.org/ZeroConfig/Preacher.svg?branch=master)
 ![Latest Stable Version](https://poser.pugx.org/zero-config/preacher/version)
 ![Total Downloads](https://poser.pugx.org/zero-config/preacher/downloads)
+![Coverage Status](https://coveralls.io/repos/github/ZeroConfig/Preacher/badge.svg?branch=master)
 
 # Introduction
 
