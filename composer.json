@@ -38,7 +38,10 @@
   "require-dev": {
     "raveren/kint": "^1.0.10",
     "phpunit/phpunit": "^5.7.9",
-    "mikey179/vfsstream": "^1.6.4"
+    "mikey179/vfsstream": "^1.6.4",
+    "phpmd/phpmd": "^2.6.0",
+    "squizlabs/php_codesniffer": "^2.8.1",
+    "phpstan/phpstan": "^0.6.4"
   },
   "archive": {
     "exclude": [

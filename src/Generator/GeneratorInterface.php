@@ -14,6 +14,8 @@ interface GeneratorInterface
      * @param bool            $force
      *
      * @return OutputInterface
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function generate(
         SourceInterface $source,
