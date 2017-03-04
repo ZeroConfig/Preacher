@@ -27,3 +27,4 @@ script:
 
   # Functional test.
   - bin/preach --force *
+  - git status
