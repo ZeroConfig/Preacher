@@ -69,6 +69,14 @@ The contents of vendor directories are skipped by interpreting the
 
 If one wants to force the generation of files, add the `--force` flag.
 
+# Custom templates
+
+By default, Preacher will look for the Twig template called `default.html.twig`.
+However, if a custom template is required, simply give it the same name as the
+source file.
+
+E.g.: `articles/something-fancy.md` => `articles/something-fancy.html.twig`.
+
 # Standards
 
 Preacher uses existing software with well-defined standards to create the most
