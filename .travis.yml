@@ -1,21 +1,27 @@
 language: php
+
 php:
   - '7.0'
   - '7.1'
+
 before_install:
   - composer self-update --no-interaction --stable --no-progress
   - composer validate
+
 install:
   - composer install --dev --no-interaction --optimize-autoloader --no-progress --prefer-dist
+
 before_script:
   - test -x vendor/bin/phpunit
   - test -x vendor/bin/phpmd
   - test -x vendor/bin/phpcs
   - test -x vendor/bin/phpstan
+  - test -x vendor/bin/coveralls
   - test -d src
   - test -d tests
   - test -f README.md
   - test -x bin/preach
+
 script:
   # Unit tests.
   - vendor/bin/phpunit --fail-on-warning --disallow-test-output --report-useless-tests
@@ -28,3 +34,6 @@ script:
   # Functional test.
   - bin/preach --force *
   - git status
+
+after_success:
+  - travis_retry vendor/bin/coveralls
