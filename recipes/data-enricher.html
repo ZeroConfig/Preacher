@@ -59,14 +59,17 @@ class FooBarEnricher implements DataEnricherInterface
      * @param ContextInterface $context
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function enrich(
         ArrayAccess $templateData,
         ContextInterface $context
     ) {
-        $templateData-&gt;offsetSet('foo', 'bar');
+        $templateData-&gt;offsetSet(
+            'foo',
+            file_get_contents(
+                $context-&gt;getSource()-&gt;getBaseName() . '.custom'
+            )
+        );
     }
 }</code></pre>
 <p>Then you can add the service and tag it with <code>preacher.enricher</code>.</p>
@@ -76,6 +79,8 @@ class FooBarEnricher implements DataEnricherInterface
     class: FooBarEnricher
     tags:
       - { name: 'preacher.enricher' }</code></pre>
+<p>We assume that the source file is <code>foo.md</code> and that the file <code>foo.custom</code> contains:</p>
+<pre><code>bar</code></pre>
 <p>Now, in the template, the following variable has become available:</p>
 <pre><code class="language-twig">&lt;p&gt;{{ foo }}&lt;/p&gt;</code></pre>
 <p>And this will output:</p>
@@ -123,8 +128,8 @@ class FooBarGuard implements RenderGuardInterface
                 <p>
                     Last updated:
                     <a
-                            href="https://github.com/ZeroConfig/Preacher/commit/030b499"
-                            target="_blank">Mar 08 2017 20:19</a>
+                            href="https://github.com/ZeroConfig/Preacher/commit/d52a606"
+                            target="_blank">Mar 08 2017 20:33</a>
                     - Jan-Marten de Boer
                 </p>
             </div>
