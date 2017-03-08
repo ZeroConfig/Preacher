@@ -83,6 +83,21 @@ class MetaDataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends clone testConstructor
+     *
+     * @param MetaData $metaData
+     *
+     * @return DateTimeInterface
+     * @covers ::setDateUpdated
+     */
+    public function testSetDateUpdated(MetaData $metaData): DateTimeInterface
+    {
+        $metaData->setDateUpdated(new DateTimeImmutable());
+
+        return $metaData->getDateUpdated();
+    }
+
+    /**
      * @depends testConstructor
      *
      * @param MetaData $metaData
