@@ -11,7 +11,7 @@ Preacher plugin:
   "type": "preacher-plugin",
   "require": {
     "symfony/symfony": "^3.0",
-    "zero-config/preacher-installer": "^1.0"
+    "zero-config/preacher-installer": "^2.0"
   },
   "extra": {
     "class": "\\My\\Preacher\\Plugin\\AwesomeBundle"
