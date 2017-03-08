@@ -2,8 +2,7 @@
 namespace ZeroConfig\Preacher\Data;
 
 use ArrayAccess;
-use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Source\SourceInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
 
 class AggregateEnricher implements DataEnricherInterface
 {
@@ -25,21 +24,19 @@ class AggregateEnricher implements DataEnricherInterface
     }
 
     /**
-     * Enrich the template data using the given source and output.
+     * Enrich the template data using the given context.
      *
-     * @param ArrayAccess     $templateData
-     * @param SourceInterface $source
-     * @param OutputInterface $output
+     * @param ArrayAccess      $templateData
+     * @param ContextInterface $context
      *
      * @return void
      */
     public function enrich(
         ArrayAccess $templateData,
-        SourceInterface $source,
-        OutputInterface $output
+        ContextInterface $context
     ) {
         foreach ($this->enrichers as $enricher) {
-            $enricher->enrich($templateData, $source, $output);
+            $enricher->enrich($templateData, $context);
         }
     }
 }

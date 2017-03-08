@@ -67,13 +67,8 @@ services:
   preacher.enricher:
     class: ZeroConfig\Preacher\Data\AggregateEnricher
 
-  preacher.enricher.source:
-    class: ZeroConfig\Preacher\Data\SourceEnricher
-    tags:
-      - { name: 'preacher.enricher' }
-
-  preacher.enricher.output:
-    class: ZeroConfig\Preacher\Data\OutputEnricher
+  preacher.enricher.context:
+    class: ZeroConfig\Preacher\Data\ContextEnricher
     tags:
       - { name: 'preacher.enricher' }
 
@@ -95,7 +90,6 @@ services:
     class: ZeroConfig\Preacher\Renderer\TwigRenderer
     arguments:
       - '@preacher.twig'
-      - '@preacher.enricher'
 
   preacher.output_meta_data_factory:
     class: ZeroConfig\Preacher\Output\GitMetaDataFactory
@@ -114,13 +108,38 @@ services:
   preacher.output_writer:
     class: ZeroConfig\Preacher\Generator\OutputWriter
 
-  preacher.generator:
-    class: ZeroConfig\Preacher\Generator\Generator
+  preacher.generator.context_factory:
+    class: ZeroConfig\Preacher\Generator\Context\ContextFactory
     arguments:
       - '@preacher.output_factory'
       - '@preacher.template_factory'
+
+  preacher.generator.render_guard:
+    class: ZeroConfig\Preacher\Generator\RenderGuard\AggregateRenderGuard
+
+  preacher.generator.render_guard.document_published:
+    class: ZeroConfig\Preacher\Generator\RenderGuard\DocumentPublishedGuard
+    tags:
+      - { name: 'preacher.render_guard' }
+
+  preacher.generator.render_guard.document_updated:
+    class: ZeroConfig\Preacher\Generator\RenderGuard\DocumentUpdatedGuard
+    tags:
+      - { name: 'preacher.render_guard' }
+
+  preacher.generator.render_guard.template_updated:
+    class: ZeroConfig\Preacher\Generator\RenderGuard\TemplateUpdatedGuard
+    tags:
+      - { name: 'preacher.render_guard' }
+
+  preacher.generator:
+    class: ZeroConfig\Preacher\Generator\Generator
+    arguments:
+      - '@preacher.generator.context_factory'
+      - '@preacher.generator.render_guard'
       - '@preacher.output_writer'
       - '@preacher.renderer'
+      - '@preacher.enricher'
 
   preacher.composer_config:
     public: false

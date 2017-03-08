@@ -3,9 +3,7 @@ namespace ZeroConfig\Preacher\Renderer;
 
 use ArrayObject;
 use Twig_Environment;
-use ZeroConfig\Preacher\Data\DataEnricherInterface;
-use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Source\SourceInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
 
 class TwigRenderer implements RendererInterface
@@ -13,46 +11,26 @@ class TwigRenderer implements RendererInterface
     /** @var Twig_Environment */
     private $twig;
 
-    /** @var DataEnricherInterface */
-    private $enricher;
-
     /**
      * Constructor.
      *
-     * @param Twig_Environment      $twig
-     * @param DataEnricherInterface $enricher
+     * @param Twig_Environment $twig
      */
-    public function __construct(
-        Twig_Environment $twig,
-        DataEnricherInterface $enricher
-    ) {
-        $this->twig     = $twig;
-        $this->enricher = $enricher;
+    public function __construct(Twig_Environment $twig)
+    {
+        $this->twig = $twig;
     }
 
     /**
-     * Render the given template with the given source, for the given output.
+     * Render the given template using the given data.
      *
      * @param TemplateInterface $template
-     * @param SourceInterface   $source
-     * @param OutputInterface   $output
+     * @param array             $data
      *
      * @return string
      */
-    public function render(
-        TemplateInterface $template,
-        SourceInterface $source,
-        OutputInterface $output
-    ): string {
-        $templateData = new ArrayObject(['template' => $template]);
-
-        $this->enricher->enrich($templateData, $source, $output);
-
-        return $this
-            ->twig
-            ->render(
-                $template->getPath(),
-                $templateData->getArrayCopy()
-            );
+    public function render(TemplateInterface $template, array $data): string
+    {
+        return $this->twig->render($template->getPath(), $data);
     }
 }

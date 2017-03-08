@@ -1,20 +1,21 @@
 <?php
 namespace ZeroConfig\Preacher\Generator;
 
-use ZeroConfig\Preacher\Output\OutputFactoryInterface;
+use ArrayObject;
+use ZeroConfig\Preacher\Data\DataEnricherInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextFactoryInterface;
+use ZeroConfig\Preacher\Generator\RenderGuard\RenderGuardInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Output\UpdatedOutput;
 use ZeroConfig\Preacher\Renderer\RendererInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
-use ZeroConfig\Preacher\Template\TemplateFactoryInterface;
 
 class Generator implements GeneratorInterface
 {
-    /** @var OutputFactoryInterface */
-    private $outputFactory;
+    /** @var ContextFactoryInterface */
+    private $contextFactory;
 
-    /** @var TemplateFactoryInterface */
-    private $templateFactory;
+    /** @var RenderGuardInterface */
+    private $renderGuard;
 
     /** @var OutputWriterInterface */
     private $outputWriter;
@@ -22,24 +23,30 @@ class Generator implements GeneratorInterface
     /** @var RendererInterface */
     private $renderer;
 
+    /** @var DataEnricherInterface */
+    private $enricher;
+
     /**
      * Constructor.
      *
-     * @param OutputFactoryInterface   $outputFactory
-     * @param TemplateFactoryInterface $templateFactory
-     * @param OutputWriterInterface    $outputWriter
-     * @param RendererInterface        $renderer
+     * @param ContextFactoryInterface $contextFactory
+     * @param RenderGuardInterface    $renderGuard
+     * @param OutputWriterInterface   $outputWriter
+     * @param RendererInterface       $renderer
+     * @param DataEnricherInterface   $enricher
      */
     public function __construct(
-        OutputFactoryInterface $outputFactory,
-        TemplateFactoryInterface $templateFactory,
+        ContextFactoryInterface $contextFactory,
+        RenderGuardInterface $renderGuard,
         OutputWriterInterface $outputWriter,
-        RendererInterface $renderer
+        RendererInterface $renderer,
+        DataEnricherInterface $enricher
     ) {
-        $this->outputFactory   = $outputFactory;
-        $this->templateFactory = $templateFactory;
-        $this->outputWriter    = $outputWriter;
-        $this->renderer        = $renderer;
+        $this->contextFactory = $contextFactory;
+        $this->renderGuard    = $renderGuard;
+        $this->outputWriter   = $outputWriter;
+        $this->renderer       = $renderer;
+        $this->enricher       = $enricher;
     }
 
     /**
@@ -57,27 +64,26 @@ class Generator implements GeneratorInterface
         SourceInterface $source,
         bool $force = false
     ): OutputInterface {
-        $output    = $this->outputFactory->createOutput($source);
-        $published = $output->getMetaData()->getDatePublished();
-        $generated = $output->getMetaData()->getDateGenerated();
-        $updated   = $source->getMetaData()->getDateUpdated();
-        $template  = $this->templateFactory->createTemplate($output);
+        $context = $this->contextFactory->createContext($source);
 
-        // No changes since last generation.
-        // Check that it at least has an initial generation, previous to this.
         if ($force === false
-            && $generated->getTimestamp() - 10 > $published->getTimestamp()
-            && $generated > $updated
-            && $generated > $template->getDateUpdated()
+            && $this->renderGuard->isRenderRequired($context) === false
         ) {
-            return $output;
+            return $context->getOutput();
         }
 
-        $output = new UpdatedOutput($output);
+        $context = $context->withUpdatedOutput();
+        $output  = $context->getOutput();
+        $data    = new ArrayObject();
+
+        $this->enricher->enrich($data, $context);
 
         $this->outputWriter->writeOutput(
             $output,
-            $this->renderer->render($template, $source, $output)
+            $this->renderer->render(
+                $context->getTemplate(),
+                $data->getArrayCopy()
+            )
         );
 
         return $output;

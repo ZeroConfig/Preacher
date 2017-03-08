@@ -3,10 +3,7 @@ namespace ZeroConfig\Preacher\Tests\Renderer;
 
 use PHPUnit_Framework_TestCase;
 use Twig_Environment;
-use ZeroConfig\Preacher\Data\DataEnricherInterface;
-use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Renderer\TwigRenderer;
-use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
 
 /**
@@ -33,10 +30,7 @@ class TwigRendererTest extends PHPUnit_Framework_TestCase
             ->willReturn(sha1(__FILE__));
 
         /** @noinspection PhpParamsInspection */
-        return new TwigRenderer(
-            $twig,
-            $this->createMock(DataEnricherInterface::class)
-        );
+        return new TwigRenderer($twig);
     }
 
     /**
@@ -49,11 +43,10 @@ class TwigRendererTest extends PHPUnit_Framework_TestCase
      */
     public function testRender(TwigRenderer $renderer): string
     {
-        $template = $this->createMock(TemplateInterface::class);
-        $source   = $this->createMock(SourceInterface::class);
-        $output   = $this->createMock(OutputInterface::class);
-
         /** @noinspection PhpParamsInspection */
-        return $renderer->render($template, $source, $output);
+        return $renderer->render(
+            $this->createMock(TemplateInterface::class),
+            []
+        );
     }
 }

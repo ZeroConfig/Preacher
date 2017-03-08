@@ -2,23 +2,22 @@
 namespace ZeroConfig\Preacher\Data;
 
 use ArrayAccess;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
 
 interface DataEnricherInterface
 {
     /**
-     * Enrich the template data using the given source and output.
+     * Enrich the template data using the given context.
      *
-     * @param ArrayAccess     $templateData
-     * @param SourceInterface $source
-     * @param OutputInterface $output
+     * @param ArrayAccess      $templateData
+     * @param ContextInterface $context
      *
      * @return void
      */
     public function enrich(
         ArrayAccess $templateData,
-        SourceInterface $source,
-        OutputInterface $output
+        ContextInterface $context
     );
 }

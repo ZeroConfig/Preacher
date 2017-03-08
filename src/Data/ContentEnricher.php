@@ -2,9 +2,8 @@
 namespace ZeroConfig\Preacher\Data;
 
 use ArrayAccess;
-use ZeroConfig\Preacher\Output\OutputInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
 use ZeroConfig\Preacher\Renderer\SourceReaderInterface;
-use ZeroConfig\Preacher\Source\SourceInterface;
 
 class ContentEnricher implements DataEnricherInterface
 {
@@ -22,24 +21,20 @@ class ContentEnricher implements DataEnricherInterface
     }
 
     /**
-     * Enrich the template data using the given source and output.
+     * Enrich the template data using the given context.
      *
-     * @param ArrayAccess     $templateData
-     * @param SourceInterface $source
-     * @param OutputInterface $output
+     * @param ArrayAccess      $templateData
+     * @param ContextInterface $context
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function enrich(
         ArrayAccess $templateData,
-        SourceInterface $source,
-        OutputInterface $output
+        ContextInterface $context
     ) {
         $templateData->offsetSet(
             'content',
-            $this->reader->getContents($source)
+            $this->reader->getContents($context->getSource())
         );
     }
 }

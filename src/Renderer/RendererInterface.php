@@ -1,24 +1,17 @@
 <?php
 namespace ZeroConfig\Preacher\Renderer;
 
-use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
 
 interface RendererInterface
 {
     /**
-     * Render the given template with the given source, for the given output.
+     * Render the given template using the given data.
      *
      * @param TemplateInterface $template
-     * @param SourceInterface   $source
-     * @param OutputInterface   $output
+     * @param array             $data
      *
      * @return string
      */
-    public function render(
-        TemplateInterface $template,
-        SourceInterface $source,
-        OutputInterface $output
-    ): string;
+    public function render(TemplateInterface $template, array $data): string;
 }

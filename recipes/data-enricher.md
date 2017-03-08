@@ -18,8 +18,7 @@ One can write an enricher by implementing the `DataEnricherInterface`:
 ```php
 <?php
 use ArrayAccess;
-use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Source\SourceInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
 use ZeroConfig\Preacher\Data\DataEnricherInterface;
 
 class FooBarEnricher implements DataEnricherInterface
@@ -27,9 +26,8 @@ class FooBarEnricher implements DataEnricherInterface
     /**
      * Enrich the template data using the given source and output.
      *
-     * @param ArrayAccess     $templateData
-     * @param SourceInterface $source
-     * @param OutputInterface $output
+     * @param ArrayAccess      $templateData
+     * @param ContextInterface $context
      *
      * @return void
      *
@@ -37,8 +35,7 @@ class FooBarEnricher implements DataEnricherInterface
      */
     public function enrich(
         ArrayAccess $templateData,
-        SourceInterface $source,
-        OutputInterface $output
+        ContextInterface $context
     ) {
         $templateData->offsetSet('foo', 'bar');
     }
@@ -70,3 +67,47 @@ And this will output:
 
 To put this all in a reusable extension, read
 [Creating a Preacher plugin](custom-plugins.html).
+
+# Adding a render guard
+
+To prevent preacher from rendering each and every file that can be matched, it
+uses render guards that can tell when content is outdated.
+
+When adding a data enricher, Preacher needs to be taught how to determine if the
+data has been renewed.
+
+```php
+<?php
+use ZeroConfig\Preacher\Generator\RenderGuard\RenderGuardInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+
+class FooBarGuard implements RenderGuardInterface
+{
+    /**
+     * Tells whether a render is required for the given generator context.
+     *
+     * @param ContextInterface $context
+     *
+     * @return bool
+     */
+    public function isRenderRequired(ContextInterface $context): bool
+    {
+        $generated = $context->getOutput()->getMetaData()->getDateGenerated();
+        $file      = $context->getSource()->getBaseName() . '.custom';
+        
+        // Our custom file has been changed since last the output was generated.
+        return filemtime($file) > $generated->getTimestamp();
+    }
+}
+```
+
+It is registered as a render guard.
+
+```yaml
+services:
+
+  my_bundle.preacher.render_guard.foobar:
+    class: FooBarGuard
+    tags:
+      - { name: 'preacher.render_guard' }
+```
