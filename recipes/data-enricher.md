@@ -30,14 +30,17 @@ class FooBarEnricher implements DataEnricherInterface
      * @param ContextInterface $context
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function enrich(
         ArrayAccess $templateData,
         ContextInterface $context
     ) {
-        $templateData->offsetSet('foo', 'bar');
+        $templateData->offsetSet(
+            'foo',
+            file_get_contents(
+                $context->getSource()->getBaseName() . '.custom'
+            )
+        );
     }
 }
 ```
@@ -51,6 +54,12 @@ services:
     class: FooBarEnricher
     tags:
       - { name: 'preacher.enricher' }
+```
+
+We assume that the source file is `foo.md` and that the file `foo.custom` contains:
+
+```
+bar
 ```
 
 Now, in the template, the following variable has become available:
