@@ -8,7 +8,7 @@
         <title>Enriching template data - Preacher</title>
         <link href="https://zeroconfig.github.io/Preacher/css/prism.css?e4e87ce" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
-        <link href="https://zeroconfig.github.io/Preacher/css/style.css?03b4eca" rel="stylesheet" type="text/css" />
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css?c2dbe2c" rel="stylesheet" type="text/css" />
         <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/data-enricher.html" />
     </head>
 
@@ -47,8 +47,7 @@ if this is really necessary. Just keep the following in mind:</p>
 <p>One can write an enricher by implementing the <code>DataEnricherInterface</code>:</p>
 <pre><code class="language-php">&lt;?php
 use ArrayAccess;
-use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Source\SourceInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
 use ZeroConfig\Preacher\Data\DataEnricherInterface;
 
 class FooBarEnricher implements DataEnricherInterface
@@ -56,9 +55,8 @@ class FooBarEnricher implements DataEnricherInterface
     /**
      * Enrich the template data using the given source and output.
      *
-     * @param ArrayAccess     $templateData
-     * @param SourceInterface $source
-     * @param OutputInterface $output
+     * @param ArrayAccess      $templateData
+     * @param ContextInterface $context
      *
      * @return void
      *
@@ -66,8 +64,7 @@ class FooBarEnricher implements DataEnricherInterface
      */
     public function enrich(
         ArrayAccess $templateData,
-        SourceInterface $source,
-        OutputInterface $output
+        ContextInterface $context
     ) {
         $templateData-&gt;offsetSet('foo', 'bar');
     }
@@ -84,7 +81,41 @@ class FooBarEnricher implements DataEnricherInterface
 <p>And this will output:</p>
 <pre><code class="language-html">&lt;p&gt;bar&lt;/p&gt;</code></pre>
 <p>To put this all in a reusable extension, read
-<a href="custom-plugins.html">Creating a Preacher plugin</a>.</p></main>
+<a href="custom-plugins.html">Creating a Preacher plugin</a>.</p>
+<h1>Adding a render guard</h1>
+<p>To prevent preacher from rendering each and every file that can be matched, it
+uses render guards that can tell when content is outdated.</p>
+<p>When adding a data enricher, Preacher needs to be taught how to determine if the
+data has been renewed.</p>
+<pre><code class="language-php">&lt;?php
+use ZeroConfig\Preacher\Generator\RenderGuard\RenderGuardInterface;
+use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+
+class FooBarGuard implements RenderGuardInterface
+{
+    /**
+     * Tells whether a render is required for the given generator context.
+     *
+     * @param ContextInterface $context
+     *
+     * @return bool
+     */
+    public function isRenderRequired(ContextInterface $context): bool
+    {
+        $generated = $context-&gt;getOutput()-&gt;getMetaData()-&gt;getDateGenerated();
+        $file      = $context-&gt;getSource()-&gt;getBaseName() . '.custom';
+
+        // Our custom file has been changed since last the output was generated.
+        return filemtime($file) &gt; $generated-&gt;getTimestamp();
+    }
+}</code></pre>
+<p>It is registered as a render guard.</p>
+<pre><code class="language-yaml">services:
+
+  my_bundle.preacher.render_guard.foobar:
+    class: FooBarGuard
+    tags:
+      - { name: 'preacher.render_guard' }</code></pre></main>
         </div>
 
         <footer class="container text-muted">
@@ -92,8 +123,8 @@ class FooBarEnricher implements DataEnricherInterface
                 <p>
                     Last updated:
                     <a
-                            href="https://github.com/ZeroConfig/Preacher/commit/40c923c"
-                            target="_blank">Mar 04 2017 18:14</a>
+                            href="https://github.com/ZeroConfig/Preacher/commit/030b499"
+                            target="_blank">Mar 08 2017 20:19</a>
                     - Jan-Marten de Boer
                 </p>
             </div>
