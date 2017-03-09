@@ -83,8 +83,10 @@ class AtomFeedGenerator implements FeedGeneratorInterface
 }</code></pre>
 <p>Note that the documents received by the generator are sorted by publication date,
 in descending order. So the newest publication comes in first, etc.</p>
-<p>When a custom sorting order is required, use <code>iterator_to_array</code> to transform the
-document feed in an array and sort that to the requirements of the feed generator.</p>
+<p>When a custom sorting order is required, use
+<a href="https://secure.php.net/manual/en/function.iterator-to-array.php"><code>iterator_to_array</code></a>
+to transform the document feed in an array and sort that to the requirements of
+the feed generator.</p>
 <p>Now the generator must be added to the feed generator aggregate:</p>
 <pre><code class="language-yaml">services:
 
@@ -103,8 +105,8 @@ document feed in an array and sort that to the requirements of the feed generato
                 <p>
                     Last updated:
                     <a
-                            href="https://github.com/ZeroConfig/Preacher/commit/9994491"
-                            target="_blank">Mar 09 2017 15:15</a>
+                            href="https://github.com/ZeroConfig/Preacher/commit/eadb184"
+                            target="_blank">Mar 09 2017 15:36</a>
                     - Jan-Marten de Boer
                 </p>
             </div>
