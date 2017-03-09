@@ -14,9 +14,6 @@ class TemplateUpdatedGuard implements RenderGuardInterface
      */
     public function isRenderRequired(DocumentInterface $document): bool
     {
-        $generated = $document->getOutput()->getMetaData()->getDateGenerated();
-        $updated   = $document->getTemplate()->getDateUpdated();
-
-        return $updated > $generated;
+        return $document->getDateTemplateUpdated() > $document->getDateGenerated();
     }
 }

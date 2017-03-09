@@ -8,15 +8,12 @@ class DocumentUpdatedGuard implements RenderGuardInterface
     /**
      * Tells whether a render is required for the given generator context.
      *
-     * @param \ZeroConfig\Preacher\Document\DocumentInterface $document
+     * @param DocumentInterface $document
      *
      * @return bool
      */
     public function isRenderRequired(DocumentInterface $document): bool
     {
-        $generated = $document->getOutput()->getMetaData()->getDateGenerated();
-        $updated   = $document->getSource()->getMetaData()->getDateUpdated();
-
-        return $updated > $generated;
+        return $document->getDateSourceUpdated() > $document->getDateGenerated();
     }
 }
