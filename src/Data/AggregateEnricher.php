@@ -26,8 +26,8 @@ class AggregateEnricher implements DataEnricherInterface
     /**
      * Enrich the template data using the given context.
      *
-     * @param ArrayAccess                                     $templateData
-     * @param \ZeroConfig\Preacher\Document\DocumentInterface $document
+     * @param ArrayAccess       $templateData
+     * @param DocumentInterface $document
      *
      * @return void
      */

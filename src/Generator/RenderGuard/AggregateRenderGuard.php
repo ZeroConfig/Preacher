@@ -23,7 +23,7 @@ class AggregateRenderGuard implements RenderGuardInterface
     /**
      * Tells whether a render is required for the given generator context.
      *
-     * @param \ZeroConfig\Preacher\Document\DocumentInterface $document
+     * @param DocumentInterface $document
      *
      * @return bool
      */

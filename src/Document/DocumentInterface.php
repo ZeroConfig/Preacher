@@ -1,6 +1,7 @@
 <?php
 namespace ZeroConfig\Preacher\Document;
 
+use DateTimeInterface;
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
@@ -34,4 +35,39 @@ interface DocumentInterface
      * @return void
      */
     public function updateOutput();
+
+    /**
+     * Get the date at which the source file was first created.
+     *
+     * @return DateTimeInterface
+     */
+    public function getDateCreated(): DateTimeInterface;
+
+    /**
+     * Get the date at which the document was first published.
+     *
+     * @return DateTimeInterface
+     */
+    public function getDatePublished(): DateTimeInterface;
+
+    /**
+     * Get the date at which the document was last generated.
+     *
+     * @return DateTimeInterface
+     */
+    public function getDateGenerated(): DateTimeInterface;
+
+    /**
+     * Get the date at which the source was last updated.
+     *
+     * @return DateTimeInterface
+     */
+    public function getDateSourceUpdated(): DateTimeInterface;
+
+    /**
+     * Get the date at which the template was last updated.
+     *
+     * @return DateTimeInterface
+     */
+    public function getDateTemplateUpdated(): DateTimeInterface;
 }

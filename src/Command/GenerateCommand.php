@@ -12,6 +12,9 @@ use ZeroConfig\Preacher\Feed\FeedGeneratorInterface;
 use ZeroConfig\Preacher\Generator\GeneratorInterface;
 use ZeroConfig\Preacher\Generator\RenderGuard\RenderGuardInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class GenerateCommand extends Command
 {
     /** @var DocumentFeedInterface */
