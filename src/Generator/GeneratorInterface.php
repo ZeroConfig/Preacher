@@ -1,24 +1,16 @@
 <?php
 namespace ZeroConfig\Preacher\Generator;
 
-use ZeroConfig\Preacher\Output\OutputInterface;
-use ZeroConfig\Preacher\Source\SourceInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 
 interface GeneratorInterface
 {
     /**
-     * Generate the file for the given source and return the corresponding
-     * output.
+     * Generate the file for the given document.
      *
-     * @param SourceInterface $source
-     * @param bool            $force
+     * @param DocumentInterface $document
      *
-     * @return OutputInterface
-     *
-     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     * @return void
      */
-    public function generate(
-        SourceInterface $source,
-        bool $force = false
-    ): OutputInterface;
+    public function generate(DocumentInterface $document);
 }

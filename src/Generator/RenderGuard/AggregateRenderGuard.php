@@ -1,7 +1,7 @@
 <?php
 namespace ZeroConfig\Preacher\Generator\RenderGuard;
 
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 
 class AggregateRenderGuard implements RenderGuardInterface
 {
@@ -23,19 +23,19 @@ class AggregateRenderGuard implements RenderGuardInterface
     /**
      * Tells whether a render is required for the given generator context.
      *
-     * @param \ZeroConfig\Preacher\Generator\Context\ContextInterface $context
+     * @param \ZeroConfig\Preacher\Document\DocumentInterface $document
      *
      * @return bool
      */
-    public function isRenderRequired(ContextInterface $context): bool
+    public function isRenderRequired(DocumentInterface $document): bool
     {
         return array_reduce(
             $this->guards,
             function (
                 bool $memo,
                 RenderGuardInterface $guard
-            ) use ($context) : bool {
-                return $memo ?: $guard->isRenderRequired($context);
+            ) use ($document) : bool {
+                return $memo ?: $guard->isRenderRequired($document);
             },
             false
         );

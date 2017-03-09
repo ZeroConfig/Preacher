@@ -1,12 +1,12 @@
 <?php
-namespace ZeroConfig\Preacher\Generator\Context;
+namespace ZeroConfig\Preacher\Document;
 
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Output\UpdatedOutput;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
 
-class Context implements ContextInterface
+class Document implements DocumentInterface
 {
     /** @var SourceInterface */
     private $source;
@@ -65,14 +65,12 @@ class Context implements ContextInterface
     }
 
     /**
-     * Get the same context with updated output.
+     * Mark the current document as an updated document.
      *
-     * @return ContextInterface
+     * @return void
      */
-    public function withUpdatedOutput(): ContextInterface
+    public function updateOutput()
     {
-        $context = clone $this;
-        $context->output = new UpdatedOutput($this->output);
-        return $context;
+        $this->output = new UpdatedOutput($this->output);
     }
 }

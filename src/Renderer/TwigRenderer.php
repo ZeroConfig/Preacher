@@ -3,7 +3,7 @@ namespace ZeroConfig\Preacher\Renderer;
 
 use ArrayObject;
 use Twig_Environment;
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
 
 class TwigRenderer implements RendererInterface

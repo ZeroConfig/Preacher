@@ -1,11 +1,11 @@
 <?php
-namespace ZeroConfig\Preacher\Generator\Context;
+namespace ZeroConfig\Preacher\Document;
 
 use ZeroConfig\Preacher\Output\OutputInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateInterface;
 
-interface ContextInterface
+interface DocumentInterface
 {
     /**
      * Get the source.
@@ -29,9 +29,9 @@ interface ContextInterface
     public function getOutput(): OutputInterface;
 
     /**
-     * Get the same context with updated output.
+     * Mark the current document as an updated document.
      *
-     * @return ContextInterface
+     * @return void
      */
-    public function withUpdatedOutput(): ContextInterface;
+    public function updateOutput();
 }

@@ -18,7 +18,7 @@ One can write an enricher by implementing the `DataEnricherInterface`:
 ```php
 <?php
 use ArrayAccess;
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 use ZeroConfig\Preacher\Data\DataEnricherInterface;
 
 class FooBarEnricher implements DataEnricherInterface
@@ -26,21 +26,27 @@ class FooBarEnricher implements DataEnricherInterface
     /**
      * Enrich the template data using the given source and output.
      *
-     * @param ArrayAccess      $templateData
-     * @param ContextInterface $context
+     * @param ArrayAccess       $templateData
+     * @param DocumentInterface $document
      *
      * @return void
      */
     public function enrich(
         ArrayAccess $templateData,
-        ContextInterface $context
+        DocumentInterface $document
     ) {
-        $templateData->offsetSet(
-            'foo',
-            file_get_contents(
-                $context->getSource()->getBaseName() . '.custom'
-            )
+        $source = $document->getSource();
+        $path   = sprintf(
+            '%s/%s.custom',
+            dirname($source->getPath()),
+            $source->getBaseName()
         );
+        
+        $data = is_readable($path)
+            ? file_get_contents($path)
+            : '';
+        
+        $templateData->offsetSet('foo', $data);
     }
 }
 ```
@@ -88,24 +94,32 @@ data has been renewed.
 ```php
 <?php
 use ZeroConfig\Preacher\Generator\RenderGuard\RenderGuardInterface;
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 
 class FooBarGuard implements RenderGuardInterface
 {
     /**
      * Tells whether a render is required for the given generator context.
      *
-     * @param ContextInterface $context
+     * @param DocumentInterface $document
      *
      * @return bool
      */
-    public function isRenderRequired(ContextInterface $context): bool
+    public function isRenderRequired(DocumentInterface $document): bool
     {
-        $generated = $context->getOutput()->getMetaData()->getDateGenerated();
-        $file      = $context->getSource()->getBaseName() . '.custom';
+        $generated = $document->getOutput()->getMetaData()->getDateGenerated();
+        $source    = $document->getSource();
+        $file      = sprintf(
+            '%s/%s.custom',
+            dirname($source->getPath()),
+            $source->getBaseName()
+        );
         
         // Our custom file has been changed since last the output was generated.
-        return filemtime($file) > $generated->getTimestamp();
+        return (
+            is_readable($file)
+            && filemtime($file) > $generated->getTimestamp()
+        );
     }
 }
 ```

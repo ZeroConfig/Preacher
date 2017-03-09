@@ -1,21 +1,21 @@
 <?php
 namespace ZeroConfig\Preacher\Generator\RenderGuard;
 
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 
 class TemplateUpdatedGuard implements RenderGuardInterface
 {
     /**
      * Tells whether a render is required for the given generator context.
      *
-     * @param ContextInterface $context
+     * @param DocumentInterface $document
      *
      * @return bool
      */
-    public function isRenderRequired(ContextInterface $context): bool
+    public function isRenderRequired(DocumentInterface $document): bool
     {
-        $generated = $context->getOutput()->getMetaData()->getDateGenerated();
-        $updated   = $context->getTemplate()->getDateUpdated();
+        $generated = $document->getOutput()->getMetaData()->getDateGenerated();
+        $updated   = $document->getTemplate()->getDateUpdated();
 
         return $updated > $generated;
     }

@@ -1,11 +1,11 @@
 <?php
-namespace ZeroConfig\Preacher\Generator\Context;
+namespace ZeroConfig\Preacher\Document;
 
 use ZeroConfig\Preacher\Output\OutputFactoryInterface;
 use ZeroConfig\Preacher\Source\SourceInterface;
 use ZeroConfig\Preacher\Template\TemplateFactoryInterface;
 
-class ContextFactory implements ContextFactoryInterface
+class DocumentFactory implements DocumentFactoryInterface
 {
     /** @var OutputFactoryInterface */
     private $outputFactory;
@@ -32,13 +32,13 @@ class ContextFactory implements ContextFactoryInterface
      *
      * @param SourceInterface $source
      *
-     * @return ContextInterface
+     * @return DocumentInterface
      */
-    public function createContext(SourceInterface $source): ContextInterface
+    public function createDocument(SourceInterface $source): DocumentInterface
     {
         $output   = $this->outputFactory->createOutput($source);
         $template = $this->templateFactory->createTemplate($output);
 
-        return new Context($source, $output, $template);
+        return new Document($source, $output, $template);
     }
 }

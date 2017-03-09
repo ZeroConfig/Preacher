@@ -2,7 +2,7 @@
 namespace ZeroConfig\Preacher\Data;
 
 use ArrayAccess;
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 use ZeroConfig\Preacher\Renderer\HeadlineExtractorInterface;
 
 class HeadlineEnricher implements DataEnricherInterface
@@ -23,8 +23,8 @@ class HeadlineEnricher implements DataEnricherInterface
     /**
      * Enrich the template data using the given context.
      *
-     * @param ArrayAccess      $templateData
-     * @param ContextInterface $context
+     * @param ArrayAccess                                     $templateData
+     * @param \ZeroConfig\Preacher\Document\DocumentInterface $document
      *
      * @return void
      *
@@ -32,7 +32,7 @@ class HeadlineEnricher implements DataEnricherInterface
      */
     public function enrich(
         ArrayAccess $templateData,
-        ContextInterface $context
+        DocumentInterface $document
     ) {
         $headline = '';
 

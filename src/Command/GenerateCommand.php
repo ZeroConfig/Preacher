@@ -1,38 +1,50 @@
 <?php
 namespace ZeroConfig\Preacher\Command;
 
-use DateTimeImmutable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use ZeroConfig\Preacher\Document\DocumentFeedInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
+use ZeroConfig\Preacher\Feed\FeedGeneratorInterface;
 use ZeroConfig\Preacher\Generator\GeneratorInterface;
-use ZeroConfig\Preacher\Output\UpdatedOutput;
-use ZeroConfig\Preacher\Source\SourceInterface;
-use ZeroConfig\Preacher\Source\SourceIteratorInterface;
+use ZeroConfig\Preacher\Generator\RenderGuard\RenderGuardInterface;
 
 class GenerateCommand extends Command
 {
-    /** @var SourceIteratorInterface */
-    private $sources;
+    /** @var DocumentFeedInterface */
+    private $documents;
+
+    /** @var RenderGuardInterface */
+    private $renderGuard;
 
     /** @var GeneratorInterface */
     private $generator;
 
+    /** @var FeedGeneratorInterface */
+    private $feedGenerator;
+
     /**
      * Constructor.
      *
-     * @param SourceIteratorInterface $sources
-     * @param GeneratorInterface      $generator
+     * @param DocumentFeedInterface  $documents
+     * @param RenderGuardInterface   $renderGuard
+     * @param GeneratorInterface     $generator
+     * @param FeedGeneratorInterface $feedGenerator
      */
     public function __construct(
-        SourceIteratorInterface $sources,
-        GeneratorInterface $generator
+        DocumentFeedInterface $documents,
+        RenderGuardInterface $renderGuard,
+        GeneratorInterface $generator,
+        FeedGeneratorInterface $feedGenerator
     ) {
+        $this->documents     = $documents;
+        $this->renderGuard   = $renderGuard;
+        $this->generator     = $generator;
+        $this->feedGenerator = $feedGenerator;
         parent::__construct('preacher:generate');
-        $this->sources   = $sources;
-        $this->generator = $generator;
     }
 
     /**
@@ -40,8 +52,6 @@ class GenerateCommand extends Command
      *
      * @return void
      */
-    // @codeCoverageIgnoreStart
-    // This would be testing Symfony.
     protected function configure()
     {
         $this->setDescription('Generate output files.');
@@ -54,10 +64,10 @@ class GenerateCommand extends Command
         $this->addArgument(
             'source',
             InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-            'Source files to generate.'
+            'Source files to generate.',
+            ['*']
         );
     }
-    // @codeCoverageIgnoreEnd
 
     /**
      * Execute the generator for matching sources.
@@ -69,38 +79,52 @@ class GenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $sourcePatterns = $input->getArgument('source') ?: ['*'];
-        $force          = $input->getOption('force');
+        $sourcePatterns     = $input->getArgument('source');
+        $force              = $input->getOption('force');
+        $feedRequiresUpdate = $force;
 
-        foreach ($this->sources as $source) {
-            if (!$this->isMatchingSource($source, ...$sourcePatterns)) {
+        foreach ($this->documents as $document) {
+            if (!$this->isMatchingDocument($document, ...$sourcePatterns)) {
                 continue;
             }
 
-            $generated = $this->generator->generate($source, $force);
-
-            if (!$generated instanceof UpdatedOutput) {
+            if ($force === false
+                && $this->renderGuard->isRenderRequired($document) === false
+            ) {
                 continue;
             }
+
+            $this->generator->generate($document);
+            $feedRequiresUpdate = true;
 
             $output->writeln(
-                sprintf('<fg=green>Generated:</> %s', $generated->getPath())
+                sprintf(
+                    '<fg=green>Generated:</> %s',
+                    $document->getOutput()->getPath()
+                )
             );
+        }
+
+        if ($feedRequiresUpdate) {
+            $this->feedGenerator->generateFeed($this->documents);
+            $output->writeln('<info>Feeds have been updated</info>');
         }
     }
 
     /**
      * Whether the source matches the given list of patterns.
      *
-     * @param SourceInterface $source
-     * @param string[]       ...$patterns
+     * @param DocumentInterface $document
+     * @param string[]          ...$patterns
      *
      * @return bool
      */
-    private function isMatchingSource(
-        SourceInterface $source,
+    private function isMatchingDocument(
+        DocumentInterface $document,
         string ...$patterns
     ): bool {
+        $source = $document->getSource();
+
         return array_reduce(
             $patterns,
             function (bool $memo, string $pattern) use ($source) : bool {

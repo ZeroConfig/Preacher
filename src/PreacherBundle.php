@@ -21,10 +21,20 @@ class PreacherBundle extends Bundle
      * @var string[][]
      */
     private $containerPasses = [
+        // Filter out unwanted source files.
         ['preacher.source_iterator', 'preacher.source_filter', 'addFilter'],
+
+        // Enrich template data.
         ['preacher.enricher', 'preacher.enricher', 'addEnricher'],
+
+        // Add a Twig extension.
         ['preacher.twig', 'preacher.twig_extension', 'addExtension'],
-        ['preacher.generator.render_guard', 'preacher.render_guard', 'addGuard']
+
+        // Prevent documents from being rendered unnecessarily.
+        ['preacher.generator.render_guard', 'preacher.render_guard', 'addGuard'],
+
+        // Add a document feed generator.
+        ['preacher.feed_generator', 'preacher.feed_generator', 'addGenerator']
     ];
 
     /**

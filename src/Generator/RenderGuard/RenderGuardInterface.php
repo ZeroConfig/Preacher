@@ -1,16 +1,16 @@
 <?php
 namespace ZeroConfig\Preacher\Generator\RenderGuard;
 
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 
 interface RenderGuardInterface
 {
     /**
      * Tells whether a render is required for the given generator context.
      *
-     * @param ContextInterface $context
+     * @param DocumentInterface $document
      *
      * @return bool
      */
-    public function isRenderRequired(ContextInterface $context): bool;
+    public function isRenderRequired(DocumentInterface $document): bool;
 }

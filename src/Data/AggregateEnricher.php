@@ -2,7 +2,7 @@
 namespace ZeroConfig\Preacher\Data;
 
 use ArrayAccess;
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 
 class AggregateEnricher implements DataEnricherInterface
 {
@@ -26,17 +26,17 @@ class AggregateEnricher implements DataEnricherInterface
     /**
      * Enrich the template data using the given context.
      *
-     * @param ArrayAccess      $templateData
-     * @param ContextInterface $context
+     * @param ArrayAccess                                     $templateData
+     * @param \ZeroConfig\Preacher\Document\DocumentInterface $document
      *
      * @return void
      */
     public function enrich(
         ArrayAccess $templateData,
-        ContextInterface $context
+        DocumentInterface $document
     ) {
         foreach ($this->enrichers as $enricher) {
-            $enricher->enrich($templateData, $context);
+            $enricher->enrich($templateData, $document);
         }
     }
 }

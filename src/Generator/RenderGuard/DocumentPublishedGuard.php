@@ -1,21 +1,21 @@
 <?php
 namespace ZeroConfig\Preacher\Generator\RenderGuard;
 
-use ZeroConfig\Preacher\Generator\Context\ContextInterface;
+use ZeroConfig\Preacher\Document\DocumentInterface;
 
 class DocumentPublishedGuard implements RenderGuardInterface
 {
     /**
      * Tells whether a render is required for the given generator context.
      *
-     * @param ContextInterface $context
+     * @param DocumentInterface $document
      *
      * @return bool
      */
-    public function isRenderRequired(ContextInterface $context): bool
+    public function isRenderRequired(DocumentInterface $document): bool
     {
-        $generated = $context->getOutput()->getMetaData()->getDateGenerated();
-        $published = $context->getOutput()->getMetaData()->getDatePublished();
+        $generated = $document->getOutput()->getMetaData()->getDateGenerated();
+        $published = $document->getOutput()->getMetaData()->getDatePublished();
 
         // This ensures that within the first 10 seconds of committing the
         // document to version control for the first time, it will always

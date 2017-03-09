@@ -108,8 +108,8 @@ services:
   preacher.output_writer:
     class: ZeroConfig\Preacher\Generator\OutputWriter
 
-  preacher.generator.context_factory:
-    class: ZeroConfig\Preacher\Generator\Context\ContextFactory
+  preacher.document_factory:
+    class: ZeroConfig\Preacher\Document\DocumentFactory
     arguments:
       - '@preacher.output_factory'
       - '@preacher.template_factory'
@@ -135,8 +135,6 @@ services:
   preacher.generator:
     class: ZeroConfig\Preacher\Generator\Generator
     arguments:
-      - '@preacher.generator.context_factory'
-      - '@preacher.generator.render_guard'
       - '@preacher.output_writer'
       - '@preacher.renderer'
       - '@preacher.enricher'
@@ -160,11 +158,24 @@ services:
       - '@preacher.source_files'
       - '@preacher.source_factory'
 
-  preacher.command.generate:
-    class: ZeroConfig\Preacher\Command\GenerateCommand
+  preacher.document_feed:
+    class: ZeroConfig\Preacher\Document\DocumentFeed
     arguments:
       - '@preacher.source_iterator'
+      - '@preacher.document_factory'
+
+  preacher.feed_generator:
+    public: false
+    class: ZeroConfig\Preacher\Feed\AggregateFeedGenerator
+
+  preacher.command.generate:
+    public: false
+    class: ZeroConfig\Preacher\Command\GenerateCommand
+    arguments:
+      - '@preacher.document_feed'
+      - '@preacher.generator.render_guard'
       - '@preacher.generator'
+      - '@preacher.feed_generator'
     tags:
       - { name: 'console.command' }
 

@@ -18,9 +18,7 @@ class SourceIterator implements SourceIteratorInterface
     /** @var SourceFactoryInterface */
     private $factory;
 
-    /**
-     * @var FilterInterface[]
-     */
+    /** @var FilterInterface[] */
     private $filters = [];
 
     /**
