@@ -189,10 +189,10 @@ class DocumentTest extends PHPUnit_Framework_TestCase
      *
      * @param Document $document
      *
-     * @return OutputInterface|UpdatedOutput
+     * @return void
      * @covers ::updateOutput
      */
-    public function testUpdateOutput(Document $document): UpdatedOutput
+    public function testUpdateOutput(Document $document)
     {
         $this->assertNotInstanceOf(
             UpdatedOutput::class,
@@ -201,6 +201,9 @@ class DocumentTest extends PHPUnit_Framework_TestCase
 
         $document->updateOutput();
 
-        return $document->getOutput();
+        $this->assertInstanceOf(
+            UpdatedOutput::class,
+            $document->getOutput()
+        );
     }
 }

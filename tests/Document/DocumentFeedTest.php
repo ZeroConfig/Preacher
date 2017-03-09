@@ -42,11 +42,14 @@ class DocumentFeedTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|SourceInterface
+     * @return SourceInterface
      */
     private function createSource(): SourceInterface
     {
-        return $this->createMock(SourceInterface::class);
+        /** @var SourceInterface $source */
+        $source = $this->createMock(SourceInterface::class);
+
+        return $source;
     }
 
     /**
