@@ -74,5 +74,8 @@ services:
       - { name: 'preacher.feed_generator' }
 ```
 
+Note the tag `preacher.feed_generator`, which makes it so the feed generator is
+picked up by Preacher as a feed generator.
+
 To put this all in a reusable extension, read
 [Creating a Preacher plugin](custom-plugins.html).
