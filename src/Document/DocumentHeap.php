@@ -27,8 +27,8 @@ class DocumentHeap extends SplHeap
             );
         }
 
-        $dateA = $documentA->getOutput()->getMetaData()->getDatePublished();
-        $dateB = $documentB->getOutput()->getMetaData()->getDatePublished();
+        $dateA = $documentA->getDatePublished();
+        $dateB = $documentB->getDatePublished();
 
         return $dateA->getTimestamp() - $dateB->getTimestamp();
     }
