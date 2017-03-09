@@ -56,8 +56,10 @@ class AtomFeedGenerator implements FeedGeneratorInterface
 Note that the documents received by the generator are sorted by publication date,
 in descending order. So the newest publication comes in first, etc.
 
-When a custom sorting order is required, use `iterator_to_array` to transform the
-document feed in an array and sort that to the requirements of the feed generator.
+When a custom sorting order is required, use
+[`iterator_to_array`](https://secure.php.net/manual/en/function.iterator-to-array.php)
+to transform the document feed in an array and sort that to the requirements of
+the feed generator.
 
 Now the generator must be added to the feed generator aggregate:
 
