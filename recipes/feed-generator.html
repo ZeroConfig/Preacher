@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Preacher 2">
+        <title>Generating document feeds - Preacher</title>
+        <link href="https://zeroconfig.github.io/Preacher/css/prism.css?e4e87ce" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="https://zeroconfig.github.io/Preacher/css/style.css?c2dbe2c" rel="stylesheet" type="text/css" />
+        <link rel="canonical" href="https://zeroconfig.github.io/Preacher/recipes/feed-generator.html" />
+    </head>
+
+    <body class="page-recipes-feed-generator">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a
+                    id="edit"
+                    class="btn btn-primary pull-right"
+                    href="https://github.com/ZeroConfig/Preacher/edit/master/recipes/feed-generator.md"
+                    target="_blank">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Edit this page
+                </a>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="https://zeroconfig.github.io/Preacher/">
+                        <span class="glyphicon glyphicon-console"></span>
+                        &nbsp;Preacher
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <main class="col-xs-12"><h1>Generating document feeds</h1>
+<p>When a website or blog becomes more popular, the need for something like an Atom
+feed or RSS feed becomes more apparent. Content syndication will help a site grow
+and create a more stable readership, as you provide readers with a means to keep
+themselves updated when a new article arrives.</p>
+<p><img src="https://imgs.xkcd.com/comics/installing.png" alt="Installing" /></p>
+<blockquote>
+<p>But still, my scheme for creating and saving user config files and data locally to preserve them across reinstalls might be useful for--wait, that's cookies.</p>
+</blockquote>
+<h1>Adding a feed generator</h1>
+<p>One has to implement the <code>FeedGeneratorInterface</code>.</p>
+<pre><code class="language-php">&lt;?php
+use ZeroConfig\Preacher\Feed\FeedGeneratorInterface;
+use ZeroConfig\Preacher\Document\DocumentFeedInterface;
+
+class AtomFeedGenerator implements FeedGeneratorInterface
+{
+    /** @var AtomFeedWriterInterface */
+    private $writer;
+
+    /**
+     * Constructor.
+     * 
+     * @param AtomFeedWriterInterface $writer
+     */
+    public function __construct(AtomFeedWriterInterface $writer)
+    {
+        $this-&gt;writer = $writer;
+    }
+
+    /**
+     * Generate a feed for the given documents.
+     *
+     * @param DocumentFeedInterface $documents
+     *
+     * @return void
+     */
+    public function generateFeed(DocumentFeedInterface $documents)
+    {
+        $atomFeed = new MyAtomFeed();
+
+        foreach ($documents as $document) {
+            $atomFeed-&gt;addDocument($document);
+        }
+
+        $this-&gt;writer-&gt;writeFeed($atomFeed);
+    }
+}</code></pre>
+<p>Note that the documents received by the generator are sorted by publication date,
+in descending order. So the newest publication comes in first, etc.</p>
+<p>When a custom sorting order is required, use <code>iterator_to_array</code> to transform the
+document feed in an array and sort that to the requirements of the feed generator.</p>
+<p>Now the generator must be added to the feed generator aggregate:</p>
+<pre><code class="language-yaml">services:
+
+  my_bundle.preacher.feed_generator.atom:
+    class: AtomFeedGenerator
+    arguments:
+      - '@my_bundle.preacher.feed_writer'
+    tags:
+      - { name: 'preacher.feed_generator' }</code></pre>
+<p>To put this all in a reusable extension, read
+<a href="custom-plugins.html">Creating a Preacher plugin</a>.</p></main>
+        </div>
+
+        <footer class="container text-muted">
+            <div class="col-md-6">
+                <p>
+                    Last updated:
+                    <a
+                            href="https://github.com/ZeroConfig/Preacher/commit/9994491"
+                            target="_blank">Mar 09 2017 15:15</a>
+                    - Jan-Marten de Boer
+                </p>
+            </div>
+            <div class="col-md-6 text-right">
+                <img src="https://travis-ci.org/ZeroConfig/Preacher.svg?branch=master" alt="Build Status">
+                <img src="https://poser.pugx.org/zero-config/preacher/version" alt="Latest Stable Version">
+                <img src="https://poser.pugx.org/zero-config/preacher/downloads" alt="Total Downloads">
+            </div>
+        </footer>
+
+        <script src="https://zeroconfig.github.io/Preacher/js/prism.js?e4e87ce" type="text/javascript"></script>
+    </body>
+</html>

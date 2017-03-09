@@ -64,12 +64,18 @@ class FooBarEnricher implements DataEnricherInterface
         ArrayAccess $templateData,
         DocumentInterface $document
     ) {
-        $templateData-&gt;offsetSet(
-            'foo',
-            file_get_contents(
-                $document-&gt;getSource()-&gt;getBaseName() . '.custom'
-            )
+        $source = $document-&gt;getSource();
+        $path   = sprintf(
+            '%s/%s.custom',
+            dirname($source-&gt;getPath()),
+            $source-&gt;getBaseName()
         );
+
+        $data = is_readable($path)
+            ? file_get_contents($path)
+            : '';
+
+        $templateData-&gt;offsetSet('foo', $data);
     }
 }</code></pre>
 <p>Then you can add the service and tag it with <code>preacher.enricher</code>.</p>
@@ -108,10 +114,18 @@ class FooBarGuard implements RenderGuardInterface
     public function isRenderRequired(DocumentInterface $document): bool
     {
         $generated = $document-&gt;getOutput()-&gt;getMetaData()-&gt;getDateGenerated();
-        $file      = $document-&gt;getSource()-&gt;getBaseName() . '.custom';
+        $source    = $document-&gt;getSource();
+        $file      = sprintf(
+            '%s/%s.custom',
+            dirname($source-&gt;getPath()),
+            $source-&gt;getBaseName()
+        );
 
         // Our custom file has been changed since last the output was generated.
-        return filemtime($file) &gt; $generated-&gt;getTimestamp();
+        return (
+            is_readable($file)
+            &amp;&amp; filemtime($file) &gt; $generated-&gt;getTimestamp()
+        );
     }
 }</code></pre>
 <p>It is registered as a render guard.</p>
@@ -128,8 +142,8 @@ class FooBarGuard implements RenderGuardInterface
                 <p>
                     Last updated:
                     <a
-                            href="https://github.com/ZeroConfig/Preacher/commit/d52a606"
-                            target="_blank">Mar 09 2017 12:57</a>
+                            href="https://github.com/ZeroConfig/Preacher/commit/9994491"
+                            target="_blank">Mar 09 2017 14:57</a>
                     - Jan-Marten de Boer
                 </p>
             </div>
